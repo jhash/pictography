@@ -1,0 +1,1 @@
+module.exports = require("npm:reactify@0.17.1/index");

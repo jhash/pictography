@@ -1,0 +1,1 @@
+module.exports = require("npm:masonry-layout@3.3.2/masonry");

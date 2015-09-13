@@ -1,0 +1,1 @@
+module.exports = require("npm:in-viewport@3.4.0/in-viewport");
