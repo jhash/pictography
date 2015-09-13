@@ -2,6 +2,7 @@
   "jspm": {
     "directories": {},
     "dependencies": {
+      "events": "npm:events@^1.0.2",
       "jsx": "npm:jspm-loader-jsx@^0.0.7",
       "lazyload": "npm:lazyloadjs@^3.2.1",
       "lodash": "npm:lodash@^3.10.1",

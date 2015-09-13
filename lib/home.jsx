@@ -1,5 +1,5 @@
 import React from 'react';
-import {scrollEvents} from './events';
+import {events} from './events';
 import {Collage} from './collage.jsx!';
 
 var styles = {
@@ -72,10 +72,10 @@ imgs = imgs.concat(imgs);
 
 export var HomePage = React.createClass({
   componentDidMount: function() {
-    scrollEvents.startListening();
+    events.startListening();
   },
   componentWillUnmount: function() {
-    scrollEvents.stopListening();
+    events.stopListening();
   },
   render: function() {
     return <div style={styles.homePage}>

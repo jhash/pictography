@@ -226,6 +226,7 @@ System.config({
     "babel": "npm:babel-core@5.8.24",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "core-js": "npm:core-js@1.1.4",
+    "events": "npm:events@1.0.2",
     "jsx": "npm:jspm-loader-jsx@0.0.7",
     "lazyload": "npm:lazyloadjs@3.2.1",
     "lodash": "npm:lodash@3.10.1",

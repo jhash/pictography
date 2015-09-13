@@ -1,12 +1,9 @@
 import React from 'react';
 import Masonry from 'masonry-layout';
 import {Image} from './image.jsx!';
-import {scrollEvents} from './events';
+import {emitter} from './events';
 
 var collageContainerStyles = {
-  position: 'relative',
-  width: '100%',
-  background: '#f8f8f8',
   imageItem: {
     width: '25%',
     margin: '0',
@@ -29,7 +26,8 @@ export var Collage = React.createClass({
     this.msnry.layout();
   },
   render: function() {
-    scrollEvents.addInfiniteScrollListeners(this.onInfiniteScroll);
+    emitter.on('infiniteScroll', this.onInfiniteScroll);
+
     return <div ref="masonryContainer" className="collage-container" style={collageContainerStyles}>
       {this.props.imgs.map((img) => {
         return <div className="item" style={collageContainerStyles.imageItem}><Image className="" onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.imageItem.img} /></div>;
