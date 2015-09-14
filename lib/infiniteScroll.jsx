@@ -8,7 +8,7 @@ var elementHeight = function(element) {
 };
 
 export var InfiniteScroll = React.createClass({
-  onScroll: function() {
+  onScroll: _.debounce(function() {
     var container = this.refs.scrollContainer.getDOMNode();
     var list = this.refs.scrollingList.getDOMNode();
 
@@ -21,12 +21,13 @@ export var InfiniteScroll = React.createClass({
         this.props.loadMore();
       }
     }
-  },
+  }, 100),
   render: function() {
     return <div ref='scrollContainer' className='scroll-container'><div ref='scrollingList'>{ this.props.children }</div></div>;
   },
   componentDidMount: function() {
     this.refs.scrollContainer.getDOMNode().addEventListener('scroll', this.onScroll);
+    window.addEventListener('resize', this.onScroll);
     this.onScroll();
   }
 });

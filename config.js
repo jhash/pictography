@@ -231,6 +231,7 @@ System.config({
     "lazyload": "npm:lazyloadjs@3.2.1",
     "lodash": "npm:lodash@3.10.1",
     "masonry-layout": "npm:masonry-layout@3.3.2",
+    "picturefill": "npm:picturefill@2.3.1",
     "react": "npm:react@0.13.3",
     "react-image": "npm:react-image@0.1.0",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -595,6 +596,10 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:picturefill@2.3.1": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:public-encrypt@2.0.1": {
       "bn.js": "npm:bn.js@2.2.0",
