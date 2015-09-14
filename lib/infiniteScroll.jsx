@@ -27,5 +27,6 @@ export var InfiniteScroll = React.createClass({
   },
   componentDidMount: function() {
     this.refs.scrollContainer.getDOMNode().addEventListener('scroll', this.onScroll);
+    this.onScroll();
   }
 });
