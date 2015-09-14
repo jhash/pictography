@@ -1,11 +1,18 @@
-html {
+html, body {
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
-body {
+html, body, .scroll-container {
+  margin: 0;
+  padding: 0;
+}
+
+.scroll-container {
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 }
+

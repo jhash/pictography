@@ -1,21 +1,6 @@
 import React from 'react';
-import {events} from './events';
 import {Collage} from './collage.jsx!';
-
-var styles = {
-  homePage: {
-    borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-    title: {
-      fontSize: 19,
-      fontWeight: 'bold',
-    },
-    subtitle: {
-      color: 'red',
-    }
-  },
-};
+import {InfiniteScroll} from './infiniteScroll.jsx!';
 
 var imgs = [
   {
@@ -68,19 +53,17 @@ var imgs = [
   },
 ];
 
-imgs = imgs.concat(imgs);
-
 export var HomePage = React.createClass({
-  componentDidMount: function() {
-    events.startListening();
+  getInitialState: function() {
+    return { images: imgs.slice() };
   },
-  componentWillUnmount: function() {
-    events.stopListening();
+  loadMore: function() {
+    this.setState({ images: this.state.images.concat(imgs.slice()) });
   },
   render: function() {
-    return <div style={styles.homePage}>
-      <Collage imgs={imgs}/>
-    </div>;
+    return <InfiniteScroll loadMore={this.loadMore}>
+      <Collage imgs={this.state.images}/>
+    </InfiniteScroll>;
   }
 });
 

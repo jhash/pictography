@@ -8,29 +8,23 @@ var collageContainerStyles = {
     width: '25%',
     margin: '0',
     padding: '0',
-    img: {
-      width: '100%',
-      padding: '5px',
-      boxSizing: 'border-box'
-    }
+  },
+  img: {
+    width: '100%',
+    padding: '5px',
+    boxSizing: 'border-box'
   }
 };
 
 export var Collage = React.createClass({
   displayName: 'Collage',
-  onInfiniteScroll: function() {
-    // DEBUG
-    console.log("this:", this);
-  },
   onImageLoad: function() {
     this.msnry.layout();
   },
   render: function() {
-    emitter.on('infiniteScroll', this.onInfiniteScroll);
-
     return <div ref="masonryContainer" className="collage-container" style={collageContainerStyles}>
       {this.props.imgs.map((img) => {
-        return <div className="item" style={collageContainerStyles.imageItem}><Image className="" onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.imageItem.img} /></div>;
+        return <div className="item" style={collageContainerStyles.imageItem}><Image className="" onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} /></div>;
       })}
     </div>;
   },
@@ -40,5 +34,8 @@ export var Collage = React.createClass({
     this.msnry = new Masonry(masonryContainer, {
       // Masonry options
     });
+  },
+  componentDidUpdate: function() {
+    this.msnry.reloadItems();
   }
 });
