@@ -35,7 +35,7 @@ export var Collage = React.createClass({
       {this.props.imgs.map((img) => {
         img.widths = [1024, 800, 520, 460, 320, 240, 100];
         var boundClick = this.onItemClick.bind(this, img);
-        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} /></div>;
+        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={4} /></div>;
       })}
     </div>;
   },

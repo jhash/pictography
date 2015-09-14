@@ -20,11 +20,9 @@ export var Image = React.createClass({
         var fileName = this.props.src.slice(0, dotIndex) + '-';
         var fileType = this.props.src.slice(dotIndex);
 
-        return <source srcSet={fileName + width + fileType} media={'(min-width: ' + (width * 4 - 200) + 'px)'}/>
+        return <source srcSet={fileName + width + fileType} media={'(min-width: ' + (width * (this.props.widthMultiplier || 1) - (this.props.widthLeeWay || 200)) + 'px)'}/>
       })}
       <img ref='lazyLoadingImage' onLoad={this.imageLoader} style={Object.assign({}, this.props.styles)} alt={this.props.alt} width={this.props.width} height={this.props.height} srcSet={this.props.src} />
     </picture>;
-
-    // <img ref='lazyLoadingImage' onLoad={this.imageLoader} style={Object.assign({}, this.props.styles)} data-src={this.props.src} alt={this.props.alt} width={this.props.width} height={this.props.height} src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' />;
   }
 });
