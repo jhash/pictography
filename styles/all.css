@@ -1,10 +1,10 @@
-html, body {
+html, body, .no-scrolling {
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
-html, body, .scroll-container {
+html, body, .scroll-container, .no-scrolling {
   margin: 0;
   padding: 0;
 }

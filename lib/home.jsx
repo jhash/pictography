@@ -68,7 +68,7 @@ export var HomePage = React.createClass({
     this.setState({ images: this.state.images.concat(imgs.slice()) });
   },
   render: function() {
-    return <div>
+    return <div className='no-scrolling'>
       { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} img={this.state.lightBoxImage} /> : ''}
       <InfiniteScroll loadMore={this.loadMore}>
         <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
