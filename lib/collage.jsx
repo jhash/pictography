@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import Masonry from 'masonry-layout';
 import {Image} from './image.jsx!';
@@ -18,13 +19,23 @@ var collageContainerStyles = {
 
 export var Collage = React.createClass({
   displayName: 'Collage',
+  onItemClick: function(img) {
+    if (_.isFunction(this.props.openLightBox)) {
+      this.props.openLightBox(img);
+    }
+  },
   onImageLoad: function() {
     this.msnry.layout();
+  },
+  getInitialState: function() {
+    return {};
   },
   render: function() {
     return <div ref="masonryContainer" className="collage-container" style={collageContainerStyles}>
       {this.props.imgs.map((img) => {
-        return <div className="item" style={collageContainerStyles.imageItem}><Image className="" onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={[1024, 800, 520, 460, 320, 240, 100]} /></div>;
+        img.widths = [1024, 800, 520, 460, 320, 240, 100];
+        var boundClick = this.onItemClick.bind(this, img);
+        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} /></div>;
       })}
     </div>;
   },

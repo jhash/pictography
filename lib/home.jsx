@@ -61,9 +61,12 @@ export var HomePage = React.createClass({
     this.setState({ images: this.state.images.concat(imgs.slice()) });
   },
   render: function() {
-    return <InfiniteScroll loadMore={this.loadMore}>
-      <Collage imgs={this.state.images}/>
-    </InfiniteScroll>;
+    return <div>
+      <LightBox />
+      <InfiniteScroll loadMore={this.loadMore}>
+        <Collage imgs={this.state.images}/>
+      </InfiniteScroll>
+    </div>;
   }
 });
 
