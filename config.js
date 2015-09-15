@@ -287,7 +287,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:asn1.js@2.2.0": {
+    "npm:asn1.js@2.2.1": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "bn.js": "npm:bn.js@2.2.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -365,7 +365,7 @@ System.config({
       "graceful-fs": "npm:graceful-fs@3.0.8",
       "iconv-lite": "npm:iconv-lite@0.4.11",
       "install": "npm:install@0.1.8",
-      "mkdirp": "npm:mkdirp@0.5.0",
+      "mkdirp": "npm:mkdirp@0.5.1",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "private": "npm:private@0.1.6",
       "process": "github:jspm/nodelibs-process@0.1.1",
@@ -396,7 +396,7 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "inherits": "npm:inherits@2.0.1",
       "ripemd160": "npm:ripemd160@1.0.1",
-      "sha.js": "npm:sha.js@2.4.2",
+      "sha.js": "npm:sha.js@2.4.3",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
     },
     "npm:create-hmac@1.1.3": {
@@ -552,7 +552,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "sigmund": "npm:sigmund@1.0.1"
     },
-    "npm:mkdirp@0.5.0": {
+    "npm:mkdirp@0.5.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "minimist": "npm:minimist@0.0.8",
       "path": "github:jspm/nodelibs-path@0.1.0",
@@ -574,7 +574,7 @@ System.config({
       "wolfy87-eventemitter": "npm:wolfy87-eventemitter@4.2.11"
     },
     "npm:parse-asn1@3.0.1": {
-      "asn1.js": "npm:asn1.js@2.2.0",
+      "asn1.js": "npm:asn1.js@2.2.1",
       "browserify-aes": "npm:browserify-aes@1.0.3",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.1",
@@ -676,7 +676,7 @@ System.config({
     "npm:sentence-case@1.1.2": {
       "lower-case": "npm:lower-case@1.1.2"
     },
-    "npm:sha.js@2.4.2": {
+    "npm:sha.js@2.4.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "inherits": "npm:inherits@2.0.1",

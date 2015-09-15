@@ -19,5 +19,9 @@
   },
   "dependencies": {
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.0",
+    "jspm": "^0.16.2"
   }
 }
