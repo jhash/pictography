@@ -16,6 +16,29 @@ html, body, .scroll-container, .no-scrolling {
   -webkit-overflow-scrolling: touch;
 }
 
+.light-box {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  text-align: center;
+}
+
+.light-box:before {
+  content: ' ';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.light-box img {
+  vertical-align: middle;
+  display: inline-block;
+}
+
 .spinner {
   font-size: 90px;
   text-indent: -9999em;
@@ -24,13 +47,18 @@ html, body, .scroll-container, .no-scrolling {
   height: 1em;
   border-radius: 50%;
   margin: 72px auto;
-  position: relative;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-animation: spinner 1.7s infinite ease;
   animation: spinner 1.7s infinite ease;
+  position: absolute;
+  top: calc(50% - 117px);
+  left: 0;
+  right: 0;
+  text-align: center;
 }
+
 @-webkit-keyframes spinner {
   0% {
     -webkit-transform: rotate(0deg);
@@ -57,6 +85,7 @@ html, body, .scroll-container, .no-scrolling {
     box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
   }
 }
+
 @keyframes spinner {
   0% {
     -webkit-transform: rotate(0deg);

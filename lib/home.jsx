@@ -6,55 +6,71 @@ import {InfiniteScroll} from './infiniteScroll.jsx!';
 var imgs = [
   {
     link: 'images/bencolortunnel.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/fishyspring2.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/mrlizardcamo.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/nylove.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/picturedrock.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/mackinac.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/tahquanoneemee.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/faveladrummerboys.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/live.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/oRio.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/sunshine.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/iguacu.jpg',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
+    widths: [1024, 800, 520, 460, 320, 240, 100]
+  },
+  {
+    link: 'images/angel.jpg',
+    alt: 'Sexiness',
   },
   {
     link: 'images/pickup.png',
-    alt: 'Sexiness'
+    alt: 'Sexiness',
   },
 ];
 
