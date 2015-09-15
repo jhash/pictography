@@ -52,6 +52,10 @@ var imgs = [
     link: 'images/iguacu.jpg',
     alt: 'Sexiness'
   },
+  {
+    link: 'images/pickup.png',
+    alt: 'Sexiness'
+  },
 ];
 
 export var HomePage = React.createClass({
