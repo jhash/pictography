@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 
-var INFINITE_SCROLL_DISTANCE = 200;
+var INFINITE_SCROLL_DISTANCE = 500;
 
 var elementHeight = function(element) {
   return element.clientHeight || element.offsetHeight;
