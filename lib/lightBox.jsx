@@ -16,6 +16,13 @@ export var LightBox = React.createClass({
       }
     };
   },
+  onLoadStart: function() {
+    // DEBUG
+    console.log("this.state:", this.state);
+    this.setState({
+      loading: true
+    });
+  },
   onImageLoad: function() {
     var tooWide = this.refs.image.getDOMNode().offsetWidth > this.refs.lightBoxContainer.getDOMNode().offsetWidth;
 
@@ -37,7 +44,7 @@ export var LightBox = React.createClass({
   },
   render: function() {
     return <div ref='lightBoxContainer' className='light-box' onClick={this.onClick}>
-      <Image ref='image' onLoad={this.onImageLoad} src={this.props.img.link} alt={this.props.img.alt} styles={this.state.imageStyles} widths={this.props.img.widths} />
+      <Image ref='image' onLoad={this.onImageLoad} onLoadStart={this.onLoadStart} src={this.props.img.link} alt={this.props.img.alt} styles={this.state.imageStyles} widths={this.props.img.widths} />
       { this.state.loading ? <div ref='spinner' className='spinner'></div> : null }
     </div>;
   }

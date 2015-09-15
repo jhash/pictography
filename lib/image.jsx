@@ -4,6 +4,13 @@ import lazyload from 'lazyload';
 import picturefill from 'picturefill';
 
 export var Image = React.createClass({
+  loadStart: function() {
+    // DEBUG
+    console.log("this:", this);
+    if (_.isFunction(this.props.onLoadStart)) {
+      this.props.onLoadStart();
+    }
+  },
   imageError: function() {
     if (!this.state.sourceReset) {
       this.setState({ sourceReset: true });
@@ -14,15 +21,20 @@ export var Image = React.createClass({
     if (_.isFunction(this.props.onLoad)) {
       this.props.onLoad();
     }
-    lzld(this.refs.lazyLoadingImage.getDOMNode());
+    var image = this.refs.lazyLoadingImage.getDOMNode();
+    lzld(image);
     picturefill({
-      elements: [ this.refs.lazyLoadingImage.getDOMNode() ]
+      elements: [ image ]
     });
+    image.addEventListener('loadstart', this.loadStart);
   },
   getInitialState: function() {
     return {
       sourceReset: false
     };
+  },
+  componentWillUnmount: function() {
+     this.refs.lazyLoadingImage.getDOMNode().removeEventListener('loadstart', this.loadStart);
   },
   render: function() {
     return <picture>
