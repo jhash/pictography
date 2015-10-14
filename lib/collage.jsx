@@ -4,9 +4,11 @@ import Masonry from 'masonry-layout';
 import {Image} from './image.jsx!';
 import {emitter} from './events';
 
-var collageContainerStyles = {
+var
+widthMultiplier = 3,
+collageContainerStyles = {
   imageItem: {
-    width: '33%',
+    width: (100 / widthMultiplier) + '%',
     margin: '0',
     padding: '0',
   },
@@ -34,7 +36,7 @@ export var Collage = React.createClass({
     return <div ref="masonryContainer" className="collage-container" style={collageContainerStyles}>
       {this.props.imgs.map((img) => {
         var boundClick = this.onItemClick.bind(this, img);
-        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={3} /></div>;
+        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={widthMultiplier} /></div>;
       })}
     </div>;
   },
