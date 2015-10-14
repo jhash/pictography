@@ -6,7 +6,7 @@ import {emitter} from './events';
 
 var collageContainerStyles = {
   imageItem: {
-    width: '25%',
+    width: '33%',
     margin: '0',
     padding: '0',
   },
@@ -34,7 +34,7 @@ export var Collage = React.createClass({
     return <div ref="masonryContainer" className="collage-container" style={collageContainerStyles}>
       {this.props.imgs.map((img) => {
         var boundClick = this.onItemClick.bind(this, img);
-        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={4} /></div>;
+        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={3} /></div>;
       })}
     </div>;
   },
