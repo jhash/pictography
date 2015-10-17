@@ -228,6 +228,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.6",
     "core-js": "npm:core-js@1.1.4",
     "css": "github:systemjs/plugin-css@0.1.18",
+    "director": "npm:director@1.2.8",
     "events": "npm:events@1.0.2",
     "font-awesome": "npm:font-awesome@4.4.0",
     "jsx": "npm:jspm-loader-jsx@0.0.7",
@@ -272,6 +273,9 @@ System.config({
     },
     "github:jspm/nodelibs-process@0.1.2": {
       "process": "npm:process@0.11.2"
+    },
+    "github:jspm/nodelibs-querystring@0.1.0": {
+      "querystring": "npm:querystring@0.2.0"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -453,6 +457,13 @@ System.config({
       "miller-rabin": "npm:miller-rabin@2.0.1",
       "randombytes": "npm:randombytes@2.0.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:director@1.2.8": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "http": "github:jspm/nodelibs-http@1.7.1",
+      "querystring": "github:jspm/nodelibs-querystring@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:doc-ready@1.0.3": {
       "eventie": "npm:eventie@1.0.6",
