@@ -73,7 +73,7 @@ html, body, .scroll-container, .no-scrolling {
   padding-right: calc(50% - 70px);
 }
 
-a, a:hover {
+a {
   cursor: pointer;
 }
 
@@ -84,6 +84,18 @@ a, a:hover {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.opacity-transition {
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -ms-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.opacity-hidden {
+  opacity: 0;
 }
 
 .spinner {
