@@ -5915,56 +5915,6 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactInstanceHandles", ["npm:react@
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/ReactPerf", ["github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var ReactPerf = {
-      enableMeasure: false,
-      storedMeasure: _noMeasure,
-      measureMethods: function(object, objectName, methodNames) {
-        if ("production" !== process.env.NODE_ENV) {
-          for (var key in methodNames) {
-            if (!methodNames.hasOwnProperty(key)) {
-              continue;
-            }
-            object[key] = ReactPerf.measure(objectName, methodNames[key], object[key]);
-          }
-        }
-      },
-      measure: function(objName, fnName, func) {
-        if ("production" !== process.env.NODE_ENV) {
-          var measuredFunc = null;
-          var wrapper = function() {
-            if (ReactPerf.enableMeasure) {
-              if (!measuredFunc) {
-                measuredFunc = ReactPerf.storedMeasure(objName, fnName, func);
-              }
-              return measuredFunc.apply(this, arguments);
-            }
-            return func.apply(this, arguments);
-          };
-          wrapper.displayName = objName + '_' + fnName;
-          return wrapper;
-        }
-        return func;
-      },
-      injection: {injectMeasure: function(measure) {
-          ReactPerf.storedMeasure = measure;
-        }}
-    };
-    function _noMeasure(objName, fnName, func) {
-      return func;
-    }
-    module.exports = ReactPerf;
-  })(require("github:jspm/nodelibs-process@0.1.1"));
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/ReactMount", ["npm:react@0.13.3/lib/DOMProperty", "npm:react@0.13.3/lib/ReactBrowserEventEmitter", "npm:react@0.13.3/lib/ReactCurrentOwner", "npm:react@0.13.3/lib/ReactElement", "npm:react@0.13.3/lib/ReactElementValidator", "npm:react@0.13.3/lib/ReactEmptyComponent", "npm:react@0.13.3/lib/ReactInstanceHandles", "npm:react@0.13.3/lib/ReactInstanceMap", "npm:react@0.13.3/lib/ReactMarkupChecksum", "npm:react@0.13.3/lib/ReactPerf", "npm:react@0.13.3/lib/ReactReconciler", "npm:react@0.13.3/lib/ReactUpdateQueue", "npm:react@0.13.3/lib/ReactUpdates", "npm:react@0.13.3/lib/emptyObject", "npm:react@0.13.3/lib/containsNode", "npm:react@0.13.3/lib/getReactRootElementInContainer", "npm:react@0.13.3/lib/instantiateReactComponent", "npm:react@0.13.3/lib/invariant", "npm:react@0.13.3/lib/setInnerHTML", "npm:react@0.13.3/lib/shouldUpdateReactComponent", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -6315,6 +6265,56 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactMount", ["npm:react@0.13.3/lib
       _mountImageIntoNode: '_mountImageIntoNode'
     });
     module.exports = ReactMount;
+  })(require("github:jspm/nodelibs-process@0.1.1"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/ReactPerf", ["github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var ReactPerf = {
+      enableMeasure: false,
+      storedMeasure: _noMeasure,
+      measureMethods: function(object, objectName, methodNames) {
+        if ("production" !== process.env.NODE_ENV) {
+          for (var key in methodNames) {
+            if (!methodNames.hasOwnProperty(key)) {
+              continue;
+            }
+            object[key] = ReactPerf.measure(objectName, methodNames[key], object[key]);
+          }
+        }
+      },
+      measure: function(objName, fnName, func) {
+        if ("production" !== process.env.NODE_ENV) {
+          var measuredFunc = null;
+          var wrapper = function() {
+            if (ReactPerf.enableMeasure) {
+              if (!measuredFunc) {
+                measuredFunc = ReactPerf.storedMeasure(objName, fnName, func);
+              }
+              return measuredFunc.apply(this, arguments);
+            }
+            return func.apply(this, arguments);
+          };
+          wrapper.displayName = objName + '_' + fnName;
+          return wrapper;
+        }
+        return func;
+      },
+      injection: {injectMeasure: function(measure) {
+          ReactPerf.storedMeasure = measure;
+        }}
+    };
+    function _noMeasure(objName, fnName, func) {
+      return func;
+    }
+    module.exports = ReactPerf;
   })(require("github:jspm/nodelibs-process@0.1.1"));
   global.define = __define;
   return module.exports;
@@ -6872,89 +6872,6 @@ System.registerDynamic("npm:react@0.13.3/lib/invariant", ["github:jspm/nodelibs-
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/PooledClass", ["npm:react@0.13.3/lib/invariant", "github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var invariant = require("npm:react@0.13.3/lib/invariant");
-    var oneArgumentPooler = function(copyFieldsFrom) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, copyFieldsFrom);
-        return instance;
-      } else {
-        return new Klass(copyFieldsFrom);
-      }
-    };
-    var twoArgumentPooler = function(a1, a2) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, a1, a2);
-        return instance;
-      } else {
-        return new Klass(a1, a2);
-      }
-    };
-    var threeArgumentPooler = function(a1, a2, a3) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, a1, a2, a3);
-        return instance;
-      } else {
-        return new Klass(a1, a2, a3);
-      }
-    };
-    var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, a1, a2, a3, a4, a5);
-        return instance;
-      } else {
-        return new Klass(a1, a2, a3, a4, a5);
-      }
-    };
-    var standardReleaser = function(instance) {
-      var Klass = this;
-      ("production" !== process.env.NODE_ENV ? invariant(instance instanceof Klass, 'Trying to release an instance into a pool of a different type.') : invariant(instance instanceof Klass));
-      if (instance.destructor) {
-        instance.destructor();
-      }
-      if (Klass.instancePool.length < Klass.poolSize) {
-        Klass.instancePool.push(instance);
-      }
-    };
-    var DEFAULT_POOL_SIZE = 10;
-    var DEFAULT_POOLER = oneArgumentPooler;
-    var addPoolingTo = function(CopyConstructor, pooler) {
-      var NewKlass = CopyConstructor;
-      NewKlass.instancePool = [];
-      NewKlass.getPooled = pooler || DEFAULT_POOLER;
-      if (!NewKlass.poolSize) {
-        NewKlass.poolSize = DEFAULT_POOL_SIZE;
-      }
-      NewKlass.release = standardReleaser;
-      return NewKlass;
-    };
-    var PooledClass = {
-      addPoolingTo: addPoolingTo,
-      oneArgumentPooler: oneArgumentPooler,
-      twoArgumentPooler: twoArgumentPooler,
-      threeArgumentPooler: threeArgumentPooler,
-      fiveArgumentPooler: fiveArgumentPooler
-    };
-    module.exports = PooledClass;
-  })(require("github:jspm/nodelibs-process@0.1.1"));
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/ReactFragment", ["npm:react@0.13.3/lib/ReactElement", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -7068,6 +6985,89 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactFragment", ["npm:react@0.13.3/
       }
     };
     module.exports = ReactFragment;
+  })(require("github:jspm/nodelibs-process@0.1.1"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/PooledClass", ["npm:react@0.13.3/lib/invariant", "github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var invariant = require("npm:react@0.13.3/lib/invariant");
+    var oneArgumentPooler = function(copyFieldsFrom) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, copyFieldsFrom);
+        return instance;
+      } else {
+        return new Klass(copyFieldsFrom);
+      }
+    };
+    var twoArgumentPooler = function(a1, a2) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, a1, a2);
+        return instance;
+      } else {
+        return new Klass(a1, a2);
+      }
+    };
+    var threeArgumentPooler = function(a1, a2, a3) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, a1, a2, a3);
+        return instance;
+      } else {
+        return new Klass(a1, a2, a3);
+      }
+    };
+    var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, a1, a2, a3, a4, a5);
+        return instance;
+      } else {
+        return new Klass(a1, a2, a3, a4, a5);
+      }
+    };
+    var standardReleaser = function(instance) {
+      var Klass = this;
+      ("production" !== process.env.NODE_ENV ? invariant(instance instanceof Klass, 'Trying to release an instance into a pool of a different type.') : invariant(instance instanceof Klass));
+      if (instance.destructor) {
+        instance.destructor();
+      }
+      if (Klass.instancePool.length < Klass.poolSize) {
+        Klass.instancePool.push(instance);
+      }
+    };
+    var DEFAULT_POOL_SIZE = 10;
+    var DEFAULT_POOLER = oneArgumentPooler;
+    var addPoolingTo = function(CopyConstructor, pooler) {
+      var NewKlass = CopyConstructor;
+      NewKlass.instancePool = [];
+      NewKlass.getPooled = pooler || DEFAULT_POOLER;
+      if (!NewKlass.poolSize) {
+        NewKlass.poolSize = DEFAULT_POOL_SIZE;
+      }
+      NewKlass.release = standardReleaser;
+      return NewKlass;
+    };
+    var PooledClass = {
+      addPoolingTo: addPoolingTo,
+      oneArgumentPooler: oneArgumentPooler,
+      twoArgumentPooler: twoArgumentPooler,
+      threeArgumentPooler: threeArgumentPooler,
+      fiveArgumentPooler: fiveArgumentPooler
+    };
+    module.exports = PooledClass;
   })(require("github:jspm/nodelibs-process@0.1.1"));
   global.define = __define;
   return module.exports;
@@ -13567,18 +13567,29 @@ System.registerDynamic("npm:process@0.10.1/browser", [], true, function(require,
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/camelizeStyleName", ["npm:react@0.13.3/lib/camelize"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/dangerousStyleValue", ["npm:react@0.13.3/lib/CSSProperty"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  "use strict";
-  var camelize = require("npm:react@0.13.3/lib/camelize");
-  var msPattern = /^-ms-/;
-  function camelizeStyleName(string) {
-    return camelize(string.replace(msPattern, 'ms-'));
+  'use strict';
+  var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
+  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
+  function dangerousStyleValue(name, value) {
+    var isEmpty = value == null || typeof value === 'boolean' || value === '';
+    if (isEmpty) {
+      return '';
+    }
+    var isNonNumeric = isNaN(value);
+    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
+      return '' + value;
+    }
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+    return value + 'px';
   }
-  module.exports = camelizeStyleName;
+  module.exports = dangerousStyleValue;
   global.define = __define;
   return module.exports;
 });
@@ -13671,29 +13682,18 @@ System.registerDynamic("npm:react@0.13.3/lib/CSSProperty", [], true, function(re
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/dangerousStyleValue", ["npm:react@0.13.3/lib/CSSProperty"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/camelizeStyleName", ["npm:react@0.13.3/lib/camelize"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  'use strict';
-  var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
-  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
-  function dangerousStyleValue(name, value) {
-    var isEmpty = value == null || typeof value === 'boolean' || value === '';
-    if (isEmpty) {
-      return '';
-    }
-    var isNonNumeric = isNaN(value);
-    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
-      return '' + value;
-    }
-    if (typeof value === 'string') {
-      value = value.trim();
-    }
-    return value + 'px';
+  "use strict";
+  var camelize = require("npm:react@0.13.3/lib/camelize");
+  var msPattern = /^-ms-/;
+  function camelizeStyleName(string) {
+    return camelize(string.replace(msPattern, 'ms-'));
   }
-  module.exports = dangerousStyleValue;
+  module.exports = camelizeStyleName;
   global.define = __define;
   return module.exports;
 });
@@ -14239,6 +14239,20 @@ System.registerDynamic("npm:react@0.13.3/lib/performance", ["npm:react@0.13.3/li
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/hyphenate", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _uppercasePattern = /([A-Z])/g;
+  function hyphenate(string) {
+    return string.replace(_uppercasePattern, '-$1').toLowerCase();
+  }
+  module.exports = hyphenate;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/camelize", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14251,20 +14265,6 @@ System.registerDynamic("npm:react@0.13.3/lib/camelize", [], true, function(requi
     });
   }
   module.exports = camelize;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/hyphenate", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _uppercasePattern = /([A-Z])/g;
-  function hyphenate(string) {
-    return string.replace(_uppercasePattern, '-$1').toLowerCase();
-  }
-  module.exports = hyphenate;
   global.define = __define;
   return module.exports;
 });
@@ -14541,6 +14541,39 @@ System.registerDynamic("npm:masonry-layout@3.3.2", ["npm:masonry-layout@3.3.2/ma
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:masonry-layout@3.3.2/masonry");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:lazyloadjs@3.2.1", ["npm:lazyloadjs@3.2.1/lazyload"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:lazyloadjs@3.2.1/lazyload");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.20/core-js/object/assign", ["npm:core-js@1.1.4/library/fn/object/assign"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@1.1.4/library/fn/object/assign"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:picturefill@2.3.1", ["npm:picturefill@2.3.1/dist/picturefill"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:picturefill@2.3.1/dist/picturefill");
   global.define = __define;
   return module.exports;
 });
@@ -14894,69 +14927,6 @@ System.registerDynamic("npm:masonry-layout@3.3.2/masonry", ["npm:outlayer@1.4.2"
   return module.exports;
 });
 
-System.registerDynamic("npm:lazyloadjs@3.2.1", ["npm:lazyloadjs@3.2.1/lazyload"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:lazyloadjs@3.2.1/lazyload");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:picturefill@2.3.1", ["npm:picturefill@2.3.1/dist/picturefill"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:picturefill@2.3.1/dist/picturefill");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.20/core-js/object/assign", ["npm:core-js@1.1.4/library/fn/object/assign"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": require("npm:core-js@1.1.4/library/fn/object/assign"),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:outlayer@1.4.2", ["npm:outlayer@1.4.2/outlayer"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:outlayer@1.4.2/outlayer");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:get-size@1.2.2", ["npm:get-size@1.2.2/get-size"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:get-size@1.2.2/get-size");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:fizzy-ui-utils@1.0.1", ["npm:fizzy-ui-utils@1.0.1/utils"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:fizzy-ui-utils@1.0.1/utils");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:lazyloadjs@3.2.1/lazyload", ["npm:in-viewport@3.4.0"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -15041,6 +15011,17 @@ System.registerDynamic("npm:lazyloadjs@3.2.1/lazyload", ["npm:in-viewport@3.4.0"
     for (var i = this.length; i-- && this[i] !== value; ) {}
     return i;
   }
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/fn/object/assign", ["npm:core-js@1.1.4/library/modules/es6.object.assign", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@1.1.4/library/modules/es6.object.assign");
+  module.exports = require("npm:core-js@1.1.4/library/modules/$.core").Object.assign;
   global.define = __define;
   return module.exports;
 });
@@ -15526,13 +15507,217 @@ System.registerDynamic("npm:picturefill@2.3.1/dist/picturefill", ["github:jspm/n
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/fn/object/assign", ["npm:core-js@1.1.4/library/modules/es6.object.assign", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+System.registerDynamic("npm:get-size@1.2.2", ["npm:get-size@1.2.2/get-size"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  require("npm:core-js@1.1.4/library/modules/es6.object.assign");
-  module.exports = require("npm:core-js@1.1.4/library/modules/$.core").Object.assign;
+  module.exports = require("npm:get-size@1.2.2/get-size");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:outlayer@1.4.2", ["npm:outlayer@1.4.2/outlayer"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:outlayer@1.4.2/outlayer");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:fizzy-ui-utils@1.0.1", ["npm:fizzy-ui-utils@1.0.1/utils"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:fizzy-ui-utils@1.0.1/utils");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:in-viewport@3.4.0", ["npm:in-viewport@3.4.0/in-viewport"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:in-viewport@3.4.0/in-viewport");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/es6.object.assign", ["npm:core-js@1.1.4/library/modules/$.def", "npm:core-js@1.1.4/library/modules/$.assign"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@1.1.4/library/modules/$.def");
+  $def($def.S + $def.F, 'Object', {assign: require("npm:core-js@1.1.4/library/modules/$.assign")});
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.core", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var core = module.exports = {};
+  if (typeof __e == 'number')
+    __e = core;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:get-size@1.2.2/get-size", ["npm:desandro-get-style-property@1.0.4"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  (function(window, undefined) {
+    'use strict';
+    function getStyleSize(value) {
+      var num = parseFloat(value);
+      var isValid = value.indexOf('%') === -1 && !isNaN(num);
+      return isValid && num;
+    }
+    function noop() {}
+    var logError = typeof console === 'undefined' ? noop : function(message) {
+      console.error(message);
+    };
+    var measurements = ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'marginLeft', 'marginRight', 'marginTop', 'marginBottom', 'borderLeftWidth', 'borderRightWidth', 'borderTopWidth', 'borderBottomWidth'];
+    function getZeroSize() {
+      var size = {
+        width: 0,
+        height: 0,
+        innerWidth: 0,
+        innerHeight: 0,
+        outerWidth: 0,
+        outerHeight: 0
+      };
+      for (var i = 0,
+          len = measurements.length; i < len; i++) {
+        var measurement = measurements[i];
+        size[measurement] = 0;
+      }
+      return size;
+    }
+    function defineGetSize(getStyleProperty) {
+      var isSetup = false;
+      var getStyle,
+          boxSizingProp,
+          isBoxSizeOuter;
+      function setup() {
+        if (isSetup) {
+          return;
+        }
+        isSetup = true;
+        var getComputedStyle = window.getComputedStyle;
+        getStyle = (function() {
+          var getStyleFn = getComputedStyle ? function(elem) {
+            return getComputedStyle(elem, null);
+          } : function(elem) {
+            return elem.currentStyle;
+          };
+          return function getStyle(elem) {
+            var style = getStyleFn(elem);
+            if (!style) {
+              logError('Style returned ' + style + '. Are you running this code in a hidden iframe on Firefox? ' + 'See http://bit.ly/getsizebug1');
+            }
+            return style;
+          };
+        })();
+        boxSizingProp = getStyleProperty('boxSizing');
+        if (boxSizingProp) {
+          var div = document.createElement('div');
+          div.style.width = '200px';
+          div.style.padding = '1px 2px 3px 4px';
+          div.style.borderStyle = 'solid';
+          div.style.borderWidth = '1px 2px 3px 4px';
+          div.style[boxSizingProp] = 'border-box';
+          var body = document.body || document.documentElement;
+          body.appendChild(div);
+          var style = getStyle(div);
+          isBoxSizeOuter = getStyleSize(style.width) === 200;
+          body.removeChild(div);
+        }
+      }
+      function getSize(elem) {
+        setup();
+        if (typeof elem === 'string') {
+          elem = document.querySelector(elem);
+        }
+        if (!elem || typeof elem !== 'object' || !elem.nodeType) {
+          return;
+        }
+        var style = getStyle(elem);
+        if (style.display === 'none') {
+          return getZeroSize();
+        }
+        var size = {};
+        size.width = elem.offsetWidth;
+        size.height = elem.offsetHeight;
+        var isBorderBox = size.isBorderBox = !!(boxSizingProp && style[boxSizingProp] && style[boxSizingProp] === 'border-box');
+        for (var i = 0,
+            len = measurements.length; i < len; i++) {
+          var measurement = measurements[i];
+          var value = style[measurement];
+          value = mungeNonPixel(elem, value);
+          var num = parseFloat(value);
+          size[measurement] = !isNaN(num) ? num : 0;
+        }
+        var paddingWidth = size.paddingLeft + size.paddingRight;
+        var paddingHeight = size.paddingTop + size.paddingBottom;
+        var marginWidth = size.marginLeft + size.marginRight;
+        var marginHeight = size.marginTop + size.marginBottom;
+        var borderWidth = size.borderLeftWidth + size.borderRightWidth;
+        var borderHeight = size.borderTopWidth + size.borderBottomWidth;
+        var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
+        var styleWidth = getStyleSize(style.width);
+        if (styleWidth !== false) {
+          size.width = styleWidth + (isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth);
+        }
+        var styleHeight = getStyleSize(style.height);
+        if (styleHeight !== false) {
+          size.height = styleHeight + (isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight);
+        }
+        size.innerWidth = size.width - (paddingWidth + borderWidth);
+        size.innerHeight = size.height - (paddingHeight + borderHeight);
+        size.outerWidth = size.width + marginWidth;
+        size.outerHeight = size.height + marginHeight;
+        return size;
+      }
+      function mungeNonPixel(elem, value) {
+        if (window.getComputedStyle || value.indexOf('%') === -1) {
+          return value;
+        }
+        var style = elem.style;
+        var left = style.left;
+        var rs = elem.runtimeStyle;
+        var rsLeft = rs && rs.left;
+        if (rsLeft) {
+          rs.left = elem.currentStyle.left;
+        }
+        style.left = value;
+        value = style.pixelLeft;
+        style.left = left;
+        if (rsLeft) {
+          rs.left = rsLeft;
+        }
+        return value;
+      }
+      return getSize;
+    }
+    if (typeof define === 'function' && define.amd) {
+      define(['get-style-property/get-style-property'], defineGetSize);
+    } else if (typeof exports === 'object') {
+      module.exports = defineGetSize(require("npm:desandro-get-style-property@1.0.4"));
+    } else {
+      window.getSize = defineGetSize(window.getStyleProperty);
+    }
+  })(window);
   global.define = __define;
   return module.exports;
 });
@@ -16046,158 +16231,6 @@ System.registerDynamic("npm:outlayer@1.4.2/outlayer", ["npm:eventie@1.0.6", "npm
   return module.exports;
 });
 
-System.registerDynamic("npm:get-size@1.2.2/get-size", ["npm:desandro-get-style-property@1.0.4"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  "format cjs";
-  (function(window, undefined) {
-    'use strict';
-    function getStyleSize(value) {
-      var num = parseFloat(value);
-      var isValid = value.indexOf('%') === -1 && !isNaN(num);
-      return isValid && num;
-    }
-    function noop() {}
-    var logError = typeof console === 'undefined' ? noop : function(message) {
-      console.error(message);
-    };
-    var measurements = ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'marginLeft', 'marginRight', 'marginTop', 'marginBottom', 'borderLeftWidth', 'borderRightWidth', 'borderTopWidth', 'borderBottomWidth'];
-    function getZeroSize() {
-      var size = {
-        width: 0,
-        height: 0,
-        innerWidth: 0,
-        innerHeight: 0,
-        outerWidth: 0,
-        outerHeight: 0
-      };
-      for (var i = 0,
-          len = measurements.length; i < len; i++) {
-        var measurement = measurements[i];
-        size[measurement] = 0;
-      }
-      return size;
-    }
-    function defineGetSize(getStyleProperty) {
-      var isSetup = false;
-      var getStyle,
-          boxSizingProp,
-          isBoxSizeOuter;
-      function setup() {
-        if (isSetup) {
-          return;
-        }
-        isSetup = true;
-        var getComputedStyle = window.getComputedStyle;
-        getStyle = (function() {
-          var getStyleFn = getComputedStyle ? function(elem) {
-            return getComputedStyle(elem, null);
-          } : function(elem) {
-            return elem.currentStyle;
-          };
-          return function getStyle(elem) {
-            var style = getStyleFn(elem);
-            if (!style) {
-              logError('Style returned ' + style + '. Are you running this code in a hidden iframe on Firefox? ' + 'See http://bit.ly/getsizebug1');
-            }
-            return style;
-          };
-        })();
-        boxSizingProp = getStyleProperty('boxSizing');
-        if (boxSizingProp) {
-          var div = document.createElement('div');
-          div.style.width = '200px';
-          div.style.padding = '1px 2px 3px 4px';
-          div.style.borderStyle = 'solid';
-          div.style.borderWidth = '1px 2px 3px 4px';
-          div.style[boxSizingProp] = 'border-box';
-          var body = document.body || document.documentElement;
-          body.appendChild(div);
-          var style = getStyle(div);
-          isBoxSizeOuter = getStyleSize(style.width) === 200;
-          body.removeChild(div);
-        }
-      }
-      function getSize(elem) {
-        setup();
-        if (typeof elem === 'string') {
-          elem = document.querySelector(elem);
-        }
-        if (!elem || typeof elem !== 'object' || !elem.nodeType) {
-          return;
-        }
-        var style = getStyle(elem);
-        if (style.display === 'none') {
-          return getZeroSize();
-        }
-        var size = {};
-        size.width = elem.offsetWidth;
-        size.height = elem.offsetHeight;
-        var isBorderBox = size.isBorderBox = !!(boxSizingProp && style[boxSizingProp] && style[boxSizingProp] === 'border-box');
-        for (var i = 0,
-            len = measurements.length; i < len; i++) {
-          var measurement = measurements[i];
-          var value = style[measurement];
-          value = mungeNonPixel(elem, value);
-          var num = parseFloat(value);
-          size[measurement] = !isNaN(num) ? num : 0;
-        }
-        var paddingWidth = size.paddingLeft + size.paddingRight;
-        var paddingHeight = size.paddingTop + size.paddingBottom;
-        var marginWidth = size.marginLeft + size.marginRight;
-        var marginHeight = size.marginTop + size.marginBottom;
-        var borderWidth = size.borderLeftWidth + size.borderRightWidth;
-        var borderHeight = size.borderTopWidth + size.borderBottomWidth;
-        var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
-        var styleWidth = getStyleSize(style.width);
-        if (styleWidth !== false) {
-          size.width = styleWidth + (isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth);
-        }
-        var styleHeight = getStyleSize(style.height);
-        if (styleHeight !== false) {
-          size.height = styleHeight + (isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight);
-        }
-        size.innerWidth = size.width - (paddingWidth + borderWidth);
-        size.innerHeight = size.height - (paddingHeight + borderHeight);
-        size.outerWidth = size.width + marginWidth;
-        size.outerHeight = size.height + marginHeight;
-        return size;
-      }
-      function mungeNonPixel(elem, value) {
-        if (window.getComputedStyle || value.indexOf('%') === -1) {
-          return value;
-        }
-        var style = elem.style;
-        var left = style.left;
-        var rs = elem.runtimeStyle;
-        var rsLeft = rs && rs.left;
-        if (rsLeft) {
-          rs.left = elem.currentStyle.left;
-        }
-        style.left = value;
-        value = style.pixelLeft;
-        style.left = left;
-        if (rsLeft) {
-          rs.left = rsLeft;
-        }
-        return value;
-      }
-      return getSize;
-    }
-    if (typeof define === 'function' && define.amd) {
-      define(['get-style-property/get-style-property'], defineGetSize);
-    } else if (typeof exports === 'object') {
-      module.exports = defineGetSize(require("npm:desandro-get-style-property@1.0.4"));
-    } else {
-      window.getSize = defineGetSize(window.getStyleProperty);
-    }
-  })(window);
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:fizzy-ui-utils@1.0.1/utils", ["npm:doc-ready@1.0.3", "npm:desandro-matches-selector@1.0.3"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16373,45 +16406,99 @@ System.registerDynamic("npm:fizzy-ui-utils@1.0.1/utils", ["npm:doc-ready@1.0.3",
   return module.exports;
 });
 
-System.registerDynamic("npm:in-viewport@3.4.0", ["npm:in-viewport@3.4.0/in-viewport"], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.def", ["npm:core-js@1.1.4/library/modules/$.global", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = require("npm:in-viewport@3.4.0/in-viewport");
+  var global = require("npm:core-js@1.1.4/library/modules/$.global"),
+      core = require("npm:core-js@1.1.4/library/modules/$.core"),
+      PROTOTYPE = 'prototype';
+  var ctx = function(fn, that) {
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  };
+  var $def = function(type, name, source) {
+    var key,
+        own,
+        out,
+        exp,
+        isGlobal = type & $def.G,
+        isProto = type & $def.P,
+        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {})[PROTOTYPE],
+        exports = isGlobal ? core : core[name] || (core[name] = {});
+    if (isGlobal)
+      source = name;
+    for (key in source) {
+      own = !(type & $def.F) && target && key in target;
+      if (own && key in exports)
+        continue;
+      out = own ? target[key] : source[key];
+      if (isGlobal && typeof target[key] != 'function')
+        exp = source[key];
+      else if (type & $def.B && own)
+        exp = ctx(out, global);
+      else if (type & $def.W && target[key] == out)
+        !function(C) {
+          exp = function(param) {
+            return this instanceof C ? new C(param) : C(param);
+          };
+          exp[PROTOTYPE] = C[PROTOTYPE];
+        }(out);
+      else
+        exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
+      exports[key] = exp;
+      if (isProto)
+        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+    }
+  };
+  $def.F = 1;
+  $def.G = 2;
+  $def.S = 4;
+  $def.P = 8;
+  $def.B = 16;
+  $def.W = 32;
+  module.exports = $def;
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/es6.object.assign", ["npm:core-js@1.1.4/library/modules/$.def", "npm:core-js@1.1.4/library/modules/$.assign"], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.assign", ["npm:core-js@1.1.4/library/modules/$.to-object", "npm:core-js@1.1.4/library/modules/$.iobject", "npm:core-js@1.1.4/library/modules/$.enum-keys", "npm:core-js@1.1.4/library/modules/$.fails"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var $def = require("npm:core-js@1.1.4/library/modules/$.def");
-  $def($def.S + $def.F, 'Object', {assign: require("npm:core-js@1.1.4/library/modules/$.assign")});
+  var toObject = require("npm:core-js@1.1.4/library/modules/$.to-object"),
+      IObject = require("npm:core-js@1.1.4/library/modules/$.iobject"),
+      enumKeys = require("npm:core-js@1.1.4/library/modules/$.enum-keys");
+  module.exports = require("npm:core-js@1.1.4/library/modules/$.fails")(function() {
+    return Symbol() in Object.assign({});
+  }) ? function assign(target, source) {
+    var T = toObject(target),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = IObject(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  } : Object.assign;
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.core", [], true, function(require, exports, module) {
+System.registerDynamic("npm:desandro-get-style-property@1.0.4", ["npm:desandro-get-style-property@1.0.4/get-style-property"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var core = module.exports = {};
-  if (typeof __e == 'number')
-    __e = core;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:eventie@1.0.6", ["npm:eventie@1.0.6/eventie"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:eventie@1.0.6/eventie");
+  module.exports = require("npm:desandro-get-style-property@1.0.4/get-style-property");
   global.define = __define;
   return module.exports;
 });
@@ -16422,6 +16509,16 @@ System.registerDynamic("npm:wolfy87-eventemitter@4.2.11", ["npm:wolfy87-eventemi
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:wolfy87-eventemitter@4.2.11/EventEmitter");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:eventie@1.0.6", ["npm:eventie@1.0.6/eventie"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:eventie@1.0.6/eventie");
   global.define = __define;
   return module.exports;
 });
@@ -16785,16 +16882,6 @@ System.registerDynamic("npm:outlayer@1.4.2/item", ["npm:wolfy87-eventemitter@4.2
   return module.exports;
 });
 
-System.registerDynamic("npm:desandro-get-style-property@1.0.4", ["npm:desandro-get-style-property@1.0.4/get-style-property"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:desandro-get-style-property@1.0.4/get-style-property");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:doc-ready@1.0.3", ["npm:doc-ready@1.0.3/doc-ready"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -17018,150 +17105,109 @@ System.registerDynamic("npm:in-viewport@3.4.0/in-viewport", [], true, function(r
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.def", ["npm:core-js@1.1.4/library/modules/$.global", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.global", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var global = require("npm:core-js@1.1.4/library/modules/$.global"),
-      core = require("npm:core-js@1.1.4/library/modules/$.core"),
-      PROTOTYPE = 'prototype';
-  var ctx = function(fn, that) {
-    return function() {
-      return fn.apply(that, arguments);
-    };
-  };
-  var $def = function(type, name, source) {
-    var key,
-        own,
-        out,
-        exp,
-        isGlobal = type & $def.G,
-        isProto = type & $def.P,
-        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {})[PROTOTYPE],
-        exports = isGlobal ? core : core[name] || (core[name] = {});
-    if (isGlobal)
-      source = name;
-    for (key in source) {
-      own = !(type & $def.F) && target && key in target;
-      if (own && key in exports)
-        continue;
-      out = own ? target[key] : source[key];
-      if (isGlobal && typeof target[key] != 'function')
-        exp = source[key];
-      else if (type & $def.B && own)
-        exp = ctx(out, global);
-      else if (type & $def.W && target[key] == out)
-        !function(C) {
-          exp = function(param) {
-            return this instanceof C ? new C(param) : C(param);
-          };
-          exp[PROTOTYPE] = C[PROTOTYPE];
-        }(out);
-      else
-        exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
-      exports[key] = exp;
-      if (isProto)
-        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-    }
-  };
-  $def.F = 1;
-  $def.G = 2;
-  $def.S = 4;
-  $def.P = 8;
-  $def.B = 16;
-  $def.W = 32;
-  module.exports = $def;
+  var UNDEFINED = 'undefined';
+  var global = module.exports = typeof window != UNDEFINED && window.Math == Math ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
+  if (typeof __g == 'number')
+    __g = global;
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.assign", ["npm:core-js@1.1.4/library/modules/$.to-object", "npm:core-js@1.1.4/library/modules/$.iobject", "npm:core-js@1.1.4/library/modules/$.enum-keys", "npm:core-js@1.1.4/library/modules/$.fails"], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.iobject", ["npm:core-js@1.1.4/library/modules/$.cof"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var toObject = require("npm:core-js@1.1.4/library/modules/$.to-object"),
-      IObject = require("npm:core-js@1.1.4/library/modules/$.iobject"),
-      enumKeys = require("npm:core-js@1.1.4/library/modules/$.enum-keys");
-  module.exports = require("npm:core-js@1.1.4/library/modules/$.fails")(function() {
-    return Symbol() in Object.assign({});
-  }) ? function assign(target, source) {
-    var T = toObject(target),
-        l = arguments.length,
-        i = 1;
-    while (l > i) {
-      var S = IObject(arguments[i++]),
-          keys = enumKeys(S),
-          length = keys.length,
-          j = 0,
+  var cof = require("npm:core-js@1.1.4/library/modules/$.cof");
+  module.exports = 0 in Object('z') ? Object : function(it) {
+    return cof(it) == 'String' ? it.split('') : Object(it);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.enum-keys", ["npm:core-js@1.1.4/library/modules/$"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@1.1.4/library/modules/$");
+  module.exports = function(it) {
+    var keys = $.getKeys(it),
+        getSymbols = $.getSymbols;
+    if (getSymbols) {
+      var symbols = getSymbols(it),
+          isEnum = $.isEnum,
+          i = 0,
           key;
-      while (length > j)
-        T[key = keys[j++]] = S[key];
+      while (symbols.length > i)
+        if (isEnum.call(it, key = symbols[i++]))
+          keys.push(key);
     }
-    return T;
-  } : Object.assign;
+    return keys;
+  };
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("npm:eventie@1.0.6/eventie", [], true, function(require, exports, module) {
+System.registerDynamic("npm:desandro-get-style-property@1.0.4/get-style-property", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
+  "format cjs";
   (function(window) {
     'use strict';
-    var docElem = document.documentElement;
-    var bind = function() {};
-    function getIEEvent(obj) {
-      var event = window.event;
-      event.target = event.target || event.srcElement || obj;
-      return event;
-    }
-    if (docElem.addEventListener) {
-      bind = function(obj, type, fn) {
-        obj.addEventListener(type, fn, false);
-      };
-    } else if (docElem.attachEvent) {
-      bind = function(obj, type, fn) {
-        obj[type + fn] = fn.handleEvent ? function() {
-          var event = getIEEvent(obj);
-          fn.handleEvent.call(fn, event);
-        } : function() {
-          var event = getIEEvent(obj);
-          fn.call(obj, event);
-        };
-        obj.attachEvent("on" + type, obj[type + fn]);
-      };
-    }
-    var unbind = function() {};
-    if (docElem.removeEventListener) {
-      unbind = function(obj, type, fn) {
-        obj.removeEventListener(type, fn, false);
-      };
-    } else if (docElem.detachEvent) {
-      unbind = function(obj, type, fn) {
-        obj.detachEvent("on" + type, obj[type + fn]);
-        try {
-          delete obj[type + fn];
-        } catch (err) {
-          obj[type + fn] = undefined;
+    var prefixes = 'Webkit Moz ms Ms O'.split(' ');
+    var docElemStyle = document.documentElement.style;
+    function getStyleProperty(propName) {
+      if (!propName) {
+        return;
+      }
+      if (typeof docElemStyle[propName] === 'string') {
+        return propName;
+      }
+      propName = propName.charAt(0).toUpperCase() + propName.slice(1);
+      var prefixed;
+      for (var i = 0,
+          len = prefixes.length; i < len; i++) {
+        prefixed = prefixes[i] + propName;
+        if (typeof docElemStyle[prefixed] === 'string') {
+          return prefixed;
         }
-      };
+      }
     }
-    var eventie = {
-      bind: bind,
-      unbind: unbind
-    };
     if (typeof define === 'function' && define.amd) {
-      define(eventie);
+      define(function() {
+        return getStyleProperty;
+      });
     } else if (typeof exports === 'object') {
-      module.exports = eventie;
+      module.exports = getStyleProperty;
     } else {
-      window.eventie = eventie;
+      window.getStyleProperty = getStyleProperty;
     }
   })(window);
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.fails", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(exec) {
+    try {
+      return !!exec();
+    } catch (e) {
+      return true;
+    }
+  };
   global.define = __define;
   return module.exports;
 });
@@ -17380,41 +17426,74 @@ System.registerDynamic("npm:wolfy87-eventemitter@4.2.11/EventEmitter", [], true,
   return module.exports;
 });
 
-System.registerDynamic("npm:desandro-get-style-property@1.0.4/get-style-property", [], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.to-object", ["npm:core-js@1.1.4/library/modules/$.defined"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  "format cjs";
+  var defined = require("npm:core-js@1.1.4/library/modules/$.defined");
+  module.exports = function(it) {
+    return Object(defined(it));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:eventie@1.0.6/eventie", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
   (function(window) {
     'use strict';
-    var prefixes = 'Webkit Moz ms Ms O'.split(' ');
-    var docElemStyle = document.documentElement.style;
-    function getStyleProperty(propName) {
-      if (!propName) {
-        return;
-      }
-      if (typeof docElemStyle[propName] === 'string') {
-        return propName;
-      }
-      propName = propName.charAt(0).toUpperCase() + propName.slice(1);
-      var prefixed;
-      for (var i = 0,
-          len = prefixes.length; i < len; i++) {
-        prefixed = prefixes[i] + propName;
-        if (typeof docElemStyle[prefixed] === 'string') {
-          return prefixed;
-        }
-      }
+    var docElem = document.documentElement;
+    var bind = function() {};
+    function getIEEvent(obj) {
+      var event = window.event;
+      event.target = event.target || event.srcElement || obj;
+      return event;
     }
+    if (docElem.addEventListener) {
+      bind = function(obj, type, fn) {
+        obj.addEventListener(type, fn, false);
+      };
+    } else if (docElem.attachEvent) {
+      bind = function(obj, type, fn) {
+        obj[type + fn] = fn.handleEvent ? function() {
+          var event = getIEEvent(obj);
+          fn.handleEvent.call(fn, event);
+        } : function() {
+          var event = getIEEvent(obj);
+          fn.call(obj, event);
+        };
+        obj.attachEvent("on" + type, obj[type + fn]);
+      };
+    }
+    var unbind = function() {};
+    if (docElem.removeEventListener) {
+      unbind = function(obj, type, fn) {
+        obj.removeEventListener(type, fn, false);
+      };
+    } else if (docElem.detachEvent) {
+      unbind = function(obj, type, fn) {
+        obj.detachEvent("on" + type, obj[type + fn]);
+        try {
+          delete obj[type + fn];
+        } catch (err) {
+          obj[type + fn] = undefined;
+        }
+      };
+    }
+    var eventie = {
+      bind: bind,
+      unbind: unbind
+    };
     if (typeof define === 'function' && define.amd) {
-      define(function() {
-        return getStyleProperty;
-      });
+      define(eventie);
     } else if (typeof exports === 'object') {
-      module.exports = getStyleProperty;
+      module.exports = eventie;
     } else {
-      window.getStyleProperty = getStyleProperty;
+      window.eventie = eventie;
     }
   })(window);
   global.define = __define;
@@ -17547,94 +17626,14 @@ System.registerDynamic("npm:desandro-matches-selector@1.0.3/matches-selector", [
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.global", [], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.cof", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var UNDEFINED = 'undefined';
-  var global = module.exports = typeof window != UNDEFINED && window.Math == Math ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
-  if (typeof __g == 'number')
-    __g = global;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.to-object", ["npm:core-js@1.1.4/library/modules/$.defined"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var defined = require("npm:core-js@1.1.4/library/modules/$.defined");
+  var toString = {}.toString;
   module.exports = function(it) {
-    return Object(defined(it));
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.enum-keys", ["npm:core-js@1.1.4/library/modules/$"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $ = require("npm:core-js@1.1.4/library/modules/$");
-  module.exports = function(it) {
-    var keys = $.getKeys(it),
-        getSymbols = $.getSymbols;
-    if (getSymbols) {
-      var symbols = getSymbols(it),
-          isEnum = $.isEnum,
-          i = 0,
-          key;
-      while (symbols.length > i)
-        if (isEnum.call(it, key = symbols[i++]))
-          keys.push(key);
-    }
-    return keys;
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.fails", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(exec) {
-    try {
-      return !!exec();
-    } catch (e) {
-      return true;
-    }
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.iobject", ["npm:core-js@1.1.4/library/modules/$.cof"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var cof = require("npm:core-js@1.1.4/library/modules/$.cof");
-  module.exports = 0 in Object('z') ? Object : function(it) {
-    return cof(it) == 'String' ? it.split('') : Object(it);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.defined", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(it) {
-    if (it == undefined)
-      throw TypeError("Can't call method on  " + it);
-    return it;
+    return toString.call(it).slice(8, -1);
   };
   global.define = __define;
   return module.exports;
@@ -17662,14 +17661,15 @@ System.registerDynamic("npm:core-js@1.1.4/library/modules/$", [], true, function
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.cof", [], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.defined", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var toString = {}.toString;
   module.exports = function(it) {
-    return toString.call(it).slice(8, -1);
+    if (it == undefined)
+      throw TypeError("Can't call method on  " + it);
+    return it;
   };
   global.define = __define;
   return module.exports;
@@ -17792,15 +17792,21 @@ System.register('lib/home.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 
       HomePage = React.createClass({
         displayName: 'HomePage',
 
+        selectedImageIndex: function selectedImageIndex() {
+          if (!this.state.selectedImageIndex) this.setState({ selectedImageIndex: _.indexOf(this.state.images, this.state.lightBoxImage) });
+          return this.state.selectedImageIndex;
+        },
+        nextImage: function nextImage() {
+          this.openLightBox(this.state.images[this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1]);
+        },
+        previousImage: function previousImage() {
+          this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
+        },
         closeLightBox: function closeLightBox() {
-          this.setState({ lightBoxImage: null });
+          this.setState({ lightBoxImage: null, selectedImageIndex: null });
         },
         openLightBox: function openLightBox(img) {
-          if (img !== this.state.lightBoxImage) {
-            this.setState({ lightBoxImage: img });
-          } else {
-            this.closeLightBox();
-          }
+          this.setState({ lightBoxImage: img, selectedImageIndex: null });
         },
         getInitialState: function getInitialState() {
           return { images: imgs.slice() };
@@ -17809,6 +17815,8 @@ System.register('lib/home.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 
           this.setState({ images: this.state.images.concat(imgs.slice()) });
         },
         onKeyUp: _.throttle(function (e) {
+          // DEBUG
+          console.log("e:", e);
           if (!this.state.lightBoxImage) return true;
 
           e = e || window.event;
@@ -17816,12 +17824,12 @@ System.register('lib/home.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 
 
           // Left arrow
           if (charCode === 37) {
-            emitter.emit('lightBox:previousImage');
+            this.previousImage();
             return false;
 
             // Right arrow
           } else if (charCode === 39) {
-              emitter.emit('lightBox:nextImage');
+              this.nextImage();
               return false;
             }
 
@@ -17834,8 +17842,7 @@ System.register('lib/home.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 
           return React.createElement(
             'div',
             { className: 'no-scrolling' },
-            this.state.lightBoxImage ? React.createElement(LightBox, { closeLightBox: this.closeLightBox, img: this.state.lightBoxImage }) : '',
-            React.createElement(
+            this.state.lightBoxImage ? React.createElement(LightBox, { closeLightBox: this.closeLightBox, img: this.state.lightBoxImage }) : React.createElement(
               InfiniteScroll,
               { loadMore: this.loadMore },
               React.createElement(Collage, { imgs: this.state.images, openLightBox: this.openLightBox })
@@ -17862,6 +17869,78 @@ System.register('lib/events.js', ['npm:events@1.0.2'], function (_export) {
       _export('emitter', emitter);
 
       emitter.setMaxListeners(100);
+    }
+  };
+});
+System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3', 'npm:masonry-layout@3.3.2', 'lib/image.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/events.js'], function (_export) {
+  'use strict';
+
+  var _, React, Masonry, Image, emitter, LightBox;
+
+  return {
+    setters: [function (_npmLodash3101) {
+      _ = _npmLodash3101['default'];
+    }, function (_npmReact0133) {
+      React = _npmReact0133['default'];
+    }, function (_npmMasonryLayout332) {
+      Masonry = _npmMasonryLayout332['default'];
+    }, function (_libImageJsxNpmJspmLoaderJsx007) {
+      Image = _libImageJsxNpmJspmLoaderJsx007.Image;
+    }, function (_libEventsJs) {
+      emitter = _libEventsJs.emitter;
+    }],
+    execute: function () {
+      LightBox = React.createClass({
+        displayName: 'LightBox',
+        componentWillReceiveProps: function componentWillReceiveProps() {
+          // DEBUG
+          console.log("arguments:", arguments);
+          this.setState(this.getInitialState());
+        },
+        getInitialState: function getInitialState() {
+          return {
+            loading: true,
+            imageStyles: {
+              height: '100%',
+              width: 'auto',
+              verticalAlign: 'middle',
+              display: 'inline-block'
+            }
+          };
+        },
+        onImageLoad: _.throttle(function () {
+          var tooWide = this.refs.image.getDOMNode().offsetWidth > this.refs.lightBoxContainer.getDOMNode().offsetWidth;
+          this.setState({
+            loading: false,
+            imageStyles: {
+              height: tooWide ? 'auto' : '100%',
+              width: tooWide ? '100%' : 'auto'
+            }
+          });
+
+          // DEBUG
+          console.log("this.state:", this.state);
+        }, 100),
+        onClick: function onClick() {
+          this.props.closeLightBox();
+        },
+        componentWillUnmount: function componentWillUnmount() {
+          window.removeEventListener('resize', this.onImageLoad);
+        },
+        componentWillMount: function componentWillMount() {
+          window.addEventListener('resize', this.onImageLoad);
+        },
+        render: function render() {
+          return React.createElement(
+            'div',
+            { ref: 'lightBoxContainer', className: 'light-box', onClick: this.onClick },
+            React.createElement(Image, { ref: 'image', onLoad: this.onImageLoad, src: this.props.img.link, alt: this.props.img.alt, styles: this.state.imageStyles, widths: this.props.img.widths }),
+            this.state.loading ? React.createElement('div', { ref: 'spinner', className: 'spinner' }) : null
+          );
+        }
+      });
+
+      _export('LightBox', LightBox);
     }
   };
 });
@@ -17892,16 +17971,6 @@ System.register('lib/collage.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1
       };
       Collage = React.createClass({
         displayName: 'Collage',
-        selectedImageIndex: function selectedImageIndex() {
-          if (!this.state.selectedImageIndex) this.setState({ selectedImageIndex: _.indexOf(this.props.imgs, this.state.selectedImage) });
-          return this.state.selectedImageIndex;
-        },
-        nextImage: function nextImage() {
-          this.onImageClick(this.props.imgs[this.selectedImageIndex() === this.props.imgs.length - 1 ? 0 : this.selectedImageIndex() + 1]);
-        },
-        previousImage: function previousImage() {
-          this.onImageClick(this.props.imgs[this.selectedImageIndex() === 0 ? this.props.imgs.length - 1 : this.selectedImageIndex() - 1]);
-        },
         getImageState: function getImageState() {
           var widthMultiplier = this.getWidthMultiplier();
 
@@ -17927,10 +17996,11 @@ System.register('lib/collage.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1
           }
         },
         onImageClick: function onImageClick(img) {
+          // DEBUG
+          console.log("click img:", img);
           if (_.isFunction(this.props.openLightBox)) {
             this.props.openLightBox(img);
           }
-          this.setState({ selectedImage: img === this.state.selectedImage ? null : img, selectedImageIndex: null });
         },
         onImageLoad: function onImageLoad() {
           this.msnry.layout();
@@ -17939,13 +18009,9 @@ System.register('lib/collage.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1
           return this.getImageState();
         },
         componentWillUnmount: function componentWillUnmount() {
-          emitter.removeEventListener('lightBox:nextImage', this.nextImage);
-          emitter.removeEventListener('lightBox:previousImage', this.previousImage);
           window.removeEventListener('resize', this.onResize);
         },
         componentWillMount: function componentWillMount() {
-          emitter.on('lightBox:nextImage', this.nextImage);
-          emitter.on('lightBox:previousImage', this.previousImage);
           window.addEventListener('resize', this.onResize);
         },
         render: function render() {
@@ -17977,78 +18043,6 @@ System.register('lib/collage.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1
       });
 
       _export('Collage', Collage);
-    }
-  };
-});
-System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3', 'npm:masonry-layout@3.3.2', 'lib/image.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/events.js'], function (_export) {
-  'use strict';
-
-  var _, React, Masonry, Image, emitter, LightBox;
-
-  return {
-    setters: [function (_npmLodash3101) {
-      _ = _npmLodash3101['default'];
-    }, function (_npmReact0133) {
-      React = _npmReact0133['default'];
-    }, function (_npmMasonryLayout332) {
-      Masonry = _npmMasonryLayout332['default'];
-    }, function (_libImageJsxNpmJspmLoaderJsx007) {
-      Image = _libImageJsxNpmJspmLoaderJsx007.Image;
-    }, function (_libEventsJs) {
-      emitter = _libEventsJs.emitter;
-    }],
-    execute: function () {
-      LightBox = React.createClass({
-        displayName: 'LightBox',
-        getInitialState: function getInitialState() {
-          return {
-            loading: true,
-            imageStyles: {
-              height: '100%',
-              width: 'auto',
-              verticalAlign: 'middle',
-              display: 'inline-block'
-            }
-          };
-        },
-        onImageLoad: _.debounce(function () {
-          if (this.state.wasTooWide || !this.refs.image || !this.refs.lightBoxContainer) {
-            this.setState({ wasTooWide: false });
-            return;
-          }
-
-          var tooWide = this.refs.image.getDOMNode().offsetWidth > this.refs.lightBoxContainer.getDOMNode().offsetWidth;
-
-          this.setState({
-            wasTooWide: tooWide,
-            loading: false,
-            imageStyles: {
-              height: tooWide ? 'auto' : '100%',
-              width: tooWide ? '100%' : 'auto'
-            }
-          });
-        }, 100),
-        onClick: function onClick() {
-          this.props.closeLightBox();
-        },
-        componentWillUnmount: function componentWillUnmount() {
-          window.removeEventListener('resize', this.onImageLoad);
-        },
-        render: function render() {
-          var lightBoxContainer = React.createElement(
-            'div',
-            { ref: 'lightBoxContainer', className: 'light-box', onClick: this.onClick },
-            React.createElement(Image, { ref: 'image', onLoad: this.onImageLoad, src: this.props.img.link, alt: this.props.img.alt, styles: this.state.imageStyles, widths: this.props.img.widths }),
-            this.state.loading ? React.createElement('div', { ref: 'spinner', className: 'spinner' }) : null
-          );
-
-          window.addEventListener('resize', this.onImageLoad);
-
-          return lightBoxContainer;
-        }
-      });
-
-      _export('LightBox', LightBox);
     }
   };
 });
@@ -18102,6 +18096,9 @@ System.register('lib/infiniteScroll.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash
           this.refs.scrollContainer.getDOMNode().addEventListener('scroll', this.onScroll);
           window.addEventListener('resize', this.onScroll);
           this.onScroll();
+        },
+        componentWillUnmount: function componentWillUnmount() {
+          window.removeEventListener('resize', this.onScroll);
         }
       });
 

@@ -29,5 +29,8 @@ export var InfiniteScroll = React.createClass({
     this.refs.scrollContainer.getDOMNode().addEventListener('scroll', this.onScroll);
     window.addEventListener('resize', this.onScroll);
     this.onScroll();
+  },
+  componentWillUnmount: function() {
+    window.removeEventListener('resize', this.onScroll);
   }
 });

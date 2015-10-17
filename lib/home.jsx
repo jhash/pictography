@@ -77,15 +77,21 @@ var imgs = [
 ];
 
 export var HomePage = React.createClass({
+  selectedImageIndex: function() {
+    if (!this.state.selectedImageIndex) this.setState({ selectedImageIndex: _.indexOf(this.state.images, this.state.lightBoxImage) });
+    return this.state.selectedImageIndex;
+  },
+  nextImage: function() {
+    this.openLightBox(this.state.images[this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1]);
+  },
+  previousImage: function() {
+    this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
+  },
   closeLightBox: function() {
-    this.setState({ lightBoxImage: null });
+    this.setState({ lightBoxImage: null, selectedImageIndex: null });
   },
   openLightBox: function(img) {
-    if (img !== this.state.lightBoxImage) {
-      this.setState({ lightBoxImage: img });
-    } else {
-      this.closeLightBox();
-    }
+    this.setState({ lightBoxImage: img, selectedImageIndex: null });
   },
   getInitialState: function() {
     return { images: imgs.slice() };
@@ -94,6 +100,8 @@ export var HomePage = React.createClass({
     this.setState({ images: this.state.images.concat(imgs.slice()) });
   },
   onKeyUp: _.throttle(function(e) {
+    // DEBUG
+    console.log("e:", e);
     if (!this.state.lightBoxImage) return true;
 
     e = e || window.event;
@@ -101,26 +109,27 @@ export var HomePage = React.createClass({
 
     // Left arrow
     if (charCode === 37) {
-      emitter.emit('lightBox:previousImage');
+      this.previousImage();
       return false;
 
     // Right arrow
     } else if (charCode === 39) {
-      emitter.emit('lightBox:nextImage');
+      this.nextImage();
       return false;
     }
 
     return true;
   }, 200),
-  componentWillMount() {
+  componentWillMount: function() {
     document.onkeyup = this.onKeyUp;
   },
   render: function() {
     return <div className='no-scrolling'>
-      { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} img={this.state.lightBoxImage} /> : ''}
-      <InfiniteScroll loadMore={this.loadMore}>
-        <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
-      </InfiniteScroll>
+      { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} img={this.state.lightBoxImage} /> :
+        <InfiniteScroll loadMore={this.loadMore}>
+          <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
+        </InfiniteScroll>
+      }
     </div>;
   }
 });
