@@ -60,7 +60,7 @@ export var Collage = React.createClass({
     return <div ref="masonryContainer" className="collage-container">
       {this.props.imgs.map((img) => {
         var boundClick = this.onImageClick.bind(this, img);
-        return <div className="item" style={this.state.imageItemStyles} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={this.state.widthMultiplier} /></div>;
+        return <a className="item" style={this.state.imageItemStyles} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={this.state.widthMultiplier} /></a>;
       })}
     </div>;
   },

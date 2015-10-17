@@ -1,3 +1,7 @@
+html {
+  background: black;
+}
+
 html, body, .no-scrolling {
   height: 100%;
   width: 100%;
@@ -66,6 +70,10 @@ html, body, .scroll-container, .no-scrolling {
 
 .light-box .full-height-button.full-height-button-left {
   padding-right: calc(50% - 70px);
+}
+
+a:hover {
+  cursor: pointer;
 }
 
 .spinner {
