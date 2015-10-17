@@ -5,13 +5,7 @@ import {Image} from './image.jsx!';
 import {emitter} from './events';
 
 var
-widthMultiplier = 3,
 collageContainerStyles = {
-  imageItem: {
-    width: (100 / widthMultiplier) + '%',
-    margin: '0',
-    padding: '0',
-  },
   img: {
     width: '100%',
     padding: '5px',
@@ -21,6 +15,18 @@ collageContainerStyles = {
 
 export var Collage = React.createClass({
   displayName: 'Collage',
+  onResize: function() {
+
+  },
+  getWidthMultiplier: function() {
+    if (window.outerWidth > 900) {
+      return 3;
+    } else if (window.outerWidth > 600) {
+      return 2;
+    } else {
+      return 1;
+    }
+  },
   onItemClick: function(img) {
     if (_.isFunction(this.props.openLightBox)) {
       this.props.openLightBox(img);
@@ -30,13 +36,24 @@ export var Collage = React.createClass({
     this.msnry.layout();
   },
   getInitialState: function() {
-    return {};
+    var widthMultiplier = this.getWidthMultiplier();
+
+    return {
+      widthMultiplier: widthMultiplier,
+      imageItemStyles: {
+        width: (100 / widthMultiplier) + '%',
+        margin: '0',
+        padding: '0',
+      }
+    };
   },
   render: function() {
-    return <div ref="masonryContainer" className="collage-container" style={collageContainerStyles}>
+    window.addEventListener('resize', this.onImageLoad);
+
+    return <div ref="masonryContainer" className="collage-container">
       {this.props.imgs.map((img) => {
         var boundClick = this.onItemClick.bind(this, img);
-        return <div className="item" style={collageContainerStyles.imageItem} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={widthMultiplier} /></div>;
+        return <div className="item" style={this.state.imageItemStyles} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={this.state.widthMultiplier} /></div>;
       })}
     </div>;
   },
