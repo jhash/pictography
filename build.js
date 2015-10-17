@@ -6872,89 +6872,6 @@ System.registerDynamic("npm:react@0.13.3/lib/invariant", ["github:jspm/nodelibs-
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/PooledClass", ["npm:react@0.13.3/lib/invariant", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var invariant = require("npm:react@0.13.3/lib/invariant");
-    var oneArgumentPooler = function(copyFieldsFrom) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, copyFieldsFrom);
-        return instance;
-      } else {
-        return new Klass(copyFieldsFrom);
-      }
-    };
-    var twoArgumentPooler = function(a1, a2) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, a1, a2);
-        return instance;
-      } else {
-        return new Klass(a1, a2);
-      }
-    };
-    var threeArgumentPooler = function(a1, a2, a3) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, a1, a2, a3);
-        return instance;
-      } else {
-        return new Klass(a1, a2, a3);
-      }
-    };
-    var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
-      var Klass = this;
-      if (Klass.instancePool.length) {
-        var instance = Klass.instancePool.pop();
-        Klass.call(instance, a1, a2, a3, a4, a5);
-        return instance;
-      } else {
-        return new Klass(a1, a2, a3, a4, a5);
-      }
-    };
-    var standardReleaser = function(instance) {
-      var Klass = this;
-      ("production" !== process.env.NODE_ENV ? invariant(instance instanceof Klass, 'Trying to release an instance into a pool of a different type.') : invariant(instance instanceof Klass));
-      if (instance.destructor) {
-        instance.destructor();
-      }
-      if (Klass.instancePool.length < Klass.poolSize) {
-        Klass.instancePool.push(instance);
-      }
-    };
-    var DEFAULT_POOL_SIZE = 10;
-    var DEFAULT_POOLER = oneArgumentPooler;
-    var addPoolingTo = function(CopyConstructor, pooler) {
-      var NewKlass = CopyConstructor;
-      NewKlass.instancePool = [];
-      NewKlass.getPooled = pooler || DEFAULT_POOLER;
-      if (!NewKlass.poolSize) {
-        NewKlass.poolSize = DEFAULT_POOL_SIZE;
-      }
-      NewKlass.release = standardReleaser;
-      return NewKlass;
-    };
-    var PooledClass = {
-      addPoolingTo: addPoolingTo,
-      oneArgumentPooler: oneArgumentPooler,
-      twoArgumentPooler: twoArgumentPooler,
-      threeArgumentPooler: threeArgumentPooler,
-      fiveArgumentPooler: fiveArgumentPooler
-    };
-    module.exports = PooledClass;
-  })(require("github:jspm/nodelibs-process@0.1.2"));
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/ReactFragment", ["npm:react@0.13.3/lib/ReactElement", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -7068,6 +6985,89 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactFragment", ["npm:react@0.13.3/
       }
     };
     module.exports = ReactFragment;
+  })(require("github:jspm/nodelibs-process@0.1.2"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/PooledClass", ["npm:react@0.13.3/lib/invariant", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var invariant = require("npm:react@0.13.3/lib/invariant");
+    var oneArgumentPooler = function(copyFieldsFrom) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, copyFieldsFrom);
+        return instance;
+      } else {
+        return new Klass(copyFieldsFrom);
+      }
+    };
+    var twoArgumentPooler = function(a1, a2) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, a1, a2);
+        return instance;
+      } else {
+        return new Klass(a1, a2);
+      }
+    };
+    var threeArgumentPooler = function(a1, a2, a3) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, a1, a2, a3);
+        return instance;
+      } else {
+        return new Klass(a1, a2, a3);
+      }
+    };
+    var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
+      var Klass = this;
+      if (Klass.instancePool.length) {
+        var instance = Klass.instancePool.pop();
+        Klass.call(instance, a1, a2, a3, a4, a5);
+        return instance;
+      } else {
+        return new Klass(a1, a2, a3, a4, a5);
+      }
+    };
+    var standardReleaser = function(instance) {
+      var Klass = this;
+      ("production" !== process.env.NODE_ENV ? invariant(instance instanceof Klass, 'Trying to release an instance into a pool of a different type.') : invariant(instance instanceof Klass));
+      if (instance.destructor) {
+        instance.destructor();
+      }
+      if (Klass.instancePool.length < Klass.poolSize) {
+        Klass.instancePool.push(instance);
+      }
+    };
+    var DEFAULT_POOL_SIZE = 10;
+    var DEFAULT_POOLER = oneArgumentPooler;
+    var addPoolingTo = function(CopyConstructor, pooler) {
+      var NewKlass = CopyConstructor;
+      NewKlass.instancePool = [];
+      NewKlass.getPooled = pooler || DEFAULT_POOLER;
+      if (!NewKlass.poolSize) {
+        NewKlass.poolSize = DEFAULT_POOL_SIZE;
+      }
+      NewKlass.release = standardReleaser;
+      return NewKlass;
+    };
+    var PooledClass = {
+      addPoolingTo: addPoolingTo,
+      oneArgumentPooler: oneArgumentPooler,
+      twoArgumentPooler: twoArgumentPooler,
+      threeArgumentPooler: threeArgumentPooler,
+      fiveArgumentPooler: fiveArgumentPooler
+    };
+    module.exports = PooledClass;
   })(require("github:jspm/nodelibs-process@0.1.2"));
   global.define = __define;
   return module.exports;
@@ -7499,6 +7499,25 @@ System.registerDynamic("npm:react@0.13.3/lib/emptyObject", ["github:jspm/nodelib
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/getIteratorFn", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator';
+  function getIteratorFn(maybeIterable) {
+    var iteratorFn = maybeIterable && ((ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]));
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+  module.exports = getIteratorFn;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/ReactNativeComponent", ["npm:react@0.13.3/lib/Object.assign", "npm:react@0.13.3/lib/invariant", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -7556,25 +7575,6 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactNativeComponent", ["npm:react@
     };
     module.exports = ReactNativeComponent;
   })(require("github:jspm/nodelibs-process@0.1.2"));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/getIteratorFn", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
-  var FAUX_ITERATOR_SYMBOL = '@@iterator';
-  function getIteratorFn(maybeIterable) {
-    var iteratorFn = maybeIterable && ((ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]));
-    if (typeof iteratorFn === 'function') {
-      return iteratorFn;
-    }
-  }
-  module.exports = getIteratorFn;
   global.define = __define;
   return module.exports;
 });
@@ -11103,117 +11103,6 @@ System.registerDynamic("npm:react@0.13.3/lib/quoteAttributeValueForBrowser", ["n
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/CSSPropertyOperations", ["npm:react@0.13.3/lib/CSSProperty", "npm:react@0.13.3/lib/ExecutionEnvironment", "npm:react@0.13.3/lib/camelizeStyleName", "npm:react@0.13.3/lib/dangerousStyleValue", "npm:react@0.13.3/lib/hyphenateStyleName", "npm:react@0.13.3/lib/memoizeStringOnly", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
-    var ExecutionEnvironment = require("npm:react@0.13.3/lib/ExecutionEnvironment");
-    var camelizeStyleName = require("npm:react@0.13.3/lib/camelizeStyleName");
-    var dangerousStyleValue = require("npm:react@0.13.3/lib/dangerousStyleValue");
-    var hyphenateStyleName = require("npm:react@0.13.3/lib/hyphenateStyleName");
-    var memoizeStringOnly = require("npm:react@0.13.3/lib/memoizeStringOnly");
-    var warning = require("npm:react@0.13.3/lib/warning");
-    var processStyleName = memoizeStringOnly(function(styleName) {
-      return hyphenateStyleName(styleName);
-    });
-    var styleFloatAccessor = 'cssFloat';
-    if (ExecutionEnvironment.canUseDOM) {
-      if (document.documentElement.style.cssFloat === undefined) {
-        styleFloatAccessor = 'styleFloat';
-      }
-    }
-    if ("production" !== process.env.NODE_ENV) {
-      var badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/;
-      var badStyleValueWithSemicolonPattern = /;\s*$/;
-      var warnedStyleNames = {};
-      var warnedStyleValues = {};
-      var warnHyphenatedStyleName = function(name) {
-        if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
-          return;
-        }
-        warnedStyleNames[name] = true;
-        ("production" !== process.env.NODE_ENV ? warning(false, 'Unsupported style property %s. Did you mean %s?', name, camelizeStyleName(name)) : null);
-      };
-      var warnBadVendoredStyleName = function(name) {
-        if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
-          return;
-        }
-        warnedStyleNames[name] = true;
-        ("production" !== process.env.NODE_ENV ? warning(false, 'Unsupported vendor-prefixed style property %s. Did you mean %s?', name, name.charAt(0).toUpperCase() + name.slice(1)) : null);
-      };
-      var warnStyleValueWithSemicolon = function(name, value) {
-        if (warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value]) {
-          return;
-        }
-        warnedStyleValues[value] = true;
-        ("production" !== process.env.NODE_ENV ? warning(false, 'Style property values shouldn\'t contain a semicolon. ' + 'Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, '')) : null);
-      };
-      var warnValidStyle = function(name, value) {
-        if (name.indexOf('-') > -1) {
-          warnHyphenatedStyleName(name);
-        } else if (badVendoredStyleNamePattern.test(name)) {
-          warnBadVendoredStyleName(name);
-        } else if (badStyleValueWithSemicolonPattern.test(value)) {
-          warnStyleValueWithSemicolon(name, value);
-        }
-      };
-    }
-    var CSSPropertyOperations = {
-      createMarkupForStyles: function(styles) {
-        var serialized = '';
-        for (var styleName in styles) {
-          if (!styles.hasOwnProperty(styleName)) {
-            continue;
-          }
-          var styleValue = styles[styleName];
-          if ("production" !== process.env.NODE_ENV) {
-            warnValidStyle(styleName, styleValue);
-          }
-          if (styleValue != null) {
-            serialized += processStyleName(styleName) + ':';
-            serialized += dangerousStyleValue(styleName, styleValue) + ';';
-          }
-        }
-        return serialized || null;
-      },
-      setValueForStyles: function(node, styles) {
-        var style = node.style;
-        for (var styleName in styles) {
-          if (!styles.hasOwnProperty(styleName)) {
-            continue;
-          }
-          if ("production" !== process.env.NODE_ENV) {
-            warnValidStyle(styleName, styles[styleName]);
-          }
-          var styleValue = dangerousStyleValue(styleName, styles[styleName]);
-          if (styleName === 'float') {
-            styleName = styleFloatAccessor;
-          }
-          if (styleValue) {
-            style[styleName] = styleValue;
-          } else {
-            var expansion = CSSProperty.shorthandPropertyExpansions[styleName];
-            if (expansion) {
-              for (var individualStyleName in expansion) {
-                style[individualStyleName] = '';
-              }
-            } else {
-              style[styleName] = '';
-            }
-          }
-        }
-      }
-    };
-    module.exports = CSSPropertyOperations;
-  })(require("github:jspm/nodelibs-process@0.1.2"));
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/ReactMultiChild", ["npm:react@0.13.3/lib/ReactComponentEnvironment", "npm:react@0.13.3/lib/ReactMultiChildUpdateTypes", "npm:react@0.13.3/lib/ReactReconciler", "npm:react@0.13.3/lib/ReactChildReconciler", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -11412,6 +11301,117 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactMultiChild", ["npm:react@0.13.
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/CSSPropertyOperations", ["npm:react@0.13.3/lib/CSSProperty", "npm:react@0.13.3/lib/ExecutionEnvironment", "npm:react@0.13.3/lib/camelizeStyleName", "npm:react@0.13.3/lib/dangerousStyleValue", "npm:react@0.13.3/lib/hyphenateStyleName", "npm:react@0.13.3/lib/memoizeStringOnly", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
+    var ExecutionEnvironment = require("npm:react@0.13.3/lib/ExecutionEnvironment");
+    var camelizeStyleName = require("npm:react@0.13.3/lib/camelizeStyleName");
+    var dangerousStyleValue = require("npm:react@0.13.3/lib/dangerousStyleValue");
+    var hyphenateStyleName = require("npm:react@0.13.3/lib/hyphenateStyleName");
+    var memoizeStringOnly = require("npm:react@0.13.3/lib/memoizeStringOnly");
+    var warning = require("npm:react@0.13.3/lib/warning");
+    var processStyleName = memoizeStringOnly(function(styleName) {
+      return hyphenateStyleName(styleName);
+    });
+    var styleFloatAccessor = 'cssFloat';
+    if (ExecutionEnvironment.canUseDOM) {
+      if (document.documentElement.style.cssFloat === undefined) {
+        styleFloatAccessor = 'styleFloat';
+      }
+    }
+    if ("production" !== process.env.NODE_ENV) {
+      var badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/;
+      var badStyleValueWithSemicolonPattern = /;\s*$/;
+      var warnedStyleNames = {};
+      var warnedStyleValues = {};
+      var warnHyphenatedStyleName = function(name) {
+        if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
+          return;
+        }
+        warnedStyleNames[name] = true;
+        ("production" !== process.env.NODE_ENV ? warning(false, 'Unsupported style property %s. Did you mean %s?', name, camelizeStyleName(name)) : null);
+      };
+      var warnBadVendoredStyleName = function(name) {
+        if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
+          return;
+        }
+        warnedStyleNames[name] = true;
+        ("production" !== process.env.NODE_ENV ? warning(false, 'Unsupported vendor-prefixed style property %s. Did you mean %s?', name, name.charAt(0).toUpperCase() + name.slice(1)) : null);
+      };
+      var warnStyleValueWithSemicolon = function(name, value) {
+        if (warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value]) {
+          return;
+        }
+        warnedStyleValues[value] = true;
+        ("production" !== process.env.NODE_ENV ? warning(false, 'Style property values shouldn\'t contain a semicolon. ' + 'Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, '')) : null);
+      };
+      var warnValidStyle = function(name, value) {
+        if (name.indexOf('-') > -1) {
+          warnHyphenatedStyleName(name);
+        } else if (badVendoredStyleNamePattern.test(name)) {
+          warnBadVendoredStyleName(name);
+        } else if (badStyleValueWithSemicolonPattern.test(value)) {
+          warnStyleValueWithSemicolon(name, value);
+        }
+      };
+    }
+    var CSSPropertyOperations = {
+      createMarkupForStyles: function(styles) {
+        var serialized = '';
+        for (var styleName in styles) {
+          if (!styles.hasOwnProperty(styleName)) {
+            continue;
+          }
+          var styleValue = styles[styleName];
+          if ("production" !== process.env.NODE_ENV) {
+            warnValidStyle(styleName, styleValue);
+          }
+          if (styleValue != null) {
+            serialized += processStyleName(styleName) + ':';
+            serialized += dangerousStyleValue(styleName, styleValue) + ';';
+          }
+        }
+        return serialized || null;
+      },
+      setValueForStyles: function(node, styles) {
+        var style = node.style;
+        for (var styleName in styles) {
+          if (!styles.hasOwnProperty(styleName)) {
+            continue;
+          }
+          if ("production" !== process.env.NODE_ENV) {
+            warnValidStyle(styleName, styles[styleName]);
+          }
+          var styleValue = dangerousStyleValue(styleName, styles[styleName]);
+          if (styleName === 'float') {
+            styleName = styleFloatAccessor;
+          }
+          if (styleValue) {
+            style[styleName] = styleValue;
+          } else {
+            var expansion = CSSProperty.shorthandPropertyExpansions[styleName];
+            if (expansion) {
+              for (var individualStyleName in expansion) {
+                style[individualStyleName] = '';
+              }
+            } else {
+              style[styleName] = '';
+            }
+          }
+        }
+      }
+    };
+    module.exports = CSSPropertyOperations;
+  })(require("github:jspm/nodelibs-process@0.1.2"));
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/isEventSupported", ["npm:react@0.13.3/lib/ExecutionEnvironment"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -11440,6 +11440,59 @@ System.registerDynamic("npm:react@0.13.3/lib/isEventSupported", ["npm:react@0.13
     return isSupported;
   }
   module.exports = isEventSupported;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/FallbackCompositionState", ["npm:react@0.13.3/lib/PooledClass", "npm:react@0.13.3/lib/Object.assign", "npm:react@0.13.3/lib/getTextContentAccessor"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var PooledClass = require("npm:react@0.13.3/lib/PooledClass");
+  var assign = require("npm:react@0.13.3/lib/Object.assign");
+  var getTextContentAccessor = require("npm:react@0.13.3/lib/getTextContentAccessor");
+  function FallbackCompositionState(root) {
+    this._root = root;
+    this._startText = this.getText();
+    this._fallbackText = null;
+  }
+  assign(FallbackCompositionState.prototype, {
+    getText: function() {
+      if ('value' in this._root) {
+        return this._root.value;
+      }
+      return this._root[getTextContentAccessor()];
+    },
+    getData: function() {
+      if (this._fallbackText) {
+        return this._fallbackText;
+      }
+      var start;
+      var startValue = this._startText;
+      var startLength = startValue.length;
+      var end;
+      var endValue = this.getText();
+      var endLength = endValue.length;
+      for (start = 0; start < startLength; start++) {
+        if (startValue[start] !== endValue[start]) {
+          break;
+        }
+      }
+      var minEnd = startLength - start;
+      for (end = 1; end <= minEnd; end++) {
+        if (startValue[startLength - end] !== endValue[endLength - end]) {
+          break;
+        }
+      }
+      var sliceTail = end > 1 ? 1 - end : undefined;
+      this._fallbackText = endValue.slice(start, sliceTail);
+      return this._fallbackText;
+    }
+  });
+  PooledClass.addPoolingTo(FallbackCompositionState);
+  module.exports = FallbackCompositionState;
   global.define = __define;
   return module.exports;
 });
@@ -11527,59 +11580,6 @@ System.registerDynamic("npm:react@0.13.3/lib/SyntheticCompositionEvent", ["npm:r
   }
   SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
   module.exports = SyntheticCompositionEvent;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/FallbackCompositionState", ["npm:react@0.13.3/lib/PooledClass", "npm:react@0.13.3/lib/Object.assign", "npm:react@0.13.3/lib/getTextContentAccessor"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var PooledClass = require("npm:react@0.13.3/lib/PooledClass");
-  var assign = require("npm:react@0.13.3/lib/Object.assign");
-  var getTextContentAccessor = require("npm:react@0.13.3/lib/getTextContentAccessor");
-  function FallbackCompositionState(root) {
-    this._root = root;
-    this._startText = this.getText();
-    this._fallbackText = null;
-  }
-  assign(FallbackCompositionState.prototype, {
-    getText: function() {
-      if ('value' in this._root) {
-        return this._root.value;
-      }
-      return this._root[getTextContentAccessor()];
-    },
-    getData: function() {
-      if (this._fallbackText) {
-        return this._fallbackText;
-      }
-      var start;
-      var startValue = this._startText;
-      var startLength = startValue.length;
-      var end;
-      var endValue = this.getText();
-      var endLength = endValue.length;
-      for (start = 0; start < startLength; start++) {
-        if (startValue[start] !== endValue[start]) {
-          break;
-        }
-      }
-      var minEnd = startLength - start;
-      for (end = 1; end <= minEnd; end++) {
-        if (startValue[startLength - end] !== endValue[endLength - end]) {
-          break;
-        }
-      }
-      var sliceTail = end > 1 ? 1 - end : undefined;
-      this._fallbackText = endValue.slice(start, sliceTail);
-      return this._fallbackText;
-    }
-  });
-  PooledClass.addPoolingTo(FallbackCompositionState);
-  module.exports = FallbackCompositionState;
   global.define = __define;
   return module.exports;
 });
@@ -12729,6 +12729,21 @@ System.registerDynamic("npm:react@0.13.3/lib/getEventCharCode", [], true, functi
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/performanceNow", ["npm:react@0.13.3/lib/performance"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var performance = require("npm:react@0.13.3/lib/performance");
+  if (!performance || !performance.now) {
+    performance = Date;
+  }
+  var performanceNow = performance.now.bind(performance);
+  module.exports = performanceNow;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/ReactDefaultPerfAnalysis", ["npm:react@0.13.3/lib/Object.assign"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -12878,21 +12893,6 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactDefaultPerfAnalysis", ["npm:re
     getTotalTime: getTotalTime
   };
   module.exports = ReactDefaultPerfAnalysis;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/performanceNow", ["npm:react@0.13.3/lib/performance"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var performance = require("npm:react@0.13.3/lib/performance");
-  if (!performance || !performance.now) {
-    performance = Date;
-  }
-  var performanceNow = performance.now.bind(performance);
-  module.exports = performanceNow;
   global.define = __define;
   return module.exports;
 });
@@ -13597,45 +13597,101 @@ System.registerDynamic("npm:process@0.11.2/browser", [], true, function(require,
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/dangerousStyleValue", ["npm:react@0.13.3/lib/CSSProperty"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/ReactMultiChildUpdateTypes", ["npm:react@0.13.3/lib/keyMirror"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   'use strict';
-  var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
-  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
-  function dangerousStyleValue(name, value) {
-    var isEmpty = value == null || typeof value === 'boolean' || value === '';
-    if (isEmpty) {
-      return '';
-    }
-    var isNonNumeric = isNaN(value);
-    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
-      return '' + value;
-    }
-    if (typeof value === 'string') {
-      value = value.trim();
-    }
-    return value + 'px';
-  }
-  module.exports = dangerousStyleValue;
+  var keyMirror = require("npm:react@0.13.3/lib/keyMirror");
+  var ReactMultiChildUpdateTypes = keyMirror({
+    INSERT_MARKUP: null,
+    MOVE_EXISTING: null,
+    REMOVE_NODE: null,
+    TEXT_CONTENT: null
+  });
+  module.exports = ReactMultiChildUpdateTypes;
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/hyphenateStyleName", ["npm:react@0.13.3/lib/hyphenate"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/ReactChildReconciler", ["npm:react@0.13.3/lib/ReactReconciler", "npm:react@0.13.3/lib/flattenChildren", "npm:react@0.13.3/lib/instantiateReactComponent", "npm:react@0.13.3/lib/shouldUpdateReactComponent"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var ReactReconciler = require("npm:react@0.13.3/lib/ReactReconciler");
+  var flattenChildren = require("npm:react@0.13.3/lib/flattenChildren");
+  var instantiateReactComponent = require("npm:react@0.13.3/lib/instantiateReactComponent");
+  var shouldUpdateReactComponent = require("npm:react@0.13.3/lib/shouldUpdateReactComponent");
+  var ReactChildReconciler = {
+    instantiateChildren: function(nestedChildNodes, transaction, context) {
+      var children = flattenChildren(nestedChildNodes);
+      for (var name in children) {
+        if (children.hasOwnProperty(name)) {
+          var child = children[name];
+          var childInstance = instantiateReactComponent(child, null);
+          children[name] = childInstance;
+        }
+      }
+      return children;
+    },
+    updateChildren: function(prevChildren, nextNestedChildNodes, transaction, context) {
+      var nextChildren = flattenChildren(nextNestedChildNodes);
+      if (!nextChildren && !prevChildren) {
+        return null;
+      }
+      var name;
+      for (name in nextChildren) {
+        if (!nextChildren.hasOwnProperty(name)) {
+          continue;
+        }
+        var prevChild = prevChildren && prevChildren[name];
+        var prevElement = prevChild && prevChild._currentElement;
+        var nextElement = nextChildren[name];
+        if (shouldUpdateReactComponent(prevElement, nextElement)) {
+          ReactReconciler.receiveComponent(prevChild, nextElement, transaction, context);
+          nextChildren[name] = prevChild;
+        } else {
+          if (prevChild) {
+            ReactReconciler.unmountComponent(prevChild, name);
+          }
+          var nextChildInstance = instantiateReactComponent(nextElement, null);
+          nextChildren[name] = nextChildInstance;
+        }
+      }
+      for (name in prevChildren) {
+        if (prevChildren.hasOwnProperty(name) && !(nextChildren && nextChildren.hasOwnProperty(name))) {
+          ReactReconciler.unmountComponent(prevChildren[name]);
+        }
+      }
+      return nextChildren;
+    },
+    unmountChildren: function(renderedChildren) {
+      for (var name in renderedChildren) {
+        var renderedChild = renderedChildren[name];
+        ReactReconciler.unmountComponent(renderedChild);
+      }
+    }
+  };
+  module.exports = ReactChildReconciler;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/camelizeStyleName", ["npm:react@0.13.3/lib/camelize"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   "use strict";
-  var hyphenate = require("npm:react@0.13.3/lib/hyphenate");
-  var msPattern = /^ms-/;
-  function hyphenateStyleName(string) {
-    return hyphenate(string).replace(msPattern, '-ms-');
+  var camelize = require("npm:react@0.13.3/lib/camelize");
+  var msPattern = /^-ms-/;
+  function camelizeStyleName(string) {
+    return camelize(string.replace(msPattern, 'ms-'));
   }
-  module.exports = hyphenateStyleName;
+  module.exports = camelizeStyleName;
   global.define = __define;
   return module.exports;
 });
@@ -13728,18 +13784,45 @@ System.registerDynamic("npm:react@0.13.3/lib/CSSProperty", [], true, function(re
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/camelizeStyleName", ["npm:react@0.13.3/lib/camelize"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/dangerousStyleValue", ["npm:react@0.13.3/lib/CSSProperty"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
+  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
+  function dangerousStyleValue(name, value) {
+    var isEmpty = value == null || typeof value === 'boolean' || value === '';
+    if (isEmpty) {
+      return '';
+    }
+    var isNonNumeric = isNaN(value);
+    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
+      return '' + value;
+    }
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+    return value + 'px';
+  }
+  module.exports = dangerousStyleValue;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/hyphenateStyleName", ["npm:react@0.13.3/lib/hyphenate"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   "use strict";
-  var camelize = require("npm:react@0.13.3/lib/camelize");
-  var msPattern = /^-ms-/;
-  function camelizeStyleName(string) {
-    return camelize(string.replace(msPattern, 'ms-'));
+  var hyphenate = require("npm:react@0.13.3/lib/hyphenate");
+  var msPattern = /^ms-/;
+  function hyphenateStyleName(string) {
+    return hyphenate(string).replace(msPattern, '-ms-');
   }
-  module.exports = camelizeStyleName;
+  module.exports = hyphenateStyleName;
   global.define = __define;
   return module.exports;
 });
@@ -13764,85 +13847,39 @@ System.registerDynamic("npm:react@0.13.3/lib/memoizeStringOnly", [], true, funct
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/ReactChildReconciler", ["npm:react@0.13.3/lib/ReactReconciler", "npm:react@0.13.3/lib/flattenChildren", "npm:react@0.13.3/lib/instantiateReactComponent", "npm:react@0.13.3/lib/shouldUpdateReactComponent"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/getTextContentAccessor", ["npm:react@0.13.3/lib/ExecutionEnvironment"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   'use strict';
-  var ReactReconciler = require("npm:react@0.13.3/lib/ReactReconciler");
-  var flattenChildren = require("npm:react@0.13.3/lib/flattenChildren");
-  var instantiateReactComponent = require("npm:react@0.13.3/lib/instantiateReactComponent");
-  var shouldUpdateReactComponent = require("npm:react@0.13.3/lib/shouldUpdateReactComponent");
-  var ReactChildReconciler = {
-    instantiateChildren: function(nestedChildNodes, transaction, context) {
-      var children = flattenChildren(nestedChildNodes);
-      for (var name in children) {
-        if (children.hasOwnProperty(name)) {
-          var child = children[name];
-          var childInstance = instantiateReactComponent(child, null);
-          children[name] = childInstance;
-        }
-      }
-      return children;
-    },
-    updateChildren: function(prevChildren, nextNestedChildNodes, transaction, context) {
-      var nextChildren = flattenChildren(nextNestedChildNodes);
-      if (!nextChildren && !prevChildren) {
-        return null;
-      }
-      var name;
-      for (name in nextChildren) {
-        if (!nextChildren.hasOwnProperty(name)) {
-          continue;
-        }
-        var prevChild = prevChildren && prevChildren[name];
-        var prevElement = prevChild && prevChild._currentElement;
-        var nextElement = nextChildren[name];
-        if (shouldUpdateReactComponent(prevElement, nextElement)) {
-          ReactReconciler.receiveComponent(prevChild, nextElement, transaction, context);
-          nextChildren[name] = prevChild;
-        } else {
-          if (prevChild) {
-            ReactReconciler.unmountComponent(prevChild, name);
-          }
-          var nextChildInstance = instantiateReactComponent(nextElement, null);
-          nextChildren[name] = nextChildInstance;
-        }
-      }
-      for (name in prevChildren) {
-        if (prevChildren.hasOwnProperty(name) && !(nextChildren && nextChildren.hasOwnProperty(name))) {
-          ReactReconciler.unmountComponent(prevChildren[name]);
-        }
-      }
-      return nextChildren;
-    },
-    unmountChildren: function(renderedChildren) {
-      for (var name in renderedChildren) {
-        var renderedChild = renderedChildren[name];
-        ReactReconciler.unmountComponent(renderedChild);
-      }
+  var ExecutionEnvironment = require("npm:react@0.13.3/lib/ExecutionEnvironment");
+  var contentKey = null;
+  function getTextContentAccessor() {
+    if (!contentKey && ExecutionEnvironment.canUseDOM) {
+      contentKey = 'textContent' in document.documentElement ? 'textContent' : 'innerText';
     }
-  };
-  module.exports = ReactChildReconciler;
+    return contentKey;
+  }
+  module.exports = getTextContentAccessor;
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/ReactMultiChildUpdateTypes", ["npm:react@0.13.3/lib/keyMirror"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/forEachAccumulated", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   'use strict';
-  var keyMirror = require("npm:react@0.13.3/lib/keyMirror");
-  var ReactMultiChildUpdateTypes = keyMirror({
-    INSERT_MARKUP: null,
-    MOVE_EXISTING: null,
-    REMOVE_NODE: null,
-    TEXT_CONTENT: null
-  });
-  module.exports = ReactMultiChildUpdateTypes;
+  var forEachAccumulated = function(arr, cb, scope) {
+    if (Array.isArray(arr)) {
+      arr.forEach(cb, scope);
+    } else if (arr) {
+      cb.call(scope, arr);
+    }
+  };
+  module.exports = forEachAccumulated;
   global.define = __define;
   return module.exports;
 });
@@ -13877,43 +13914,6 @@ System.registerDynamic("npm:react@0.13.3/lib/accumulateInto", ["npm:react@0.13.3
     }
     module.exports = accumulateInto;
   })(require("github:jspm/nodelibs-process@0.1.2"));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/forEachAccumulated", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var forEachAccumulated = function(arr, cb, scope) {
-    if (Array.isArray(arr)) {
-      arr.forEach(cb, scope);
-    } else if (arr) {
-      cb.call(scope, arr);
-    }
-  };
-  module.exports = forEachAccumulated;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/getTextContentAccessor", ["npm:react@0.13.3/lib/ExecutionEnvironment"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var ExecutionEnvironment = require("npm:react@0.13.3/lib/ExecutionEnvironment");
-  var contentKey = null;
-  function getTextContentAccessor() {
-    if (!contentKey && ExecutionEnvironment.canUseDOM) {
-      contentKey = 'textContent' in document.documentElement ? 'textContent' : 'innerText';
-    }
-    return contentKey;
-  }
-  module.exports = getTextContentAccessor;
   global.define = __define;
   return module.exports;
 });
@@ -14062,86 +14062,6 @@ System.registerDynamic("npm:react@0.13.3/lib/setTextContent", ["npm:react@0.13.3
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/getEventKey", ["npm:react@0.13.3/lib/getEventCharCode"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var getEventCharCode = require("npm:react@0.13.3/lib/getEventCharCode");
-  var normalizeKey = {
-    'Esc': 'Escape',
-    'Spacebar': ' ',
-    'Left': 'ArrowLeft',
-    'Up': 'ArrowUp',
-    'Right': 'ArrowRight',
-    'Down': 'ArrowDown',
-    'Del': 'Delete',
-    'Win': 'OS',
-    'Menu': 'ContextMenu',
-    'Apps': 'ContextMenu',
-    'Scroll': 'ScrollLock',
-    'MozPrintableKey': 'Unidentified'
-  };
-  var translateToKey = {
-    8: 'Backspace',
-    9: 'Tab',
-    12: 'Clear',
-    13: 'Enter',
-    16: 'Shift',
-    17: 'Control',
-    18: 'Alt',
-    19: 'Pause',
-    20: 'CapsLock',
-    27: 'Escape',
-    32: ' ',
-    33: 'PageUp',
-    34: 'PageDown',
-    35: 'End',
-    36: 'Home',
-    37: 'ArrowLeft',
-    38: 'ArrowUp',
-    39: 'ArrowRight',
-    40: 'ArrowDown',
-    45: 'Insert',
-    46: 'Delete',
-    112: 'F1',
-    113: 'F2',
-    114: 'F3',
-    115: 'F4',
-    116: 'F5',
-    117: 'F6',
-    118: 'F7',
-    119: 'F8',
-    120: 'F9',
-    121: 'F10',
-    122: 'F11',
-    123: 'F12',
-    144: 'NumLock',
-    145: 'ScrollLock',
-    224: 'Meta'
-  };
-  function getEventKey(nativeEvent) {
-    if (nativeEvent.key) {
-      var key = normalizeKey[nativeEvent.key] || nativeEvent.key;
-      if (key !== 'Unidentified') {
-        return key;
-      }
-    }
-    if (nativeEvent.type === 'keypress') {
-      var charCode = getEventCharCode(nativeEvent);
-      return charCode === 13 ? 'Enter' : String.fromCharCode(charCode);
-    }
-    if (nativeEvent.type === 'keydown' || nativeEvent.type === 'keyup') {
-      return translateToKey[nativeEvent.keyCode] || 'Unidentified';
-    }
-    return '';
-  }
-  module.exports = getEventKey;
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/ReactDOMSelection", ["npm:react@0.13.3/lib/ExecutionEnvironment", "npm:react@0.13.3/lib/getNodeForCharacterOffset", "npm:react@0.13.3/lib/getTextContentAccessor"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14253,6 +14173,86 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactDOMSelection", ["npm:react@0.1
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/getEventKey", ["npm:react@0.13.3/lib/getEventCharCode"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var getEventCharCode = require("npm:react@0.13.3/lib/getEventCharCode");
+  var normalizeKey = {
+    'Esc': 'Escape',
+    'Spacebar': ' ',
+    'Left': 'ArrowLeft',
+    'Up': 'ArrowUp',
+    'Right': 'ArrowRight',
+    'Down': 'ArrowDown',
+    'Del': 'Delete',
+    'Win': 'OS',
+    'Menu': 'ContextMenu',
+    'Apps': 'ContextMenu',
+    'Scroll': 'ScrollLock',
+    'MozPrintableKey': 'Unidentified'
+  };
+  var translateToKey = {
+    8: 'Backspace',
+    9: 'Tab',
+    12: 'Clear',
+    13: 'Enter',
+    16: 'Shift',
+    17: 'Control',
+    18: 'Alt',
+    19: 'Pause',
+    20: 'CapsLock',
+    27: 'Escape',
+    32: ' ',
+    33: 'PageUp',
+    34: 'PageDown',
+    35: 'End',
+    36: 'Home',
+    37: 'ArrowLeft',
+    38: 'ArrowUp',
+    39: 'ArrowRight',
+    40: 'ArrowDown',
+    45: 'Insert',
+    46: 'Delete',
+    112: 'F1',
+    113: 'F2',
+    114: 'F3',
+    115: 'F4',
+    116: 'F5',
+    117: 'F6',
+    118: 'F7',
+    119: 'F8',
+    120: 'F9',
+    121: 'F10',
+    122: 'F11',
+    123: 'F12',
+    144: 'NumLock',
+    145: 'ScrollLock',
+    224: 'Meta'
+  };
+  function getEventKey(nativeEvent) {
+    if (nativeEvent.key) {
+      var key = normalizeKey[nativeEvent.key] || nativeEvent.key;
+      if (key !== 'Unidentified') {
+        return key;
+      }
+    }
+    if (nativeEvent.type === 'keypress') {
+      var charCode = getEventCharCode(nativeEvent);
+      return charCode === 13 ? 'Enter' : String.fromCharCode(charCode);
+    }
+    if (nativeEvent.type === 'keydown' || nativeEvent.type === 'keyup') {
+      return translateToKey[nativeEvent.keyCode] || 'Unidentified';
+    }
+    return '';
+  }
+  module.exports = getEventKey;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/performance", ["npm:react@0.13.3/lib/ExecutionEnvironment"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14269,16 +14269,35 @@ System.registerDynamic("npm:react@0.13.3/lib/performance", ["npm:react@0.13.3/li
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/hyphenate", [], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/flattenChildren", ["npm:react@0.13.3/lib/traverseAllChildren", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var _uppercasePattern = /([A-Z])/g;
-  function hyphenate(string) {
-    return string.replace(_uppercasePattern, '-$1').toLowerCase();
-  }
-  module.exports = hyphenate;
+  (function(process) {
+    'use strict';
+    var traverseAllChildren = require("npm:react@0.13.3/lib/traverseAllChildren");
+    var warning = require("npm:react@0.13.3/lib/warning");
+    function flattenSingleChildIntoContext(traverseContext, child, name) {
+      var result = traverseContext;
+      var keyUnique = !result.hasOwnProperty(name);
+      if ("production" !== process.env.NODE_ENV) {
+        ("production" !== process.env.NODE_ENV ? warning(keyUnique, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.', name) : null);
+      }
+      if (keyUnique && child != null) {
+        result[name] = child;
+      }
+    }
+    function flattenChildren(children) {
+      if (children == null) {
+        return children;
+      }
+      var result = {};
+      traverseAllChildren(children, flattenSingleChildIntoContext, result);
+      return result;
+    }
+    module.exports = flattenChildren;
+  })(require("github:jspm/nodelibs-process@0.1.2"));
   global.define = __define;
   return module.exports;
 });
@@ -14295,6 +14314,20 @@ System.registerDynamic("npm:react@0.13.3/lib/camelize", [], true, function(requi
     });
   }
   module.exports = camelize;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/hyphenate", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _uppercasePattern = /([A-Z])/g;
+  function hyphenate(string) {
+    return string.replace(_uppercasePattern, '-$1').toLowerCase();
+  }
+  module.exports = hyphenate;
   global.define = __define;
   return module.exports;
 });
@@ -14427,39 +14460,6 @@ System.registerDynamic("npm:react@0.13.3/lib/getMarkupWrap", ["npm:react@0.13.3/
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/flattenChildren", ["npm:react@0.13.3/lib/traverseAllChildren", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var traverseAllChildren = require("npm:react@0.13.3/lib/traverseAllChildren");
-    var warning = require("npm:react@0.13.3/lib/warning");
-    function flattenSingleChildIntoContext(traverseContext, child, name) {
-      var result = traverseContext;
-      var keyUnique = !result.hasOwnProperty(name);
-      if ("production" !== process.env.NODE_ENV) {
-        ("production" !== process.env.NODE_ENV ? warning(keyUnique, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.', name) : null);
-      }
-      if (keyUnique && child != null) {
-        result[name] = child;
-      }
-    }
-    function flattenChildren(children) {
-      if (children == null) {
-        return children;
-      }
-      var result = {};
-      traverseAllChildren(children, flattenSingleChildIntoContext, result);
-      return result;
-    }
-    module.exports = flattenChildren;
-  })(require("github:jspm/nodelibs-process@0.1.2"));
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/getNodeForCharacterOffset", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14571,6 +14571,133 @@ System.registerDynamic("npm:masonry-layout@3.3.2", ["npm:masonry-layout@3.3.2/ma
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:masonry-layout@3.3.2/masonry");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:masonry-layout@3.3.2/masonry", ["npm:outlayer@1.4.2", "npm:get-size@1.2.2", "npm:fizzy-ui-utils@1.0.1"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  (function(window, factory) {
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
+      define(['outlayer/outlayer', 'get-size/get-size', 'fizzy-ui-utils/utils'], factory);
+    } else if (typeof exports === 'object') {
+      module.exports = factory(require("npm:outlayer@1.4.2"), require("npm:get-size@1.2.2"), require("npm:fizzy-ui-utils@1.0.1"));
+    } else {
+      window.Masonry = factory(window.Outlayer, window.getSize, window.fizzyUIUtils);
+    }
+  }(window, function factory(Outlayer, getSize, utils) {
+    'use strict';
+    var Masonry = Outlayer.create('masonry');
+    Masonry.prototype._resetLayout = function() {
+      this.getSize();
+      this._getMeasurement('columnWidth', 'outerWidth');
+      this._getMeasurement('gutter', 'outerWidth');
+      this.measureColumns();
+      var i = this.cols;
+      this.colYs = [];
+      while (i--) {
+        this.colYs.push(0);
+      }
+      this.maxY = 0;
+    };
+    Masonry.prototype.measureColumns = function() {
+      this.getContainerWidth();
+      if (!this.columnWidth) {
+        var firstItem = this.items[0];
+        var firstItemElem = firstItem && firstItem.element;
+        this.columnWidth = firstItemElem && getSize(firstItemElem).outerWidth || this.containerWidth;
+      }
+      var columnWidth = this.columnWidth += this.gutter;
+      var containerWidth = this.containerWidth + this.gutter;
+      var cols = containerWidth / columnWidth;
+      var excess = columnWidth - containerWidth % columnWidth;
+      var mathMethod = excess && excess < 1 ? 'round' : 'floor';
+      cols = Math[mathMethod](cols);
+      this.cols = Math.max(cols, 1);
+    };
+    Masonry.prototype.getContainerWidth = function() {
+      var container = this.options.isFitWidth ? this.element.parentNode : this.element;
+      var size = getSize(container);
+      this.containerWidth = size && size.innerWidth;
+    };
+    Masonry.prototype._getItemLayoutPosition = function(item) {
+      item.getSize();
+      var remainder = item.size.outerWidth % this.columnWidth;
+      var mathMethod = remainder && remainder < 1 ? 'round' : 'ceil';
+      var colSpan = Math[mathMethod](item.size.outerWidth / this.columnWidth);
+      colSpan = Math.min(colSpan, this.cols);
+      var colGroup = this._getColGroup(colSpan);
+      var minimumY = Math.min.apply(Math, colGroup);
+      var shortColIndex = utils.indexOf(colGroup, minimumY);
+      var position = {
+        x: this.columnWidth * shortColIndex,
+        y: minimumY
+      };
+      var setHeight = minimumY + item.size.outerHeight;
+      var setSpan = this.cols + 1 - colGroup.length;
+      for (var i = 0; i < setSpan; i++) {
+        this.colYs[shortColIndex + i] = setHeight;
+      }
+      return position;
+    };
+    Masonry.prototype._getColGroup = function(colSpan) {
+      if (colSpan < 2) {
+        return this.colYs;
+      }
+      var colGroup = [];
+      var groupCount = this.cols + 1 - colSpan;
+      for (var i = 0; i < groupCount; i++) {
+        var groupColYs = this.colYs.slice(i, i + colSpan);
+        colGroup[i] = Math.max.apply(Math, groupColYs);
+      }
+      return colGroup;
+    };
+    Masonry.prototype._manageStamp = function(stamp) {
+      var stampSize = getSize(stamp);
+      var offset = this._getElementOffset(stamp);
+      var firstX = this.options.isOriginLeft ? offset.left : offset.right;
+      var lastX = firstX + stampSize.outerWidth;
+      var firstCol = Math.floor(firstX / this.columnWidth);
+      firstCol = Math.max(0, firstCol);
+      var lastCol = Math.floor(lastX / this.columnWidth);
+      lastCol -= lastX % this.columnWidth ? 0 : 1;
+      lastCol = Math.min(this.cols - 1, lastCol);
+      var stampMaxY = (this.options.isOriginTop ? offset.top : offset.bottom) + stampSize.outerHeight;
+      for (var i = firstCol; i <= lastCol; i++) {
+        this.colYs[i] = Math.max(stampMaxY, this.colYs[i]);
+      }
+    };
+    Masonry.prototype._getContainerSize = function() {
+      this.maxY = Math.max.apply(Math, this.colYs);
+      var size = {height: this.maxY};
+      if (this.options.isFitWidth) {
+        size.width = this._getContainerFitWidth();
+      }
+      return size;
+    };
+    Masonry.prototype._getContainerFitWidth = function() {
+      var unusedCols = 0;
+      var i = this.cols;
+      while (--i) {
+        if (this.colYs[i] !== 0) {
+          break;
+        }
+        unusedCols++;
+      }
+      return (this.cols - unusedCols) * this.columnWidth - this.gutter;
+    };
+    Masonry.prototype.needsResizeLayout = function() {
+      var previousWidth = this.containerWidth;
+      this.getContainerWidth();
+      return previousWidth !== this.containerWidth;
+    };
+    return Masonry;
+  }));
   global.define = __define;
   return module.exports;
 });
@@ -14797,143 +14924,6 @@ System.registerDynamic("npm:events@1.0.2/events", [], true, function(require, ex
   return module.exports;
 });
 
-System.registerDynamic("npm:masonry-layout@3.3.2/masonry", ["npm:outlayer@1.4.2", "npm:get-size@1.2.2", "npm:fizzy-ui-utils@1.0.1"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  "format cjs";
-  (function(window, factory) {
-    'use strict';
-    if (typeof define === 'function' && define.amd) {
-      define(['outlayer/outlayer', 'get-size/get-size', 'fizzy-ui-utils/utils'], factory);
-    } else if (typeof exports === 'object') {
-      module.exports = factory(require("npm:outlayer@1.4.2"), require("npm:get-size@1.2.2"), require("npm:fizzy-ui-utils@1.0.1"));
-    } else {
-      window.Masonry = factory(window.Outlayer, window.getSize, window.fizzyUIUtils);
-    }
-  }(window, function factory(Outlayer, getSize, utils) {
-    'use strict';
-    var Masonry = Outlayer.create('masonry');
-    Masonry.prototype._resetLayout = function() {
-      this.getSize();
-      this._getMeasurement('columnWidth', 'outerWidth');
-      this._getMeasurement('gutter', 'outerWidth');
-      this.measureColumns();
-      var i = this.cols;
-      this.colYs = [];
-      while (i--) {
-        this.colYs.push(0);
-      }
-      this.maxY = 0;
-    };
-    Masonry.prototype.measureColumns = function() {
-      this.getContainerWidth();
-      if (!this.columnWidth) {
-        var firstItem = this.items[0];
-        var firstItemElem = firstItem && firstItem.element;
-        this.columnWidth = firstItemElem && getSize(firstItemElem).outerWidth || this.containerWidth;
-      }
-      var columnWidth = this.columnWidth += this.gutter;
-      var containerWidth = this.containerWidth + this.gutter;
-      var cols = containerWidth / columnWidth;
-      var excess = columnWidth - containerWidth % columnWidth;
-      var mathMethod = excess && excess < 1 ? 'round' : 'floor';
-      cols = Math[mathMethod](cols);
-      this.cols = Math.max(cols, 1);
-    };
-    Masonry.prototype.getContainerWidth = function() {
-      var container = this.options.isFitWidth ? this.element.parentNode : this.element;
-      var size = getSize(container);
-      this.containerWidth = size && size.innerWidth;
-    };
-    Masonry.prototype._getItemLayoutPosition = function(item) {
-      item.getSize();
-      var remainder = item.size.outerWidth % this.columnWidth;
-      var mathMethod = remainder && remainder < 1 ? 'round' : 'ceil';
-      var colSpan = Math[mathMethod](item.size.outerWidth / this.columnWidth);
-      colSpan = Math.min(colSpan, this.cols);
-      var colGroup = this._getColGroup(colSpan);
-      var minimumY = Math.min.apply(Math, colGroup);
-      var shortColIndex = utils.indexOf(colGroup, minimumY);
-      var position = {
-        x: this.columnWidth * shortColIndex,
-        y: minimumY
-      };
-      var setHeight = minimumY + item.size.outerHeight;
-      var setSpan = this.cols + 1 - colGroup.length;
-      for (var i = 0; i < setSpan; i++) {
-        this.colYs[shortColIndex + i] = setHeight;
-      }
-      return position;
-    };
-    Masonry.prototype._getColGroup = function(colSpan) {
-      if (colSpan < 2) {
-        return this.colYs;
-      }
-      var colGroup = [];
-      var groupCount = this.cols + 1 - colSpan;
-      for (var i = 0; i < groupCount; i++) {
-        var groupColYs = this.colYs.slice(i, i + colSpan);
-        colGroup[i] = Math.max.apply(Math, groupColYs);
-      }
-      return colGroup;
-    };
-    Masonry.prototype._manageStamp = function(stamp) {
-      var stampSize = getSize(stamp);
-      var offset = this._getElementOffset(stamp);
-      var firstX = this.options.isOriginLeft ? offset.left : offset.right;
-      var lastX = firstX + stampSize.outerWidth;
-      var firstCol = Math.floor(firstX / this.columnWidth);
-      firstCol = Math.max(0, firstCol);
-      var lastCol = Math.floor(lastX / this.columnWidth);
-      lastCol -= lastX % this.columnWidth ? 0 : 1;
-      lastCol = Math.min(this.cols - 1, lastCol);
-      var stampMaxY = (this.options.isOriginTop ? offset.top : offset.bottom) + stampSize.outerHeight;
-      for (var i = firstCol; i <= lastCol; i++) {
-        this.colYs[i] = Math.max(stampMaxY, this.colYs[i]);
-      }
-    };
-    Masonry.prototype._getContainerSize = function() {
-      this.maxY = Math.max.apply(Math, this.colYs);
-      var size = {height: this.maxY};
-      if (this.options.isFitWidth) {
-        size.width = this._getContainerFitWidth();
-      }
-      return size;
-    };
-    Masonry.prototype._getContainerFitWidth = function() {
-      var unusedCols = 0;
-      var i = this.cols;
-      while (--i) {
-        if (this.colYs[i] !== 0) {
-          break;
-        }
-        unusedCols++;
-      }
-      return (this.cols - unusedCols) * this.columnWidth - this.gutter;
-    };
-    Masonry.prototype.needsResizeLayout = function() {
-      var previousWidth = this.containerWidth;
-      this.getContainerWidth();
-      return previousWidth !== this.containerWidth;
-    };
-    return Masonry;
-  }));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:lazyloadjs@3.2.1", ["npm:lazyloadjs@3.2.1/lazyload"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:lazyloadjs@3.2.1/lazyload");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:picturefill@2.3.1", ["npm:picturefill@2.3.1/dist/picturefill"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14957,12 +14947,12 @@ System.registerDynamic("npm:babel-runtime@5.8.20/core-js/object/assign", ["npm:c
   return module.exports;
 });
 
-System.registerDynamic("npm:outlayer@1.4.2", ["npm:outlayer@1.4.2/outlayer"], true, function(require, exports, module) {
+System.registerDynamic("npm:lazyloadjs@3.2.1", ["npm:lazyloadjs@3.2.1/lazyload"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = require("npm:outlayer@1.4.2/outlayer");
+  module.exports = require("npm:lazyloadjs@3.2.1/lazyload");
   global.define = __define;
   return module.exports;
 });
@@ -14977,100 +14967,22 @@ System.registerDynamic("npm:get-size@1.2.2", ["npm:get-size@1.2.2/get-size"], tr
   return module.exports;
 });
 
+System.registerDynamic("npm:outlayer@1.4.2", ["npm:outlayer@1.4.2/outlayer"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:outlayer@1.4.2/outlayer");
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:fizzy-ui-utils@1.0.1", ["npm:fizzy-ui-utils@1.0.1/utils"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:fizzy-ui-utils@1.0.1/utils");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:lazyloadjs@3.2.1/lazyload", ["npm:in-viewport@3.4.0"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = lazyload;
-  var inViewport = require("npm:in-viewport@3.4.0");
-  var lazyAttrs = ['data-src'];
-  global.lzld = lazyload();
-  replaceGetAttribute('Image');
-  replaceGetAttribute('IFrame');
-  function registerLazyAttr(attr) {
-    if (indexOf.call(lazyAttrs, attr) === -1) {
-      lazyAttrs.push(attr);
-    }
-  }
-  function lazyload(opts) {
-    opts = merge({
-      'offset': 333,
-      'src': 'data-src',
-      'container': false
-    }, opts || {});
-    if (typeof opts.src === 'string') {
-      registerLazyAttr(opts.src);
-    }
-    var elts = [];
-    function show(elt) {
-      var src = findRealSrc(elt);
-      if (src) {
-        elt.src = src;
-      }
-      elt.setAttribute('data-lzled', true);
-      elts[indexOf.call(elts, elt)] = null;
-    }
-    function findRealSrc(elt) {
-      if (typeof opts.src === 'function') {
-        return opts.src(elt);
-      }
-      return elt.getAttribute(opts.src);
-    }
-    function register(elt) {
-      elt.onload = null;
-      elt.removeAttribute('onload');
-      elt.onerror = null;
-      elt.removeAttribute('onerror');
-      if (indexOf.call(elts, elt) === -1) {
-        inViewport(elt, opts, show);
-      }
-    }
-    return register;
-  }
-  function replaceGetAttribute(elementName) {
-    var fullname = 'HTML' + elementName + 'Element';
-    if (fullname in global === false) {
-      return;
-    }
-    var original = global[fullname].prototype.getAttribute;
-    global[fullname].prototype.getAttribute = function(name) {
-      if (name === 'src') {
-        var realSrc;
-        for (var i = 0,
-            max = lazyAttrs.length; i < max; i++) {
-          realSrc = original.call(this, lazyAttrs[i]);
-          if (realSrc) {
-            break;
-          }
-        }
-        return realSrc || original.call(this, name);
-      }
-      return original.call(this, name);
-    };
-  }
-  function merge(defaults, opts) {
-    for (var name in defaults) {
-      if (opts[name] === undefined) {
-        opts[name] = defaults[name];
-      }
-    }
-    return opts;
-  }
-  function indexOf(value) {
-    for (var i = this.length; i-- && this[i] !== value; ) {}
-    return i;
-  }
   global.define = __define;
   return module.exports;
 });
@@ -15563,6 +15475,246 @@ System.registerDynamic("npm:core-js@1.1.4/library/fn/object/assign", ["npm:core-
   global.define = undefined;
   require("npm:core-js@1.1.4/library/modules/es6.object.assign");
   module.exports = require("npm:core-js@1.1.4/library/modules/$.core").Object.assign;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:lazyloadjs@3.2.1/lazyload", ["npm:in-viewport@3.4.0"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = lazyload;
+  var inViewport = require("npm:in-viewport@3.4.0");
+  var lazyAttrs = ['data-src'];
+  global.lzld = lazyload();
+  replaceGetAttribute('Image');
+  replaceGetAttribute('IFrame');
+  function registerLazyAttr(attr) {
+    if (indexOf.call(lazyAttrs, attr) === -1) {
+      lazyAttrs.push(attr);
+    }
+  }
+  function lazyload(opts) {
+    opts = merge({
+      'offset': 333,
+      'src': 'data-src',
+      'container': false
+    }, opts || {});
+    if (typeof opts.src === 'string') {
+      registerLazyAttr(opts.src);
+    }
+    var elts = [];
+    function show(elt) {
+      var src = findRealSrc(elt);
+      if (src) {
+        elt.src = src;
+      }
+      elt.setAttribute('data-lzled', true);
+      elts[indexOf.call(elts, elt)] = null;
+    }
+    function findRealSrc(elt) {
+      if (typeof opts.src === 'function') {
+        return opts.src(elt);
+      }
+      return elt.getAttribute(opts.src);
+    }
+    function register(elt) {
+      elt.onload = null;
+      elt.removeAttribute('onload');
+      elt.onerror = null;
+      elt.removeAttribute('onerror');
+      if (indexOf.call(elts, elt) === -1) {
+        inViewport(elt, opts, show);
+      }
+    }
+    return register;
+  }
+  function replaceGetAttribute(elementName) {
+    var fullname = 'HTML' + elementName + 'Element';
+    if (fullname in global === false) {
+      return;
+    }
+    var original = global[fullname].prototype.getAttribute;
+    global[fullname].prototype.getAttribute = function(name) {
+      if (name === 'src') {
+        var realSrc;
+        for (var i = 0,
+            max = lazyAttrs.length; i < max; i++) {
+          realSrc = original.call(this, lazyAttrs[i]);
+          if (realSrc) {
+            break;
+          }
+        }
+        return realSrc || original.call(this, name);
+      }
+      return original.call(this, name);
+    };
+  }
+  function merge(defaults, opts) {
+    for (var name in defaults) {
+      if (opts[name] === undefined) {
+        opts[name] = defaults[name];
+      }
+    }
+    return opts;
+  }
+  function indexOf(value) {
+    for (var i = this.length; i-- && this[i] !== value; ) {}
+    return i;
+  }
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:get-size@1.2.2/get-size", ["npm:desandro-get-style-property@1.0.4"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  (function(window, undefined) {
+    'use strict';
+    function getStyleSize(value) {
+      var num = parseFloat(value);
+      var isValid = value.indexOf('%') === -1 && !isNaN(num);
+      return isValid && num;
+    }
+    function noop() {}
+    var logError = typeof console === 'undefined' ? noop : function(message) {
+      console.error(message);
+    };
+    var measurements = ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'marginLeft', 'marginRight', 'marginTop', 'marginBottom', 'borderLeftWidth', 'borderRightWidth', 'borderTopWidth', 'borderBottomWidth'];
+    function getZeroSize() {
+      var size = {
+        width: 0,
+        height: 0,
+        innerWidth: 0,
+        innerHeight: 0,
+        outerWidth: 0,
+        outerHeight: 0
+      };
+      for (var i = 0,
+          len = measurements.length; i < len; i++) {
+        var measurement = measurements[i];
+        size[measurement] = 0;
+      }
+      return size;
+    }
+    function defineGetSize(getStyleProperty) {
+      var isSetup = false;
+      var getStyle,
+          boxSizingProp,
+          isBoxSizeOuter;
+      function setup() {
+        if (isSetup) {
+          return;
+        }
+        isSetup = true;
+        var getComputedStyle = window.getComputedStyle;
+        getStyle = (function() {
+          var getStyleFn = getComputedStyle ? function(elem) {
+            return getComputedStyle(elem, null);
+          } : function(elem) {
+            return elem.currentStyle;
+          };
+          return function getStyle(elem) {
+            var style = getStyleFn(elem);
+            if (!style) {
+              logError('Style returned ' + style + '. Are you running this code in a hidden iframe on Firefox? ' + 'See http://bit.ly/getsizebug1');
+            }
+            return style;
+          };
+        })();
+        boxSizingProp = getStyleProperty('boxSizing');
+        if (boxSizingProp) {
+          var div = document.createElement('div');
+          div.style.width = '200px';
+          div.style.padding = '1px 2px 3px 4px';
+          div.style.borderStyle = 'solid';
+          div.style.borderWidth = '1px 2px 3px 4px';
+          div.style[boxSizingProp] = 'border-box';
+          var body = document.body || document.documentElement;
+          body.appendChild(div);
+          var style = getStyle(div);
+          isBoxSizeOuter = getStyleSize(style.width) === 200;
+          body.removeChild(div);
+        }
+      }
+      function getSize(elem) {
+        setup();
+        if (typeof elem === 'string') {
+          elem = document.querySelector(elem);
+        }
+        if (!elem || typeof elem !== 'object' || !elem.nodeType) {
+          return;
+        }
+        var style = getStyle(elem);
+        if (style.display === 'none') {
+          return getZeroSize();
+        }
+        var size = {};
+        size.width = elem.offsetWidth;
+        size.height = elem.offsetHeight;
+        var isBorderBox = size.isBorderBox = !!(boxSizingProp && style[boxSizingProp] && style[boxSizingProp] === 'border-box');
+        for (var i = 0,
+            len = measurements.length; i < len; i++) {
+          var measurement = measurements[i];
+          var value = style[measurement];
+          value = mungeNonPixel(elem, value);
+          var num = parseFloat(value);
+          size[measurement] = !isNaN(num) ? num : 0;
+        }
+        var paddingWidth = size.paddingLeft + size.paddingRight;
+        var paddingHeight = size.paddingTop + size.paddingBottom;
+        var marginWidth = size.marginLeft + size.marginRight;
+        var marginHeight = size.marginTop + size.marginBottom;
+        var borderWidth = size.borderLeftWidth + size.borderRightWidth;
+        var borderHeight = size.borderTopWidth + size.borderBottomWidth;
+        var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
+        var styleWidth = getStyleSize(style.width);
+        if (styleWidth !== false) {
+          size.width = styleWidth + (isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth);
+        }
+        var styleHeight = getStyleSize(style.height);
+        if (styleHeight !== false) {
+          size.height = styleHeight + (isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight);
+        }
+        size.innerWidth = size.width - (paddingWidth + borderWidth);
+        size.innerHeight = size.height - (paddingHeight + borderHeight);
+        size.outerWidth = size.width + marginWidth;
+        size.outerHeight = size.height + marginHeight;
+        return size;
+      }
+      function mungeNonPixel(elem, value) {
+        if (window.getComputedStyle || value.indexOf('%') === -1) {
+          return value;
+        }
+        var style = elem.style;
+        var left = style.left;
+        var rs = elem.runtimeStyle;
+        var rsLeft = rs && rs.left;
+        if (rsLeft) {
+          rs.left = elem.currentStyle.left;
+        }
+        style.left = value;
+        value = style.pixelLeft;
+        style.left = left;
+        if (rsLeft) {
+          rs.left = rsLeft;
+        }
+        return value;
+      }
+      return getSize;
+    }
+    if (typeof define === 'function' && define.amd) {
+      define(['get-style-property/get-style-property'], defineGetSize);
+    } else if (typeof exports === 'object') {
+      module.exports = defineGetSize(require("npm:desandro-get-style-property@1.0.4"));
+    } else {
+      window.getSize = defineGetSize(window.getStyleProperty);
+    }
+  })(window);
   global.define = __define;
   return module.exports;
 });
@@ -16076,158 +16228,6 @@ System.registerDynamic("npm:outlayer@1.4.2/outlayer", ["npm:eventie@1.0.6", "npm
   return module.exports;
 });
 
-System.registerDynamic("npm:get-size@1.2.2/get-size", ["npm:desandro-get-style-property@1.0.4"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  "format cjs";
-  (function(window, undefined) {
-    'use strict';
-    function getStyleSize(value) {
-      var num = parseFloat(value);
-      var isValid = value.indexOf('%') === -1 && !isNaN(num);
-      return isValid && num;
-    }
-    function noop() {}
-    var logError = typeof console === 'undefined' ? noop : function(message) {
-      console.error(message);
-    };
-    var measurements = ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'marginLeft', 'marginRight', 'marginTop', 'marginBottom', 'borderLeftWidth', 'borderRightWidth', 'borderTopWidth', 'borderBottomWidth'];
-    function getZeroSize() {
-      var size = {
-        width: 0,
-        height: 0,
-        innerWidth: 0,
-        innerHeight: 0,
-        outerWidth: 0,
-        outerHeight: 0
-      };
-      for (var i = 0,
-          len = measurements.length; i < len; i++) {
-        var measurement = measurements[i];
-        size[measurement] = 0;
-      }
-      return size;
-    }
-    function defineGetSize(getStyleProperty) {
-      var isSetup = false;
-      var getStyle,
-          boxSizingProp,
-          isBoxSizeOuter;
-      function setup() {
-        if (isSetup) {
-          return;
-        }
-        isSetup = true;
-        var getComputedStyle = window.getComputedStyle;
-        getStyle = (function() {
-          var getStyleFn = getComputedStyle ? function(elem) {
-            return getComputedStyle(elem, null);
-          } : function(elem) {
-            return elem.currentStyle;
-          };
-          return function getStyle(elem) {
-            var style = getStyleFn(elem);
-            if (!style) {
-              logError('Style returned ' + style + '. Are you running this code in a hidden iframe on Firefox? ' + 'See http://bit.ly/getsizebug1');
-            }
-            return style;
-          };
-        })();
-        boxSizingProp = getStyleProperty('boxSizing');
-        if (boxSizingProp) {
-          var div = document.createElement('div');
-          div.style.width = '200px';
-          div.style.padding = '1px 2px 3px 4px';
-          div.style.borderStyle = 'solid';
-          div.style.borderWidth = '1px 2px 3px 4px';
-          div.style[boxSizingProp] = 'border-box';
-          var body = document.body || document.documentElement;
-          body.appendChild(div);
-          var style = getStyle(div);
-          isBoxSizeOuter = getStyleSize(style.width) === 200;
-          body.removeChild(div);
-        }
-      }
-      function getSize(elem) {
-        setup();
-        if (typeof elem === 'string') {
-          elem = document.querySelector(elem);
-        }
-        if (!elem || typeof elem !== 'object' || !elem.nodeType) {
-          return;
-        }
-        var style = getStyle(elem);
-        if (style.display === 'none') {
-          return getZeroSize();
-        }
-        var size = {};
-        size.width = elem.offsetWidth;
-        size.height = elem.offsetHeight;
-        var isBorderBox = size.isBorderBox = !!(boxSizingProp && style[boxSizingProp] && style[boxSizingProp] === 'border-box');
-        for (var i = 0,
-            len = measurements.length; i < len; i++) {
-          var measurement = measurements[i];
-          var value = style[measurement];
-          value = mungeNonPixel(elem, value);
-          var num = parseFloat(value);
-          size[measurement] = !isNaN(num) ? num : 0;
-        }
-        var paddingWidth = size.paddingLeft + size.paddingRight;
-        var paddingHeight = size.paddingTop + size.paddingBottom;
-        var marginWidth = size.marginLeft + size.marginRight;
-        var marginHeight = size.marginTop + size.marginBottom;
-        var borderWidth = size.borderLeftWidth + size.borderRightWidth;
-        var borderHeight = size.borderTopWidth + size.borderBottomWidth;
-        var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
-        var styleWidth = getStyleSize(style.width);
-        if (styleWidth !== false) {
-          size.width = styleWidth + (isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth);
-        }
-        var styleHeight = getStyleSize(style.height);
-        if (styleHeight !== false) {
-          size.height = styleHeight + (isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight);
-        }
-        size.innerWidth = size.width - (paddingWidth + borderWidth);
-        size.innerHeight = size.height - (paddingHeight + borderHeight);
-        size.outerWidth = size.width + marginWidth;
-        size.outerHeight = size.height + marginHeight;
-        return size;
-      }
-      function mungeNonPixel(elem, value) {
-        if (window.getComputedStyle || value.indexOf('%') === -1) {
-          return value;
-        }
-        var style = elem.style;
-        var left = style.left;
-        var rs = elem.runtimeStyle;
-        var rsLeft = rs && rs.left;
-        if (rsLeft) {
-          rs.left = elem.currentStyle.left;
-        }
-        style.left = value;
-        value = style.pixelLeft;
-        style.left = left;
-        if (rsLeft) {
-          rs.left = rsLeft;
-        }
-        return value;
-      }
-      return getSize;
-    }
-    if (typeof define === 'function' && define.amd) {
-      define(['get-style-property/get-style-property'], defineGetSize);
-    } else if (typeof exports === 'object') {
-      module.exports = defineGetSize(require("npm:desandro-get-style-property@1.0.4"));
-    } else {
-      window.getSize = defineGetSize(window.getStyleProperty);
-    }
-  })(window);
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:fizzy-ui-utils@1.0.1/utils", ["npm:doc-ready@1.0.3", "npm:desandro-matches-selector@1.0.3"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16403,16 +16403,6 @@ System.registerDynamic("npm:fizzy-ui-utils@1.0.1/utils", ["npm:doc-ready@1.0.3",
   return module.exports;
 });
 
-System.registerDynamic("npm:in-viewport@3.4.0", ["npm:in-viewport@3.4.0/in-viewport"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:in-viewport@3.4.0/in-viewport");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:core-js@1.1.4/library/modules/es6.object.assign", ["npm:core-js@1.1.4/library/modules/$.def", "npm:core-js@1.1.4/library/modules/$.assign"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16432,6 +16422,36 @@ System.registerDynamic("npm:core-js@1.1.4/library/modules/$.core", [], true, fun
   var core = module.exports = {};
   if (typeof __e == 'number')
     __e = core;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:in-viewport@3.4.0", ["npm:in-viewport@3.4.0/in-viewport"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:in-viewport@3.4.0/in-viewport");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:wolfy87-eventemitter@4.2.11", ["npm:wolfy87-eventemitter@4.2.11/EventEmitter"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:wolfy87-eventemitter@4.2.11/EventEmitter");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:desandro-get-style-property@1.0.4", ["npm:desandro-get-style-property@1.0.4/get-style-property"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:desandro-get-style-property@1.0.4/get-style-property");
   global.define = __define;
   return module.exports;
 });
@@ -16805,26 +16825,6 @@ System.registerDynamic("npm:outlayer@1.4.2/item", ["npm:wolfy87-eventemitter@4.2
   return module.exports;
 });
 
-System.registerDynamic("npm:wolfy87-eventemitter@4.2.11", ["npm:wolfy87-eventemitter@4.2.11/EventEmitter"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:wolfy87-eventemitter@4.2.11/EventEmitter");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:desandro-get-style-property@1.0.4", ["npm:desandro-get-style-property@1.0.4/get-style-property"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:desandro-get-style-property@1.0.4/get-style-property");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:doc-ready@1.0.3", ["npm:doc-ready@1.0.3/doc-ready"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16841,6 +16841,93 @@ System.registerDynamic("npm:desandro-matches-selector@1.0.3", ["npm:desandro-mat
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:desandro-matches-selector@1.0.3/matches-selector");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.def", ["npm:core-js@1.1.4/library/modules/$.global", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var global = require("npm:core-js@1.1.4/library/modules/$.global"),
+      core = require("npm:core-js@1.1.4/library/modules/$.core"),
+      PROTOTYPE = 'prototype';
+  var ctx = function(fn, that) {
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  };
+  var $def = function(type, name, source) {
+    var key,
+        own,
+        out,
+        exp,
+        isGlobal = type & $def.G,
+        isProto = type & $def.P,
+        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {})[PROTOTYPE],
+        exports = isGlobal ? core : core[name] || (core[name] = {});
+    if (isGlobal)
+      source = name;
+    for (key in source) {
+      own = !(type & $def.F) && target && key in target;
+      if (own && key in exports)
+        continue;
+      out = own ? target[key] : source[key];
+      if (isGlobal && typeof target[key] != 'function')
+        exp = source[key];
+      else if (type & $def.B && own)
+        exp = ctx(out, global);
+      else if (type & $def.W && target[key] == out)
+        !function(C) {
+          exp = function(param) {
+            return this instanceof C ? new C(param) : C(param);
+          };
+          exp[PROTOTYPE] = C[PROTOTYPE];
+        }(out);
+      else
+        exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
+      exports[key] = exp;
+      if (isProto)
+        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+    }
+  };
+  $def.F = 1;
+  $def.G = 2;
+  $def.S = 4;
+  $def.P = 8;
+  $def.B = 16;
+  $def.W = 32;
+  module.exports = $def;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.assign", ["npm:core-js@1.1.4/library/modules/$.to-object", "npm:core-js@1.1.4/library/modules/$.iobject", "npm:core-js@1.1.4/library/modules/$.enum-keys", "npm:core-js@1.1.4/library/modules/$.fails"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var toObject = require("npm:core-js@1.1.4/library/modules/$.to-object"),
+      IObject = require("npm:core-js@1.1.4/library/modules/$.iobject"),
+      enumKeys = require("npm:core-js@1.1.4/library/modules/$.enum-keys");
+  module.exports = require("npm:core-js@1.1.4/library/modules/$.fails")(function() {
+    return Symbol() in Object.assign({});
+  }) ? function assign(target, source) {
+    var T = toObject(target),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = IObject(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  } : Object.assign;
   global.define = __define;
   return module.exports;
 });
@@ -17048,148 +17135,41 @@ System.registerDynamic("npm:in-viewport@3.4.0/in-viewport", [], true, function(r
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.def", ["npm:core-js@1.1.4/library/modules/$.global", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+System.registerDynamic("npm:desandro-get-style-property@1.0.4/get-style-property", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var global = require("npm:core-js@1.1.4/library/modules/$.global"),
-      core = require("npm:core-js@1.1.4/library/modules/$.core"),
-      PROTOTYPE = 'prototype';
-  var ctx = function(fn, that) {
-    return function() {
-      return fn.apply(that, arguments);
-    };
-  };
-  var $def = function(type, name, source) {
-    var key,
-        own,
-        out,
-        exp,
-        isGlobal = type & $def.G,
-        isProto = type & $def.P,
-        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {})[PROTOTYPE],
-        exports = isGlobal ? core : core[name] || (core[name] = {});
-    if (isGlobal)
-      source = name;
-    for (key in source) {
-      own = !(type & $def.F) && target && key in target;
-      if (own && key in exports)
-        continue;
-      out = own ? target[key] : source[key];
-      if (isGlobal && typeof target[key] != 'function')
-        exp = source[key];
-      else if (type & $def.B && own)
-        exp = ctx(out, global);
-      else if (type & $def.W && target[key] == out)
-        !function(C) {
-          exp = function(param) {
-            return this instanceof C ? new C(param) : C(param);
-          };
-          exp[PROTOTYPE] = C[PROTOTYPE];
-        }(out);
-      else
-        exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
-      exports[key] = exp;
-      if (isProto)
-        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-    }
-  };
-  $def.F = 1;
-  $def.G = 2;
-  $def.S = 4;
-  $def.P = 8;
-  $def.B = 16;
-  $def.W = 32;
-  module.exports = $def;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.assign", ["npm:core-js@1.1.4/library/modules/$.to-object", "npm:core-js@1.1.4/library/modules/$.iobject", "npm:core-js@1.1.4/library/modules/$.enum-keys", "npm:core-js@1.1.4/library/modules/$.fails"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var toObject = require("npm:core-js@1.1.4/library/modules/$.to-object"),
-      IObject = require("npm:core-js@1.1.4/library/modules/$.iobject"),
-      enumKeys = require("npm:core-js@1.1.4/library/modules/$.enum-keys");
-  module.exports = require("npm:core-js@1.1.4/library/modules/$.fails")(function() {
-    return Symbol() in Object.assign({});
-  }) ? function assign(target, source) {
-    var T = toObject(target),
-        l = arguments.length,
-        i = 1;
-    while (l > i) {
-      var S = IObject(arguments[i++]),
-          keys = enumKeys(S),
-          length = keys.length,
-          j = 0,
-          key;
-      while (length > j)
-        T[key = keys[j++]] = S[key];
-    }
-    return T;
-  } : Object.assign;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:eventie@1.0.6/eventie", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
+  "format cjs";
   (function(window) {
     'use strict';
-    var docElem = document.documentElement;
-    var bind = function() {};
-    function getIEEvent(obj) {
-      var event = window.event;
-      event.target = event.target || event.srcElement || obj;
-      return event;
-    }
-    if (docElem.addEventListener) {
-      bind = function(obj, type, fn) {
-        obj.addEventListener(type, fn, false);
-      };
-    } else if (docElem.attachEvent) {
-      bind = function(obj, type, fn) {
-        obj[type + fn] = fn.handleEvent ? function() {
-          var event = getIEEvent(obj);
-          fn.handleEvent.call(fn, event);
-        } : function() {
-          var event = getIEEvent(obj);
-          fn.call(obj, event);
-        };
-        obj.attachEvent("on" + type, obj[type + fn]);
-      };
-    }
-    var unbind = function() {};
-    if (docElem.removeEventListener) {
-      unbind = function(obj, type, fn) {
-        obj.removeEventListener(type, fn, false);
-      };
-    } else if (docElem.detachEvent) {
-      unbind = function(obj, type, fn) {
-        obj.detachEvent("on" + type, obj[type + fn]);
-        try {
-          delete obj[type + fn];
-        } catch (err) {
-          obj[type + fn] = undefined;
+    var prefixes = 'Webkit Moz ms Ms O'.split(' ');
+    var docElemStyle = document.documentElement.style;
+    function getStyleProperty(propName) {
+      if (!propName) {
+        return;
+      }
+      if (typeof docElemStyle[propName] === 'string') {
+        return propName;
+      }
+      propName = propName.charAt(0).toUpperCase() + propName.slice(1);
+      var prefixed;
+      for (var i = 0,
+          len = prefixes.length; i < len; i++) {
+        prefixed = prefixes[i] + propName;
+        if (typeof docElemStyle[prefixed] === 'string') {
+          return prefixed;
         }
-      };
+      }
     }
-    var eventie = {
-      bind: bind,
-      unbind: unbind
-    };
     if (typeof define === 'function' && define.amd) {
-      define(eventie);
+      define(function() {
+        return getStyleProperty;
+      });
     } else if (typeof exports === 'object') {
-      module.exports = eventie;
+      module.exports = getStyleProperty;
     } else {
-      window.eventie = eventie;
+      window.getStyleProperty = getStyleProperty;
     }
   })(window);
   global.define = __define;
@@ -17410,41 +17390,61 @@ System.registerDynamic("npm:wolfy87-eventemitter@4.2.11/EventEmitter", [], true,
   return module.exports;
 });
 
-System.registerDynamic("npm:desandro-get-style-property@1.0.4/get-style-property", [], true, function(require, exports, module) {
+System.registerDynamic("npm:eventie@1.0.6/eventie", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  "format cjs";
   (function(window) {
     'use strict';
-    var prefixes = 'Webkit Moz ms Ms O'.split(' ');
-    var docElemStyle = document.documentElement.style;
-    function getStyleProperty(propName) {
-      if (!propName) {
-        return;
-      }
-      if (typeof docElemStyle[propName] === 'string') {
-        return propName;
-      }
-      propName = propName.charAt(0).toUpperCase() + propName.slice(1);
-      var prefixed;
-      for (var i = 0,
-          len = prefixes.length; i < len; i++) {
-        prefixed = prefixes[i] + propName;
-        if (typeof docElemStyle[prefixed] === 'string') {
-          return prefixed;
-        }
-      }
+    var docElem = document.documentElement;
+    var bind = function() {};
+    function getIEEvent(obj) {
+      var event = window.event;
+      event.target = event.target || event.srcElement || obj;
+      return event;
     }
+    if (docElem.addEventListener) {
+      bind = function(obj, type, fn) {
+        obj.addEventListener(type, fn, false);
+      };
+    } else if (docElem.attachEvent) {
+      bind = function(obj, type, fn) {
+        obj[type + fn] = fn.handleEvent ? function() {
+          var event = getIEEvent(obj);
+          fn.handleEvent.call(fn, event);
+        } : function() {
+          var event = getIEEvent(obj);
+          fn.call(obj, event);
+        };
+        obj.attachEvent("on" + type, obj[type + fn]);
+      };
+    }
+    var unbind = function() {};
+    if (docElem.removeEventListener) {
+      unbind = function(obj, type, fn) {
+        obj.removeEventListener(type, fn, false);
+      };
+    } else if (docElem.detachEvent) {
+      unbind = function(obj, type, fn) {
+        obj.detachEvent("on" + type, obj[type + fn]);
+        try {
+          delete obj[type + fn];
+        } catch (err) {
+          obj[type + fn] = undefined;
+        }
+      };
+    }
+    var eventie = {
+      bind: bind,
+      unbind: unbind
+    };
     if (typeof define === 'function' && define.amd) {
-      define(function() {
-        return getStyleProperty;
-      });
+      define(eventie);
     } else if (typeof exports === 'object') {
-      module.exports = getStyleProperty;
+      module.exports = eventie;
     } else {
-      window.getStyleProperty = getStyleProperty;
+      window.eventie = eventie;
     }
   })(window);
   global.define = __define;
@@ -17817,20 +17817,22 @@ System.register('lib/home.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 
         displayName: 'HomePage',
 
         selectedImageIndex: function selectedImageIndex() {
-          if (!this.state.selectedImageIndex) this.setState({ selectedImageIndex: _.indexOf(this.state.images, this.state.lightBoxImage) });
-          return this.state.selectedImageIndex;
+          return _.indexOf(this.state.images, this.state.lightBoxImage);
         },
         nextImage: function nextImage() {
+          console.log('next');
           this.openLightBox(this.state.images[this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1]);
         },
         previousImage: function previousImage() {
+          console.log('previous');
           this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
         },
         closeLightBox: function closeLightBox() {
-          this.setState({ lightBoxImage: null, selectedImageIndex: null });
+          console.log('close');
+          this.setState({ lightBoxImage: null });
         },
         openLightBox: function openLightBox(img) {
-          this.setState({ lightBoxImage: img, selectedImageIndex: null });
+          this.setState({ lightBoxImage: img });
         },
         getInitialState: function getInitialState() {
           return { images: imgs.slice() };
@@ -17869,7 +17871,7 @@ System.register('lib/home.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 
           return React.createElement(
             'div',
             { className: 'no-scrolling' },
-            this.state.lightBoxImage ? React.createElement(LightBox, { closeLightBox: this.closeLightBox, img: this.state.lightBoxImage }) : '',
+            this.state.lightBoxImage ? React.createElement(LightBox, { closeLightBox: this.closeLightBox, previousImage: this.previousImage, nextImage: this.nextImage, img: this.state.lightBoxImage }) : '',
             React.createElement(
               InfiniteScroll,
               { loadMore: this.loadMore },
@@ -17897,6 +17899,93 @@ System.register('lib/events.js', ['npm:events@1.0.2'], function (_export) {
       _export('emitter', emitter);
 
       emitter.setMaxListeners(100);
+    }
+  };
+});
+System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3', 'npm:masonry-layout@3.3.2', 'lib/image.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/events.js', 'lib/fontAwesome.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/fixedButton.jsx!npm:jspm-loader-jsx@0.0.7'], function (_export) {
+  'use strict';
+
+  var _, React, Masonry, Image, emitter, FontAwesome, FixedButton, LightBox;
+
+  return {
+    setters: [function (_npmLodash3101) {
+      _ = _npmLodash3101['default'];
+    }, function (_npmReact0133) {
+      React = _npmReact0133['default'];
+    }, function (_npmMasonryLayout332) {
+      Masonry = _npmMasonryLayout332['default'];
+    }, function (_libImageJsxNpmJspmLoaderJsx007) {
+      Image = _libImageJsxNpmJspmLoaderJsx007.Image;
+    }, function (_libEventsJs) {
+      emitter = _libEventsJs.emitter;
+    }, function (_libFontAwesomeJsxNpmJspmLoaderJsx007) {
+      FontAwesome = _libFontAwesomeJsxNpmJspmLoaderJsx007.FontAwesome;
+    }, function (_libFixedButtonJsxNpmJspmLoaderJsx007) {
+      FixedButton = _libFixedButtonJsxNpmJspmLoaderJsx007.FixedButton;
+    }],
+    execute: function () {
+      LightBox = React.createClass({
+        displayName: 'LightBox',
+        componentWillReceiveProps: function componentWillReceiveProps() {
+          this.setState(this.getInitialState());
+        },
+        getInitialState: function getInitialState() {
+          return {
+            loading: true,
+            imageStyles: {
+              height: '100%',
+              width: 'auto',
+              verticalAlign: 'middle',
+              display: 'inline-block'
+            }
+          };
+        },
+        onImageLoad: _.throttle(function () {
+          var tooWide = this.refs.image.getDOMNode().offsetWidth > this.refs.lightBoxContainer.getDOMNode().offsetWidth;
+          this.setState({
+            loading: false,
+            imageStyles: {
+              height: tooWide ? 'auto' : '100%',
+              width: tooWide ? '100%' : 'auto'
+            }
+          });
+        }, 100),
+        onResize: function onResize() {
+          this.setState(this.getInitialState());
+          this.onImageLoad();
+        },
+        componentWillUnmount: function componentWillUnmount() {
+          window.removeEventListener('resize', this.onResize);
+        },
+        componentWillMount: function componentWillMount() {
+          window.addEventListener('resize', this.onResize);
+        },
+        render: function render() {
+          return React.createElement(
+            'div',
+            { ref: 'lightBoxContainer', className: 'light-box' },
+            React.createElement(
+              FixedButton,
+              { onClick: this.props.previousImage, bottomSpacing: 140, topSpacing: 140, classes: 'full-height-button full-height-button-left', position: 'topBottomLeft' },
+              React.createElement(FontAwesome, { classes: 'fa-chevron-left' })
+            ),
+            React.createElement(
+              FixedButton,
+              { onClick: this.props.closeLightBox, classes: 'close-button', position: 'topLeft' },
+              React.createElement(FontAwesome, { classes: 'fa-times' })
+            ),
+            React.createElement(
+              FixedButton,
+              { onClick: this.props.nextImage, bottomSpacing: 140, topSpacing: 140, classes: 'full-height-button full-height-button-right', position: 'topBottomRight' },
+              React.createElement(FontAwesome, { classes: 'fa-chevron-right' })
+            ),
+            React.createElement(Image, { ref: 'image', onLoad: this.onImageLoad, src: this.props.img.link, alt: this.props.img.alt, styles: this.state.imageStyles, widths: this.props.img.widths }),
+            this.state.loading ? React.createElement('div', { ref: 'spinner', className: 'spinner' }) : null
+          );
+        }
+      });
+
+      _export('LightBox', LightBox);
     }
   };
 });
@@ -17997,96 +18086,6 @@ System.register('lib/collage.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1
       });
 
       _export('Collage', Collage);
-    }
-  };
-});
-System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3', 'npm:masonry-layout@3.3.2', 'lib/image.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/events.js', 'lib/fontAwesome.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/fixedButton.jsx!npm:jspm-loader-jsx@0.0.7'], function (_export) {
-  'use strict';
-
-  var _, React, Masonry, Image, emitter, FontAwesome, FixedButton, LightBox;
-
-  return {
-    setters: [function (_npmLodash3101) {
-      _ = _npmLodash3101['default'];
-    }, function (_npmReact0133) {
-      React = _npmReact0133['default'];
-    }, function (_npmMasonryLayout332) {
-      Masonry = _npmMasonryLayout332['default'];
-    }, function (_libImageJsxNpmJspmLoaderJsx007) {
-      Image = _libImageJsxNpmJspmLoaderJsx007.Image;
-    }, function (_libEventsJs) {
-      emitter = _libEventsJs.emitter;
-    }, function (_libFontAwesomeJsxNpmJspmLoaderJsx007) {
-      FontAwesome = _libFontAwesomeJsxNpmJspmLoaderJsx007.FontAwesome;
-    }, function (_libFixedButtonJsxNpmJspmLoaderJsx007) {
-      FixedButton = _libFixedButtonJsxNpmJspmLoaderJsx007.FixedButton;
-    }],
-    execute: function () {
-      LightBox = React.createClass({
-        displayName: 'LightBox',
-        componentWillReceiveProps: function componentWillReceiveProps() {
-          this.setState(this.getInitialState());
-        },
-        getInitialState: function getInitialState() {
-          return {
-            loading: true,
-            imageStyles: {
-              height: '100%',
-              width: 'auto',
-              verticalAlign: 'middle',
-              display: 'inline-block'
-            }
-          };
-        },
-        onImageLoad: _.throttle(function () {
-          var tooWide = this.refs.image.getDOMNode().offsetWidth > this.refs.lightBoxContainer.getDOMNode().offsetWidth;
-          this.setState({
-            loading: false,
-            imageStyles: {
-              height: tooWide ? 'auto' : '100%',
-              width: tooWide ? '100%' : 'auto'
-            }
-          });
-        }, 100),
-        onClick: function onClick() {
-          this.props.closeLightBox();
-        },
-        onResize: function onResize() {
-          this.setState(this.getInitialState());
-          this.onImageLoad();
-        },
-        componentWillUnmount: function componentWillUnmount() {
-          window.removeEventListener('resize', this.onResize);
-        },
-        componentWillMount: function componentWillMount() {
-          window.addEventListener('resize', this.onResize);
-        },
-        render: function render() {
-          return React.createElement(
-            'div',
-            { ref: 'lightBoxContainer', className: 'light-box', onClick: this.onClick },
-            React.createElement(
-              FixedButton,
-              { bottomSpacing: 140, topSpacing: 140, classes: 'full-height-button full-height-button-left', position: 'topBottomLeft' },
-              React.createElement(FontAwesome, { classes: 'fa-chevron-left' })
-            ),
-            React.createElement(
-              FixedButton,
-              { classes: 'close-button', position: 'topLeft' },
-              React.createElement(FontAwesome, { classes: 'fa-times' })
-            ),
-            React.createElement(
-              FixedButton,
-              { bottomSpacing: 140, topSpacing: 140, classes: 'full-height-button full-height-button-right', position: 'topBottomRight' },
-              React.createElement(FontAwesome, { classes: 'fa-chevron-right' })
-            ),
-            React.createElement(Image, { ref: 'image', onLoad: this.onImageLoad, src: this.props.img.link, alt: this.props.img.alt, styles: this.state.imageStyles, widths: this.props.img.widths }),
-            this.state.loading ? React.createElement('div', { ref: 'spinner', className: 'spinner' }) : null
-          );
-        }
-      });
-
-      _export('LightBox', LightBox);
     }
   };
 });
@@ -18213,27 +18212,6 @@ System.register('lib/image.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:babel-runtime@5
     }
   };
 });
-System.register('lib/fontAwesome.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:react@0.13.3'], function (_export) {
-  'use strict';
-
-  var React, FontAwesome;
-  return {
-    setters: [function (_npmReact0133) {
-      React = _npmReact0133['default'];
-    }],
-    execute: function () {
-      FontAwesome = React.createClass({
-        displayName: 'FontAwesome',
-
-        render: function render() {
-          return React.createElement('span', { className: 'fa ' + this.props.classes });
-        }
-      });
-
-      _export('FontAwesome', FontAwesome);
-    }
-  };
-});
 System.register('lib/fixedButton.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3'], function (_export) {
   'use strict';
 
@@ -18262,14 +18240,35 @@ System.register('lib/fixedButton.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.
             }
           });
           return React.createElement(
-            'div',
-            { className: this.props.classes, style: fixedButtonClass },
+            'a',
+            { onClick: this.props.onClick, className: this.props.classes, style: fixedButtonClass },
             this.props.children
           );
         }
       });
 
       _export('FixedButton', FixedButton);
+    }
+  };
+});
+System.register('lib/fontAwesome.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:react@0.13.3'], function (_export) {
+  'use strict';
+
+  var React, FontAwesome;
+  return {
+    setters: [function (_npmReact0133) {
+      React = _npmReact0133['default'];
+    }],
+    execute: function () {
+      FontAwesome = React.createClass({
+        displayName: 'FontAwesome',
+
+        render: function render() {
+          return React.createElement('span', { className: 'fa ' + this.props.classes });
+        }
+      });
+
+      _export('FontAwesome', FontAwesome);
     }
   };
 });

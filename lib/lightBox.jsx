@@ -32,9 +32,6 @@ export var LightBox = React.createClass({
       }
     });
   }, 100),
-  onClick: function() {
-    this.props.closeLightBox();
-  },
   onResize: function() {
     this.setState(this.getInitialState());
     this.onImageLoad();
@@ -46,10 +43,10 @@ export var LightBox = React.createClass({
     window.addEventListener('resize', this.onResize);
   },
   render: function() {
-    return (<div ref='lightBoxContainer' className='light-box' onClick={this.onClick}>
-      <FixedButton bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-left'} position={'topBottomLeft'}><FontAwesome classes={'fa-chevron-left'} /></FixedButton>
-      <FixedButton classes={'close-button'} position={'topLeft'}><FontAwesome classes={'fa-times'} /></FixedButton>
-      <FixedButton bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-right'} position={'topBottomRight'}><FontAwesome classes={'fa-chevron-right'} /></FixedButton>
+    return (<div ref='lightBoxContainer' className='light-box'>
+      <FixedButton onClick={this.props.previousImage} bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-left'} position={'topBottomLeft'}><FontAwesome classes={'fa-chevron-left'} /></FixedButton>
+      <FixedButton onClick={this.props.closeLightBox} classes={'close-button'} position={'topLeft'}><FontAwesome classes={'fa-times'} /></FixedButton>
+      <FixedButton onClick={this.props.nextImage} bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-right'} position={'topBottomRight'}><FontAwesome classes={'fa-chevron-right'} /></FixedButton>
       <Image ref='image' onLoad={this.onImageLoad} src={this.props.img.link} alt={this.props.img.alt} styles={this.state.imageStyles} widths={this.props.img.widths} />
       { this.state.loading ? <div ref='spinner' className='spinner'></div> : null }
     </div>);

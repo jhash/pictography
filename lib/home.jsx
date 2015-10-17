@@ -71,8 +71,7 @@ var imgs = [
 
 export var HomePage = React.createClass({
   selectedImageIndex: function() {
-    if (!this.state.selectedImageIndex) this.setState({ selectedImageIndex: _.indexOf(this.state.images, this.state.lightBoxImage) });
-    return this.state.selectedImageIndex;
+    return _.indexOf(this.state.images, this.state.lightBoxImage);
   },
   nextImage: function() {
     this.openLightBox(this.state.images[this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1]);
@@ -81,10 +80,10 @@ export var HomePage = React.createClass({
     this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
   },
   closeLightBox: function() {
-    this.setState({ lightBoxImage: null, selectedImageIndex: null });
+    this.setState({ lightBoxImage: null });
   },
   openLightBox: function(img) {
-    this.setState({ lightBoxImage: img, selectedImageIndex: null });
+    this.setState({ lightBoxImage: img });
   },
   getInitialState: function() {
     return { images: imgs.slice() };
@@ -121,7 +120,7 @@ export var HomePage = React.createClass({
   },
   render: function() {
     return <div className='no-scrolling'>
-      { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} img={this.state.lightBoxImage} /> : '' }
+      { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} previousImage={this.previousImage} nextImage={this.nextImage} img={this.state.lightBoxImage} /> : '' }
       <InfiniteScroll loadMore={this.loadMore}>
         <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
       </InfiniteScroll>
