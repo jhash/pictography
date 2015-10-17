@@ -8,7 +8,7 @@ var
 collageContainerStyles = {
   img: {
     width: '100%',
-    padding: '5px',
+    padding: '0px 0px 0px 5px;',
     boxSizing: 'border-box'
   }
 };
@@ -69,6 +69,9 @@ export var Collage = React.createClass({
 
     this.msnry = new Masonry(masonryContainer, {
       // Masonry options
+      isInitLayout: false,
+      transitionDuration: '0.1s',
+      percentPosition: true
     });
   },
   componentDidUpdate: function() {
