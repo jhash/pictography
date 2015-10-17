@@ -11540,38 +11540,6 @@ $__System.registerDynamic("60", ["34"], true, function(require, exports, module)
   return module.exports;
 });
 
-$__System.registerDynamic("63", ["1d"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var ExecutionEnvironment = require("1d");
-  var useHasFeature;
-  if (ExecutionEnvironment.canUseDOM) {
-    useHasFeature = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature('', '') !== true;
-  }
-  function isEventSupported(eventNameSuffix, capture) {
-    if (!ExecutionEnvironment.canUseDOM || capture && !('addEventListener' in document)) {
-      return false;
-    }
-    var eventName = 'on' + eventNameSuffix;
-    var isSupported = eventName in document;
-    if (!isSupported) {
-      var element = document.createElement('div');
-      element.setAttribute(eventName, 'return;');
-      isSupported = typeof element[eventName] === 'function';
-    }
-    if (!isSupported && useHasFeature && eventNameSuffix === 'wheel') {
-      isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
-    }
-    return isSupported;
-  }
-  module.exports = isEventSupported;
-  global.define = __define;
-  return module.exports;
-});
-
 $__System.registerDynamic("61", ["8c", "1d", "8d", "8e", "8f", "90", "24", "8"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -11683,7 +11651,109 @@ $__System.registerDynamic("61", ["8c", "1d", "8d", "8e", "8f", "90", "24", "8"],
   return module.exports;
 });
 
-$__System.registerDynamic("62", ["74", "91", "18", "92", "8"], true, function(require, exports, module) {
+$__System.registerDynamic("63", ["1d"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var ExecutionEnvironment = require("1d");
+  var useHasFeature;
+  if (ExecutionEnvironment.canUseDOM) {
+    useHasFeature = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature('', '') !== true;
+  }
+  function isEventSupported(eventNameSuffix, capture) {
+    if (!ExecutionEnvironment.canUseDOM || capture && !('addEventListener' in document)) {
+      return false;
+    }
+    var eventName = 'on' + eventNameSuffix;
+    var isSupported = eventName in document;
+    if (!isSupported) {
+      var element = document.createElement('div');
+      element.setAttribute(eventName, 'return;');
+      isSupported = typeof element[eventName] === 'function';
+    }
+    if (!isSupported && useHasFeature && eventNameSuffix === 'wheel') {
+      isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
+    }
+    return isSupported;
+  }
+  module.exports = isEventSupported;
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("64", ["1f", "68", "91", "92", "8"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var EventConstants = require("1f");
+    var EventPluginHub = require("68");
+    var accumulateInto = require("91");
+    var forEachAccumulated = require("92");
+    var PropagationPhases = EventConstants.PropagationPhases;
+    var getListener = EventPluginHub.getListener;
+    function listenerAtPhase(id, event, propagationPhase) {
+      var registrationName = event.dispatchConfig.phasedRegistrationNames[propagationPhase];
+      return getListener(id, registrationName);
+    }
+    function accumulateDirectionalDispatches(domID, upwards, event) {
+      if ("production" !== process.env.NODE_ENV) {
+        if (!domID) {
+          throw new Error('Dispatching id must not be null');
+        }
+      }
+      var phase = upwards ? PropagationPhases.bubbled : PropagationPhases.captured;
+      var listener = listenerAtPhase(domID, event, phase);
+      if (listener) {
+        event._dispatchListeners = accumulateInto(event._dispatchListeners, listener);
+        event._dispatchIDs = accumulateInto(event._dispatchIDs, domID);
+      }
+    }
+    function accumulateTwoPhaseDispatchesSingle(event) {
+      if (event && event.dispatchConfig.phasedRegistrationNames) {
+        EventPluginHub.injection.getInstanceHandle().traverseTwoPhase(event.dispatchMarker, accumulateDirectionalDispatches, event);
+      }
+    }
+    function accumulateDispatches(id, ignoredDirection, event) {
+      if (event && event.dispatchConfig.registrationName) {
+        var registrationName = event.dispatchConfig.registrationName;
+        var listener = getListener(id, registrationName);
+        if (listener) {
+          event._dispatchListeners = accumulateInto(event._dispatchListeners, listener);
+          event._dispatchIDs = accumulateInto(event._dispatchIDs, id);
+        }
+      }
+    }
+    function accumulateDirectDispatchesSingle(event) {
+      if (event && event.dispatchConfig.registrationName) {
+        accumulateDispatches(event.dispatchMarker, null, event);
+      }
+    }
+    function accumulateTwoPhaseDispatches(events) {
+      forEachAccumulated(events, accumulateTwoPhaseDispatchesSingle);
+    }
+    function accumulateEnterLeaveDispatches(leave, enter, fromID, toID) {
+      EventPluginHub.injection.getInstanceHandle().traverseEnterLeave(fromID, toID, accumulateDispatches, leave, enter);
+    }
+    function accumulateDirectDispatches(events) {
+      forEachAccumulated(events, accumulateDirectDispatchesSingle);
+    }
+    var EventPropagators = {
+      accumulateTwoPhaseDispatches: accumulateTwoPhaseDispatches,
+      accumulateDirectDispatches: accumulateDirectDispatches,
+      accumulateEnterLeaveDispatches: accumulateEnterLeaveDispatches
+    };
+    module.exports = EventPropagators;
+  })(require("8"));
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("62", ["74", "93", "18", "94", "8"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -11691,9 +11761,9 @@ $__System.registerDynamic("62", ["74", "91", "18", "92", "8"], true, function(re
   (function(process) {
     'use strict';
     var ReactComponentEnvironment = require("74");
-    var ReactMultiChildUpdateTypes = require("91");
+    var ReactMultiChildUpdateTypes = require("93");
     var ReactReconciler = require("18");
-    var ReactChildReconciler = require("92");
+    var ReactChildReconciler = require("94");
     var updateDepth = 0;
     var updateQueue = [];
     var markupQueue = [];
@@ -11881,72 +11951,19 @@ $__System.registerDynamic("62", ["74", "91", "18", "92", "8"], true, function(re
   return module.exports;
 });
 
-$__System.registerDynamic("64", ["1f", "68", "93", "94", "8"], true, function(require, exports, module) {
+$__System.registerDynamic("66", ["69"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  (function(process) {
-    'use strict';
-    var EventConstants = require("1f");
-    var EventPluginHub = require("68");
-    var accumulateInto = require("93");
-    var forEachAccumulated = require("94");
-    var PropagationPhases = EventConstants.PropagationPhases;
-    var getListener = EventPluginHub.getListener;
-    function listenerAtPhase(id, event, propagationPhase) {
-      var registrationName = event.dispatchConfig.phasedRegistrationNames[propagationPhase];
-      return getListener(id, registrationName);
-    }
-    function accumulateDirectionalDispatches(domID, upwards, event) {
-      if ("production" !== process.env.NODE_ENV) {
-        if (!domID) {
-          throw new Error('Dispatching id must not be null');
-        }
-      }
-      var phase = upwards ? PropagationPhases.bubbled : PropagationPhases.captured;
-      var listener = listenerAtPhase(domID, event, phase);
-      if (listener) {
-        event._dispatchListeners = accumulateInto(event._dispatchListeners, listener);
-        event._dispatchIDs = accumulateInto(event._dispatchIDs, domID);
-      }
-    }
-    function accumulateTwoPhaseDispatchesSingle(event) {
-      if (event && event.dispatchConfig.phasedRegistrationNames) {
-        EventPluginHub.injection.getInstanceHandle().traverseTwoPhase(event.dispatchMarker, accumulateDirectionalDispatches, event);
-      }
-    }
-    function accumulateDispatches(id, ignoredDirection, event) {
-      if (event && event.dispatchConfig.registrationName) {
-        var registrationName = event.dispatchConfig.registrationName;
-        var listener = getListener(id, registrationName);
-        if (listener) {
-          event._dispatchListeners = accumulateInto(event._dispatchListeners, listener);
-          event._dispatchIDs = accumulateInto(event._dispatchIDs, id);
-        }
-      }
-    }
-    function accumulateDirectDispatchesSingle(event) {
-      if (event && event.dispatchConfig.registrationName) {
-        accumulateDispatches(event.dispatchMarker, null, event);
-      }
-    }
-    function accumulateTwoPhaseDispatches(events) {
-      forEachAccumulated(events, accumulateTwoPhaseDispatchesSingle);
-    }
-    function accumulateEnterLeaveDispatches(leave, enter, fromID, toID) {
-      EventPluginHub.injection.getInstanceHandle().traverseEnterLeave(fromID, toID, accumulateDispatches, leave, enter);
-    }
-    function accumulateDirectDispatches(events) {
-      forEachAccumulated(events, accumulateDirectDispatchesSingle);
-    }
-    var EventPropagators = {
-      accumulateTwoPhaseDispatches: accumulateTwoPhaseDispatches,
-      accumulateDirectDispatches: accumulateDirectDispatches,
-      accumulateEnterLeaveDispatches: accumulateEnterLeaveDispatches
-    };
-    module.exports = EventPropagators;
-  })(require("8"));
+  'use strict';
+  var SyntheticEvent = require("69");
+  var CompositionEventInterface = {data: null};
+  function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+    SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+  }
+  SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
+  module.exports = SyntheticCompositionEvent;
   global.define = __define;
   return module.exports;
 });
@@ -12004,23 +12021,6 @@ $__System.registerDynamic("65", ["21", "1a", "95"], true, function(require, expo
   return module.exports;
 });
 
-$__System.registerDynamic("66", ["69"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var SyntheticEvent = require("69");
-  var CompositionEventInterface = {data: null};
-  function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-    SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-  }
-  SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
-  module.exports = SyntheticCompositionEvent;
-  global.define = __define;
-  return module.exports;
-});
-
 $__System.registerDynamic("67", ["69"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -12038,7 +12038,7 @@ $__System.registerDynamic("67", ["69"], true, function(require, exports, module)
   return module.exports;
 });
 
-$__System.registerDynamic("68", ["84", "9", "93", "94", "20", "8"], true, function(require, exports, module) {
+$__System.registerDynamic("68", ["84", "9", "91", "92", "20", "8"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12047,8 +12047,8 @@ $__System.registerDynamic("68", ["84", "9", "93", "94", "20", "8"], true, functi
     'use strict';
     var EventPluginRegistry = require("84");
     var EventPluginUtils = require("9");
-    var accumulateInto = require("93");
-    var forEachAccumulated = require("94");
+    var accumulateInto = require("91");
+    var forEachAccumulated = require("92");
     var invariant = require("20");
     var listenerBank = {};
     var eventQueue = null;
@@ -12439,7 +12439,7 @@ $__System.registerDynamic("6d", ["97"], true, function(require, exports, module)
   return module.exports;
 });
 
-$__System.registerDynamic("6e", ["52", "93", "94", "20", "8"], true, function(require, exports, module) {
+$__System.registerDynamic("6e", ["52", "91", "92", "20", "8"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12447,8 +12447,8 @@ $__System.registerDynamic("6e", ["52", "93", "94", "20", "8"], true, function(re
   (function(process) {
     'use strict';
     var ReactBrowserEventEmitter = require("52");
-    var accumulateInto = require("93");
-    var forEachAccumulated = require("94");
+    var accumulateInto = require("91");
+    var forEachAccumulated = require("92");
     var invariant = require("20");
     function remove(event) {
       event.remove();
@@ -12473,7 +12473,7 @@ $__System.registerDynamic("6e", ["52", "93", "94", "20", "8"], true, function(re
   return module.exports;
 });
 
-$__System.registerDynamic("6f", ["98", "91", "99", "20", "8"], true, function(require, exports, module) {
+$__System.registerDynamic("6f", ["98", "93", "99", "20", "8"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12481,7 +12481,7 @@ $__System.registerDynamic("6f", ["98", "91", "99", "20", "8"], true, function(re
   (function(process) {
     'use strict';
     var Danger = require("98");
-    var ReactMultiChildUpdateTypes = require("91");
+    var ReactMultiChildUpdateTypes = require("93");
     var setTextContent = require("99");
     var invariant = require("20");
     function insertChildAt(parentNode, childNode, index) {
@@ -14004,56 +14004,13 @@ $__System.registerDynamic("8b", [], true, function(require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("8e", ["8c"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var CSSProperty = require("8c");
-  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
-  function dangerousStyleValue(name, value) {
-    var isEmpty = value == null || typeof value === 'boolean' || value === '';
-    if (isEmpty) {
-      return '';
-    }
-    var isNonNumeric = isNaN(value);
-    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
-      return '' + value;
-    }
-    if (typeof value === 'string') {
-      value = value.trim();
-    }
-    return value + 'px';
-  }
-  module.exports = dangerousStyleValue;
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("8f", ["9d"], true, function(require, exports, module) {
+$__System.registerDynamic("8d", ["9d"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   "use strict";
-  var hyphenate = require("9d");
-  var msPattern = /^ms-/;
-  function hyphenateStyleName(string) {
-    return hyphenate(string).replace(msPattern, '-ms-');
-  }
-  module.exports = hyphenateStyleName;
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("8d", ["9e"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  "use strict";
-  var camelize = require("9e");
+  var camelize = require("9d");
   var msPattern = /^-ms-/;
   function camelizeStyleName(string) {
     return camelize(string.replace(msPattern, 'ms-'));
@@ -14151,6 +14108,49 @@ $__System.registerDynamic("8c", [], true, function(require, exports, module) {
   return module.exports;
 });
 
+$__System.registerDynamic("8e", ["8c"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var CSSProperty = require("8c");
+  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
+  function dangerousStyleValue(name, value) {
+    var isEmpty = value == null || typeof value === 'boolean' || value === '';
+    if (isEmpty) {
+      return '';
+    }
+    var isNonNumeric = isNaN(value);
+    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
+      return '' + value;
+    }
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+    return value + 'px';
+  }
+  module.exports = dangerousStyleValue;
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("8f", ["9e"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var hyphenate = require("9e");
+  var msPattern = /^ms-/;
+  function hyphenateStyleName(string) {
+    return hyphenate(string).replace(msPattern, '-ms-');
+  }
+  module.exports = hyphenateStyleName;
+  global.define = __define;
+  return module.exports;
+});
+
 $__System.registerDynamic("90", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14171,25 +14171,59 @@ $__System.registerDynamic("90", [], true, function(require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("91", ["2b"], true, function(require, exports, module) {
+$__System.registerDynamic("91", ["20", "8"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var invariant = require("20");
+    function accumulateInto(current, next) {
+      ("production" !== process.env.NODE_ENV ? invariant(next != null, 'accumulateInto(...): Accumulated items must not be null or undefined.') : invariant(next != null));
+      if (current == null) {
+        return next;
+      }
+      var currentIsArray = Array.isArray(current);
+      var nextIsArray = Array.isArray(next);
+      if (currentIsArray && nextIsArray) {
+        current.push.apply(current, next);
+        return current;
+      }
+      if (currentIsArray) {
+        current.push(next);
+        return current;
+      }
+      if (nextIsArray) {
+        return [current].concat(next);
+      }
+      return [current, next];
+    }
+    module.exports = accumulateInto;
+  })(require("8"));
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("92", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   'use strict';
-  var keyMirror = require("2b");
-  var ReactMultiChildUpdateTypes = keyMirror({
-    INSERT_MARKUP: null,
-    MOVE_EXISTING: null,
-    REMOVE_NODE: null,
-    TEXT_CONTENT: null
-  });
-  module.exports = ReactMultiChildUpdateTypes;
+  var forEachAccumulated = function(arr, cb, scope) {
+    if (Array.isArray(arr)) {
+      arr.forEach(cb, scope);
+    } else if (arr) {
+      cb.call(scope, arr);
+    }
+  };
+  module.exports = forEachAccumulated;
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("92", ["18", "9f", "58", "5a"], true, function(require, exports, module) {
+$__System.registerDynamic("94", ["18", "9f", "58", "5a"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -14254,73 +14288,20 @@ $__System.registerDynamic("92", ["18", "9f", "58", "5a"], true, function(require
   return module.exports;
 });
 
-$__System.registerDynamic("93", ["20", "8"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var invariant = require("20");
-    function accumulateInto(current, next) {
-      ("production" !== process.env.NODE_ENV ? invariant(next != null, 'accumulateInto(...): Accumulated items must not be null or undefined.') : invariant(next != null));
-      if (current == null) {
-        return next;
-      }
-      var currentIsArray = Array.isArray(current);
-      var nextIsArray = Array.isArray(next);
-      if (currentIsArray && nextIsArray) {
-        current.push.apply(current, next);
-        return current;
-      }
-      if (currentIsArray) {
-        current.push(next);
-        return current;
-      }
-      if (nextIsArray) {
-        return [current].concat(next);
-      }
-      return [current, next];
-    }
-    module.exports = accumulateInto;
-  })(require("8"));
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("94", [], true, function(require, exports, module) {
+$__System.registerDynamic("93", ["2b"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   'use strict';
-  var forEachAccumulated = function(arr, cb, scope) {
-    if (Array.isArray(arr)) {
-      arr.forEach(cb, scope);
-    } else if (arr) {
-      cb.call(scope, arr);
-    }
-  };
-  module.exports = forEachAccumulated;
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("95", ["1d"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var ExecutionEnvironment = require("1d");
-  var contentKey = null;
-  function getTextContentAccessor() {
-    if (!contentKey && ExecutionEnvironment.canUseDOM) {
-      contentKey = 'textContent' in document.documentElement ? 'textContent' : 'innerText';
-    }
-    return contentKey;
-  }
-  module.exports = getTextContentAccessor;
+  var keyMirror = require("2b");
+  var ReactMultiChildUpdateTypes = keyMirror({
+    INSERT_MARKUP: null,
+    MOVE_EXISTING: null,
+    REMOVE_NODE: null,
+    TEXT_CONTENT: null
+  });
+  module.exports = ReactMultiChildUpdateTypes;
   global.define = __define;
   return module.exports;
 });
@@ -14350,6 +14331,25 @@ $__System.registerDynamic("96", [], true, function(require, exports, module) {
     return modifierStateGetter;
   }
   module.exports = getEventModifierState;
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("95", ["1d"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var ExecutionEnvironment = require("1d");
+  var contentKey = null;
+  function getTextContentAccessor() {
+    if (!contentKey && ExecutionEnvironment.canUseDOM) {
+      contentKey = 'textContent' in document.documentElement ? 'textContent' : 'innerText';
+    }
+    return contentKey;
+  }
+  module.exports = getTextContentAccessor;
   global.define = __define;
   return module.exports;
 });
@@ -14681,11 +14681,13 @@ $__System.registerDynamic("9d", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var _uppercasePattern = /([A-Z])/g;
-  function hyphenate(string) {
-    return string.replace(_uppercasePattern, '-$1').toLowerCase();
+  var _hyphenPattern = /-(.)/g;
+  function camelize(string) {
+    return string.replace(_hyphenPattern, function(_, character) {
+      return character.toUpperCase();
+    });
   }
-  module.exports = hyphenate;
+  module.exports = camelize;
   global.define = __define;
   return module.exports;
 });
@@ -14695,13 +14697,44 @@ $__System.registerDynamic("9e", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var _hyphenPattern = /-(.)/g;
-  function camelize(string) {
-    return string.replace(_hyphenPattern, function(_, character) {
-      return character.toUpperCase();
-    });
+  var _uppercasePattern = /([A-Z])/g;
+  function hyphenate(string) {
+    return string.replace(_uppercasePattern, '-$1').toLowerCase();
   }
-  module.exports = camelize;
+  module.exports = hyphenate;
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("9f", ["23", "24", "8"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var traverseAllChildren = require("23");
+    var warning = require("24");
+    function flattenSingleChildIntoContext(traverseContext, child, name) {
+      var result = traverseContext;
+      var keyUnique = !result.hasOwnProperty(name);
+      if ("production" !== process.env.NODE_ENV) {
+        ("production" !== process.env.NODE_ENV ? warning(keyUnique, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.', name) : null);
+      }
+      if (keyUnique && child != null) {
+        result[name] = child;
+      }
+    }
+    function flattenChildren(children) {
+      if (children == null) {
+        return children;
+      }
+      var result = {};
+      traverseAllChildren(children, flattenSingleChildIntoContext, result);
+      return result;
+    }
+    module.exports = flattenChildren;
+  })(require("8"));
   global.define = __define;
   return module.exports;
 });
@@ -14748,39 +14781,6 @@ $__System.registerDynamic("a0", ["1d", "a3", "a1", "20", "8"], true, function(re
       return nodes;
     }
     module.exports = createNodesFromMarkup;
-  })(require("8"));
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("9f", ["23", "24", "8"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    var traverseAllChildren = require("23");
-    var warning = require("24");
-    function flattenSingleChildIntoContext(traverseContext, child, name) {
-      var result = traverseContext;
-      var keyUnique = !result.hasOwnProperty(name);
-      if ("production" !== process.env.NODE_ENV) {
-        ("production" !== process.env.NODE_ENV ? warning(keyUnique, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.', name) : null);
-      }
-      if (keyUnique && child != null) {
-        result[name] = child;
-      }
-    }
-    function flattenChildren(children) {
-      if (children == null) {
-        return children;
-      }
-      var result = {};
-      traverseAllChildren(children, flattenSingleChildIntoContext, result);
-      return result;
-    }
-    module.exports = flattenChildren;
   })(require("8"));
   global.define = __define;
   return module.exports;
@@ -16843,7 +16843,7 @@ $__System.registerDynamic("bc", [], true, function(require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("be", ["c6"], true, function(require, exports, module) {
+$__System.registerDynamic("bd", ["c6"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -16853,7 +16853,7 @@ $__System.registerDynamic("be", ["c6"], true, function(require, exports, module)
   return module.exports;
 });
 
-$__System.registerDynamic("bd", ["c7"], true, function(require, exports, module) {
+$__System.registerDynamic("be", ["c7"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -17547,6 +17547,67 @@ $__System.registerDynamic("c6", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
   global.define = undefined;
+  (function(window) {
+    'use strict';
+    var docElem = document.documentElement;
+    var bind = function() {};
+    function getIEEvent(obj) {
+      var event = window.event;
+      event.target = event.target || event.srcElement || obj;
+      return event;
+    }
+    if (docElem.addEventListener) {
+      bind = function(obj, type, fn) {
+        obj.addEventListener(type, fn, false);
+      };
+    } else if (docElem.attachEvent) {
+      bind = function(obj, type, fn) {
+        obj[type + fn] = fn.handleEvent ? function() {
+          var event = getIEEvent(obj);
+          fn.handleEvent.call(fn, event);
+        } : function() {
+          var event = getIEEvent(obj);
+          fn.call(obj, event);
+        };
+        obj.attachEvent("on" + type, obj[type + fn]);
+      };
+    }
+    var unbind = function() {};
+    if (docElem.removeEventListener) {
+      unbind = function(obj, type, fn) {
+        obj.removeEventListener(type, fn, false);
+      };
+    } else if (docElem.detachEvent) {
+      unbind = function(obj, type, fn) {
+        obj.detachEvent("on" + type, obj[type + fn]);
+        try {
+          delete obj[type + fn];
+        } catch (err) {
+          obj[type + fn] = undefined;
+        }
+      };
+    }
+    var eventie = {
+      bind: bind,
+      unbind: unbind
+    };
+    if (typeof define === 'function' && define.amd) {
+      define(eventie);
+    } else if (typeof exports === 'object') {
+      module.exports = eventie;
+    } else {
+      window.eventie = eventie;
+    }
+  })(window);
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("c7", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
   "format cjs";
   ;
   (function() {
@@ -17756,67 +17817,6 @@ $__System.registerDynamic("c6", [], true, function(require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("c7", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(window) {
-    'use strict';
-    var docElem = document.documentElement;
-    var bind = function() {};
-    function getIEEvent(obj) {
-      var event = window.event;
-      event.target = event.target || event.srcElement || obj;
-      return event;
-    }
-    if (docElem.addEventListener) {
-      bind = function(obj, type, fn) {
-        obj.addEventListener(type, fn, false);
-      };
-    } else if (docElem.attachEvent) {
-      bind = function(obj, type, fn) {
-        obj[type + fn] = fn.handleEvent ? function() {
-          var event = getIEEvent(obj);
-          fn.handleEvent.call(fn, event);
-        } : function() {
-          var event = getIEEvent(obj);
-          fn.call(obj, event);
-        };
-        obj.attachEvent("on" + type, obj[type + fn]);
-      };
-    }
-    var unbind = function() {};
-    if (docElem.removeEventListener) {
-      unbind = function(obj, type, fn) {
-        obj.removeEventListener(type, fn, false);
-      };
-    } else if (docElem.detachEvent) {
-      unbind = function(obj, type, fn) {
-        obj.detachEvent("on" + type, obj[type + fn]);
-        try {
-          delete obj[type + fn];
-        } catch (err) {
-          obj[type + fn] = undefined;
-        }
-      };
-    }
-    var eventie = {
-      bind: bind,
-      unbind: unbind
-    };
-    if (typeof define === 'function' && define.amd) {
-      define(eventie);
-    } else if (typeof exports === 'object') {
-      module.exports = eventie;
-    } else {
-      window.eventie = eventie;
-    }
-  })(window);
-  global.define = __define;
-  return module.exports;
-});
-
 $__System.registerDynamic("c8", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -17912,6 +17912,19 @@ $__System.registerDynamic("c9", ["bd", "8"], true, function(require, exports, mo
   return module.exports;
 });
 
+$__System.registerDynamic("cb", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var UNDEFINED = 'undefined';
+  var global = module.exports = typeof window != UNDEFINED && window.Math == Math ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
+  if (typeof __g == 'number')
+    __g = global;
+  global.define = __define;
+  return module.exports;
+});
+
 $__System.registerDynamic("ca", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -17984,40 +17997,27 @@ $__System.registerDynamic("ca", [], true, function(require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("cb", [], true, function(require, exports, module) {
+$__System.registerDynamic("cc", ["d0"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var UNDEFINED = 'undefined';
-  var global = module.exports = typeof window != UNDEFINED && window.Math == Math ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
-  if (typeof __g == 'number')
-    __g = global;
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("cd", ["d0"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var cof = require("d0");
-  module.exports = 0 in Object('z') ? Object : function(it) {
-    return cof(it) == 'String' ? it.split('') : Object(it);
+  var defined = require("d0");
+  module.exports = function(it) {
+    return Object(defined(it));
   };
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("cc", ["d1"], true, function(require, exports, module) {
+$__System.registerDynamic("cd", ["d1"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  var defined = require("d1");
-  module.exports = function(it) {
-    return Object(defined(it));
+  var cof = require("d1");
+  module.exports = 0 in Object('z') ? Object : function(it) {
+    return cof(it) == 'String' ? it.split('') : Object(it);
   };
   global.define = __define;
   return module.exports;
@@ -18068,6 +18068,20 @@ $__System.registerDynamic("d0", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
   global.define = undefined;
+  module.exports = function(it) {
+    if (it == undefined)
+      throw TypeError("Can't call method on  " + it);
+    return it;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("d1", [], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
   var toString = {}.toString;
   module.exports = function(it) {
     return toString.call(it).slice(8, -1);
@@ -18093,20 +18107,6 @@ $__System.registerDynamic("d2", [], true, function(require, exports, module) {
     getNames: $Object.getOwnPropertyNames,
     getSymbols: $Object.getOwnPropertySymbols,
     each: [].forEach
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-$__System.registerDynamic("d1", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(it) {
-    if (it == undefined)
-      throw TypeError("Can't call method on  " + it);
-    return it;
   };
   global.define = __define;
   return module.exports;
@@ -18257,7 +18257,7 @@ $__System.register('3', ['1', 'a5', 'a6', 'a7'], function (_export) {
 $__System.register('a5', ['1', '5', 'a8', 'aa', 'a9'], function (_export) {
   'use strict';
 
-  var React, _, Masonry, Image, emitter, widthMultiplier, collageContainerStyles, Collage;
+  var React, _, Masonry, Image, emitter, collageContainerStyles, Collage;
 
   return {
     setters: [function (_3) {
@@ -18272,13 +18272,7 @@ $__System.register('a5', ['1', '5', 'a8', 'aa', 'a9'], function (_export) {
       emitter = _a9.emitter;
     }],
     execute: function () {
-      widthMultiplier = 3;
       collageContainerStyles = {
-        imageItem: {
-          width: 100 / widthMultiplier + '%',
-          margin: '0',
-          padding: '0'
-        },
         img: {
           width: '100%',
           padding: '5px',
@@ -18287,6 +18281,30 @@ $__System.register('a5', ['1', '5', 'a8', 'aa', 'a9'], function (_export) {
       };
       Collage = React.createClass({
         displayName: 'Collage',
+        getImageState: function getImageState() {
+          var widthMultiplier = this.getWidthMultiplier();
+
+          return {
+            widthMultiplier: widthMultiplier,
+            imageItemStyles: {
+              width: 100 / widthMultiplier + '%',
+              margin: '0',
+              padding: '0'
+            }
+          };
+        },
+        onResize: function onResize() {
+          this.setState(this.getImageState());
+        },
+        getWidthMultiplier: function getWidthMultiplier() {
+          if (window.innerWidth > 1200) {
+            return 3;
+          } else if (window.innerWidth > 700) {
+            return 2;
+          } else {
+            return 1;
+          }
+        },
         onItemClick: function onItemClick(img) {
           if (_.isFunction(this.props.openLightBox)) {
             this.props.openLightBox(img);
@@ -18296,20 +18314,22 @@ $__System.register('a5', ['1', '5', 'a8', 'aa', 'a9'], function (_export) {
           this.msnry.layout();
         },
         getInitialState: function getInitialState() {
-          return {};
+          return this.getImageState();
         },
         render: function render() {
           var _this = this;
 
+          window.addEventListener('resize', this.onResize);
+
           return React.createElement(
             'div',
-            { ref: 'masonryContainer', className: 'collage-container', style: collageContainerStyles },
+            { ref: 'masonryContainer', className: 'collage-container' },
             this.props.imgs.map(function (img) {
               var boundClick = _this.onItemClick.bind(_this, img);
               return React.createElement(
                 'div',
-                { className: 'item', style: collageContainerStyles.imageItem, onClick: boundClick },
-                React.createElement(Image, { onLoad: _this.onImageLoad, src: img.link, alt: img.alt, styles: collageContainerStyles.img, widths: img.widths, widthMultiplier: widthMultiplier })
+                { className: 'item', style: _this.state.imageItemStyles, onClick: boundClick },
+                React.createElement(Image, { onLoad: _this.onImageLoad, src: img.link, alt: img.alt, styles: collageContainerStyles.img, widths: img.widths, widthMultiplier: _this.state.widthMultiplier })
               );
             })
           );

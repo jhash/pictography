@@ -15,13 +15,25 @@ collageContainerStyles = {
 
 export var Collage = React.createClass({
   displayName: 'Collage',
-  onResize: function() {
+  getImageState: function() {
+    var widthMultiplier = this.getWidthMultiplier();
 
+    return {
+      widthMultiplier: widthMultiplier,
+      imageItemStyles: {
+        width: (100 / widthMultiplier) + '%',
+        margin: '0',
+        padding: '0',
+      }
+    };
+  },
+  onResize: function() {
+    this.setState(this.getImageState());
   },
   getWidthMultiplier: function() {
-    if (window.outerWidth > 900) {
+    if (window.innerWidth > 1200) {
       return 3;
-    } else if (window.outerWidth > 600) {
+    } else if (window.innerWidth > 700) {
       return 2;
     } else {
       return 1;
@@ -36,19 +48,10 @@ export var Collage = React.createClass({
     this.msnry.layout();
   },
   getInitialState: function() {
-    var widthMultiplier = this.getWidthMultiplier();
-
-    return {
-      widthMultiplier: widthMultiplier,
-      imageItemStyles: {
-        width: (100 / widthMultiplier) + '%',
-        margin: '0',
-        padding: '0',
-      }
-    };
+    return this.getImageState();
   },
   render: function() {
-    window.addEventListener('resize', this.onImageLoad);
+    window.addEventListener('resize', this.onResize);
 
     return <div ref="masonryContainer" className="collage-container">
       {this.props.imgs.map((img) => {
