@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import React from 'react';
 import {Collage} from './collage.jsx!';
 import {LightBox} from './lightBox.jsx!';
 import {InfiniteScroll} from './infiniteScroll.jsx!';
+import {emitter} from './events';
 
 var imgs = [
   {
@@ -79,13 +81,39 @@ export var HomePage = React.createClass({
     this.setState({ lightBoxImage: null });
   },
   openLightBox: function(img) {
-    this.setState({ lightBoxImage: img });
+    if (img !== this.state.lightBoxImage) {
+      this.setState({ lightBoxImage: img });
+    } else {
+      this.closeLightBox();
+    }
   },
   getInitialState: function() {
     return { images: imgs.slice() };
   },
   loadMore: function() {
     this.setState({ images: this.state.images.concat(imgs.slice()) });
+  },
+  onKeyUp: _.throttle(function(e) {
+    if (!this.state.lightBoxImage) return true;
+
+    e = e || window.event;
+    var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+
+    // Left arrow
+    if (charCode === 37) {
+      emitter.emit('lightBox:previousImage');
+      return false;
+
+    // Right arrow
+    } else if (charCode === 39) {
+      emitter.emit('lightBox:nextImage');
+      return false;
+    }
+
+    return true;
+  }, 200),
+  componentWillMount() {
+    document.onkeyup = this.onKeyUp;
   },
   render: function() {
     return <div className='no-scrolling'>

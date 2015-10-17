@@ -15,6 +15,16 @@ collageContainerStyles = {
 
 export var Collage = React.createClass({
   displayName: 'Collage',
+  selectedImageIndex: function() {
+    if (!this.state.selectedImageIndex) this.setState({ selectedImageIndex: _.indexOf(this.props.imgs, this.state.selectedImage) });
+    return this.state.selectedImageIndex;
+  },
+  nextImage: function() {
+    this.onImageClick(this.props.imgs[this.selectedImageIndex() === this.props.imgs.length - 1 ? 0 : this.selectedImageIndex() + 1]);
+  },
+  previousImage: function() {
+    this.onImageClick(this.props.imgs[this.selectedImageIndex() === 0 ? this.props.imgs.length - 1 : this.selectedImageIndex() - 1]);
+  },
   getImageState: function() {
     var widthMultiplier = this.getWidthMultiplier();
 
@@ -39,10 +49,11 @@ export var Collage = React.createClass({
       return 1;
     }
   },
-  onItemClick: function(img) {
+  onImageClick: function(img) {
     if (_.isFunction(this.props.openLightBox)) {
       this.props.openLightBox(img);
     }
+    this.setState({ selectedImage: img === this.state.selectedImage ? null : img, selectedImageIndex: null });
   },
   onImageLoad: function() {
     this.msnry.layout();
@@ -50,12 +61,20 @@ export var Collage = React.createClass({
   getInitialState: function() {
     return this.getImageState();
   },
-  render: function() {
+  componentWillUnmount: function() {
+    emitter.removeEventListener('lightBox:nextImage', this.nextImage);
+    emitter.removeEventListener('lightBox:previousImage', this.previousImage);
+    window.removeEventListener('resize', this.onResize);
+  },
+  componentWillMount: function() {
+    emitter.on('lightBox:nextImage', this.nextImage);
+    emitter.on('lightBox:previousImage', this.previousImage);
     window.addEventListener('resize', this.onResize);
-
+  },
+  render: function() {
     return <div ref="masonryContainer" className="collage-container">
       {this.props.imgs.map((img) => {
-        var boundClick = this.onItemClick.bind(this, img);
+        var boundClick = this.onImageClick.bind(this, img);
         return <div className="item" style={this.state.imageItemStyles} onClick={boundClick}><Image onLoad={this.onImageLoad} src={img.link} alt={img.alt} styles={collageContainerStyles.img} widths={img.widths} widthMultiplier={this.state.widthMultiplier} /></div>;
       })}
     </div>;
