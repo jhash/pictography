@@ -31,9 +31,6 @@ export var LightBox = React.createClass({
         width: tooWide ? '100%' : 'auto'
       }
     });
-
-    // DEBUG
-    console.log("this.state:", this.state);
   }, 100),
   onClick: function() {
     this.props.closeLightBox();

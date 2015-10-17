@@ -40,8 +40,6 @@ export var Collage = React.createClass({
     }
   },
   onImageClick: function(img) {
-    // DEBUG
-    console.log("click img:", img);
     if (_.isFunction(this.props.openLightBox)) {
       this.props.openLightBox(img);
     }

@@ -4,6 +4,7 @@ import {Collage} from './collage.jsx!';
 import {LightBox} from './lightBox.jsx!';
 import {InfiniteScroll} from './infiniteScroll.jsx!';
 import {emitter} from './events';
+import 'font-awesome/css/font-awesome.css!';
 
 var imgs = [
   {
@@ -92,8 +93,6 @@ export var HomePage = React.createClass({
     this.setState({ images: this.state.images.concat(imgs.slice()) });
   },
   onKeyUp: _.throttle(function(e) {
-    // DEBUG
-    console.log("e:", e);
     if (!this.state.lightBoxImage) return true;
 
     e = e || window.event;
