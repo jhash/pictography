@@ -1,1 +1,1 @@
-web: npm install; jspm install; jspm bundle-sfx lib/main; ./node_modules/http-server/bin/http-server
+web: npm install; jspm install; jspm bundle lib/main; ./node_modules/http-server/bin/http-server
