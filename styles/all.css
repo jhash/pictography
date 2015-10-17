@@ -27,8 +27,8 @@ html, body, .scroll-container, .no-scrolling {
   bottom: 0;
   right: 0;
   left: 0;
-  z-index: 100;
   text-align: center;
+  white-space: nowrap;
 }
 
 .light-box:before {

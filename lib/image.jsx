@@ -25,13 +25,14 @@ export var Image = React.createClass({
     };
   },
   render: function() {
+    var theWidths = (this.props.widths || []).sort(function(a, b) { return a > b; });
     return <picture>
-      { !this.state.sourceReset ? (this.props.widths || []).map((width) => {
+      { !this.state.sourceReset ? theWidths.map((width) => {
         var dotIndex = this.props.src.lastIndexOf('.');
         var fileName = this.props.src.slice(0, dotIndex) + '-';
         var fileType = this.props.src.slice(dotIndex);
 
-        return <source srcSet={fileName + width + fileType} media={'(min-width: ' + (width * (this.props.widthMultiplier || 1) - (this.props.widthLeeWay || 200)) + 'px)'}/>
+        return <source srcSet={fileName + width + fileType} media={ '(max-width: ' + (width * (this.props.widthMultiplier || 1)) + 'px)'} />
       }) : null}
       <img ref='lazyLoadingImage' onError={this.imageError} onLoad={this.imageLoader} style={Object.assign({}, this.props.styles)} alt={this.props.alt} width={this.props.width} height={this.props.height} srcSet={this.props.src} />
     </picture>;

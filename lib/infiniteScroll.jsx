@@ -23,7 +23,7 @@ export var InfiniteScroll = React.createClass({
     }
   }, 100),
   render: function() {
-    return <div ref='scrollContainer' className='scroll-container'><div ref='scrollingList'>{ this.props.children }</div></div>;
+    return <div style={ this.props.styles } ref='scrollContainer' className='scroll-container'><div ref='scrollingList'>{ this.props.children }</div></div>;
   },
   componentDidMount: function() {
     this.refs.scrollContainer.getDOMNode().addEventListener('scroll', this.onScroll);

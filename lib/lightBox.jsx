@@ -9,7 +9,38 @@ import {FixedButton} from './fixedButton.jsx!';
 export var LightBox = React.createClass({
   displayName: 'LightBox',
   componentWillReceiveProps: function() {
-    this.setState(this.getInitialState());
+    this.adjustImageStyle();
+  },
+  adjustImageStyle: function() {
+    var imageDOMNode = this.refs.image.getDOMNode().lastChild;
+    var lightBoxDOMNode = this.refs.lightBoxContainer.getDOMNode();
+    var tooWide = imageDOMNode.offsetWidth > lightBoxDOMNode.offsetWidth;
+    var tooTall = imageDOMNode.offsetHeight > lightBoxDOMNode.offsetHeight;
+
+    if (!tooWide && !tooTall) return;
+
+    this.setState({
+      imageStyles: {
+        height: tooWide ? 'auto' : '100%',
+        width: tooWide ? '100%' : 'auto'
+      }
+    });
+  },
+  onImageLoad: function() {
+    this.setState({
+      loading: false
+    });
+
+    this.adjustImageStyle();
+  },
+  onResize: _.throttle(function() {
+    this.adjustImageStyle();
+  }, 100),
+  componentWillUnmount: function() {
+    window.removeEventListener('resize', this.onResize);
+  },
+  componentWillMount: function() {
+    window.addEventListener('resize', this.onResize);
   },
   getInitialState: function() {
     return {
@@ -21,26 +52,6 @@ export var LightBox = React.createClass({
         display: 'inline-block'
       }
     };
-  },
-  onImageLoad: _.throttle(function() {
-    var tooWide = this.refs.image.getDOMNode().offsetWidth > this.refs.lightBoxContainer.getDOMNode().offsetWidth;
-    this.setState({
-      loading: false,
-      imageStyles: {
-        height: tooWide ? 'auto' : '100%',
-        width: tooWide ? '100%' : 'auto'
-      }
-    });
-  }, 100),
-  onResize: function() {
-    this.setState(this.getInitialState());
-    this.onImageLoad();
-  },
-  componentWillUnmount: function() {
-    window.removeEventListener('resize', this.onResize);
-  },
-  componentWillMount: function() {
-    window.addEventListener('resize', this.onResize);
   },
   render: function() {
     return (<div ref='lightBoxContainer' className='light-box'>
