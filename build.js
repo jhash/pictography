@@ -8,22 +8,22 @@ System.registerDynamic("npm:react@0.13.3", ["npm:react@0.13.3/react"], true, fun
   return module.exports;
 });
 
-System.registerDynamic("npm:lodash@3.10.1", ["npm:lodash@3.10.1/index"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:lodash@3.10.1/index");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/react", ["npm:react@0.13.3/lib/React"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:react@0.13.3/lib/React");
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:lodash@3.10.1", ["npm:lodash@3.10.1/index"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:lodash@3.10.1/index");
   global.define = __define;
   return module.exports;
 });
@@ -11514,6 +11514,23 @@ System.registerDynamic("npm:react@0.13.3/lib/EventPropagators", ["npm:react@0.13
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/SyntheticCompositionEvent", ["npm:react@0.13.3/lib/SyntheticEvent"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var SyntheticEvent = require("npm:react@0.13.3/lib/SyntheticEvent");
+  var CompositionEventInterface = {data: null};
+  function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+    SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+  }
+  SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
+  module.exports = SyntheticCompositionEvent;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/FallbackCompositionState", ["npm:react@0.13.3/lib/PooledClass", "npm:react@0.13.3/lib/Object.assign", "npm:react@0.13.3/lib/getTextContentAccessor"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -11563,23 +11580,6 @@ System.registerDynamic("npm:react@0.13.3/lib/FallbackCompositionState", ["npm:re
   });
   PooledClass.addPoolingTo(FallbackCompositionState);
   module.exports = FallbackCompositionState;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/SyntheticCompositionEvent", ["npm:react@0.13.3/lib/SyntheticEvent"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var SyntheticEvent = require("npm:react@0.13.3/lib/SyntheticEvent");
-  var CompositionEventInterface = {data: null};
-  function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-    SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-  }
-  SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
-  module.exports = SyntheticCompositionEvent;
   global.define = __define;
   return module.exports;
 });
@@ -13597,6 +13597,49 @@ System.registerDynamic("npm:process@0.11.2/browser", [], true, function(require,
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/dangerousStyleValue", ["npm:react@0.13.3/lib/CSSProperty"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
+  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
+  function dangerousStyleValue(name, value) {
+    var isEmpty = value == null || typeof value === 'boolean' || value === '';
+    if (isEmpty) {
+      return '';
+    }
+    var isNonNumeric = isNaN(value);
+    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
+      return '' + value;
+    }
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
+    return value + 'px';
+  }
+  module.exports = dangerousStyleValue;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/hyphenateStyleName", ["npm:react@0.13.3/lib/hyphenate"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var hyphenate = require("npm:react@0.13.3/lib/hyphenate");
+  var msPattern = /^ms-/;
+  function hyphenateStyleName(string) {
+    return hyphenate(string).replace(msPattern, '-ms-');
+  }
+  module.exports = hyphenateStyleName;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/CSSProperty", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -13701,49 +13744,6 @@ System.registerDynamic("npm:react@0.13.3/lib/camelizeStyleName", ["npm:react@0.1
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/dangerousStyleValue", ["npm:react@0.13.3/lib/CSSProperty"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var CSSProperty = require("npm:react@0.13.3/lib/CSSProperty");
-  var isUnitlessNumber = CSSProperty.isUnitlessNumber;
-  function dangerousStyleValue(name, value) {
-    var isEmpty = value == null || typeof value === 'boolean' || value === '';
-    if (isEmpty) {
-      return '';
-    }
-    var isNonNumeric = isNaN(value);
-    if (isNonNumeric || value === 0 || isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
-      return '' + value;
-    }
-    if (typeof value === 'string') {
-      value = value.trim();
-    }
-    return value + 'px';
-  }
-  module.exports = dangerousStyleValue;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/hyphenateStyleName", ["npm:react@0.13.3/lib/hyphenate"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  "use strict";
-  var hyphenate = require("npm:react@0.13.3/lib/hyphenate");
-  var msPattern = /^ms-/;
-  function hyphenateStyleName(string) {
-    return hyphenate(string).replace(msPattern, '-ms-');
-  }
-  module.exports = hyphenateStyleName;
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/memoizeStringOnly", [], true, function(require, exports, module) {
   ;
   var global = this,
@@ -13760,24 +13760,6 @@ System.registerDynamic("npm:react@0.13.3/lib/memoizeStringOnly", [], true, funct
     };
   }
   module.exports = memoizeStringOnly;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/ReactMultiChildUpdateTypes", ["npm:react@0.13.3/lib/keyMirror"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var keyMirror = require("npm:react@0.13.3/lib/keyMirror");
-  var ReactMultiChildUpdateTypes = keyMirror({
-    INSERT_MARKUP: null,
-    MOVE_EXISTING: null,
-    REMOVE_NODE: null,
-    TEXT_CONTENT: null
-  });
-  module.exports = ReactMultiChildUpdateTypes;
   global.define = __define;
   return module.exports;
 });
@@ -13843,6 +13825,24 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactChildReconciler", ["npm:react@
     }
   };
   module.exports = ReactChildReconciler;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/ReactMultiChildUpdateTypes", ["npm:react@0.13.3/lib/keyMirror"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var keyMirror = require("npm:react@0.13.3/lib/keyMirror");
+  var ReactMultiChildUpdateTypes = keyMirror({
+    INSERT_MARKUP: null,
+    MOVE_EXISTING: null,
+    REMOVE_NODE: null,
+    TEXT_CONTENT: null
+  });
+  module.exports = ReactMultiChildUpdateTypes;
   global.define = __define;
   return module.exports;
 });
@@ -14062,6 +14062,86 @@ System.registerDynamic("npm:react@0.13.3/lib/setTextContent", ["npm:react@0.13.3
   return module.exports;
 });
 
+System.registerDynamic("npm:react@0.13.3/lib/getEventKey", ["npm:react@0.13.3/lib/getEventCharCode"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var getEventCharCode = require("npm:react@0.13.3/lib/getEventCharCode");
+  var normalizeKey = {
+    'Esc': 'Escape',
+    'Spacebar': ' ',
+    'Left': 'ArrowLeft',
+    'Up': 'ArrowUp',
+    'Right': 'ArrowRight',
+    'Down': 'ArrowDown',
+    'Del': 'Delete',
+    'Win': 'OS',
+    'Menu': 'ContextMenu',
+    'Apps': 'ContextMenu',
+    'Scroll': 'ScrollLock',
+    'MozPrintableKey': 'Unidentified'
+  };
+  var translateToKey = {
+    8: 'Backspace',
+    9: 'Tab',
+    12: 'Clear',
+    13: 'Enter',
+    16: 'Shift',
+    17: 'Control',
+    18: 'Alt',
+    19: 'Pause',
+    20: 'CapsLock',
+    27: 'Escape',
+    32: ' ',
+    33: 'PageUp',
+    34: 'PageDown',
+    35: 'End',
+    36: 'Home',
+    37: 'ArrowLeft',
+    38: 'ArrowUp',
+    39: 'ArrowRight',
+    40: 'ArrowDown',
+    45: 'Insert',
+    46: 'Delete',
+    112: 'F1',
+    113: 'F2',
+    114: 'F3',
+    115: 'F4',
+    116: 'F5',
+    117: 'F6',
+    118: 'F7',
+    119: 'F8',
+    120: 'F9',
+    121: 'F10',
+    122: 'F11',
+    123: 'F12',
+    144: 'NumLock',
+    145: 'ScrollLock',
+    224: 'Meta'
+  };
+  function getEventKey(nativeEvent) {
+    if (nativeEvent.key) {
+      var key = normalizeKey[nativeEvent.key] || nativeEvent.key;
+      if (key !== 'Unidentified') {
+        return key;
+      }
+    }
+    if (nativeEvent.type === 'keypress') {
+      var charCode = getEventCharCode(nativeEvent);
+      return charCode === 13 ? 'Enter' : String.fromCharCode(charCode);
+    }
+    if (nativeEvent.type === 'keydown' || nativeEvent.type === 'keyup') {
+      return translateToKey[nativeEvent.keyCode] || 'Unidentified';
+    }
+    return '';
+  }
+  module.exports = getEventKey;
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:react@0.13.3/lib/ReactDOMSelection", ["npm:react@0.13.3/lib/ExecutionEnvironment", "npm:react@0.13.3/lib/getNodeForCharacterOffset", "npm:react@0.13.3/lib/getTextContentAccessor"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14173,86 +14253,6 @@ System.registerDynamic("npm:react@0.13.3/lib/ReactDOMSelection", ["npm:react@0.1
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/getEventKey", ["npm:react@0.13.3/lib/getEventCharCode"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var getEventCharCode = require("npm:react@0.13.3/lib/getEventCharCode");
-  var normalizeKey = {
-    'Esc': 'Escape',
-    'Spacebar': ' ',
-    'Left': 'ArrowLeft',
-    'Up': 'ArrowUp',
-    'Right': 'ArrowRight',
-    'Down': 'ArrowDown',
-    'Del': 'Delete',
-    'Win': 'OS',
-    'Menu': 'ContextMenu',
-    'Apps': 'ContextMenu',
-    'Scroll': 'ScrollLock',
-    'MozPrintableKey': 'Unidentified'
-  };
-  var translateToKey = {
-    8: 'Backspace',
-    9: 'Tab',
-    12: 'Clear',
-    13: 'Enter',
-    16: 'Shift',
-    17: 'Control',
-    18: 'Alt',
-    19: 'Pause',
-    20: 'CapsLock',
-    27: 'Escape',
-    32: ' ',
-    33: 'PageUp',
-    34: 'PageDown',
-    35: 'End',
-    36: 'Home',
-    37: 'ArrowLeft',
-    38: 'ArrowUp',
-    39: 'ArrowRight',
-    40: 'ArrowDown',
-    45: 'Insert',
-    46: 'Delete',
-    112: 'F1',
-    113: 'F2',
-    114: 'F3',
-    115: 'F4',
-    116: 'F5',
-    117: 'F6',
-    118: 'F7',
-    119: 'F8',
-    120: 'F9',
-    121: 'F10',
-    122: 'F11',
-    123: 'F12',
-    144: 'NumLock',
-    145: 'ScrollLock',
-    224: 'Meta'
-  };
-  function getEventKey(nativeEvent) {
-    if (nativeEvent.key) {
-      var key = normalizeKey[nativeEvent.key] || nativeEvent.key;
-      if (key !== 'Unidentified') {
-        return key;
-      }
-    }
-    if (nativeEvent.type === 'keypress') {
-      var charCode = getEventCharCode(nativeEvent);
-      return charCode === 13 ? 'Enter' : String.fromCharCode(charCode);
-    }
-    if (nativeEvent.type === 'keydown' || nativeEvent.type === 'keyup') {
-      return translateToKey[nativeEvent.keyCode] || 'Unidentified';
-    }
-    return '';
-  }
-  module.exports = getEventKey;
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:react@0.13.3/lib/performance", ["npm:react@0.13.3/lib/ExecutionEnvironment"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -14265,22 +14265,6 @@ System.registerDynamic("npm:react@0.13.3/lib/performance", ["npm:react@0.13.3/li
     performance = window.performance || window.msPerformance || window.webkitPerformance;
   }
   module.exports = performance || {};
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:react@0.13.3/lib/camelize", [], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _hyphenPattern = /-(.)/g;
-  function camelize(string) {
-    return string.replace(_hyphenPattern, function(_, character) {
-      return character.toUpperCase();
-    });
-  }
-  module.exports = camelize;
   global.define = __define;
   return module.exports;
 });
@@ -14299,35 +14283,18 @@ System.registerDynamic("npm:react@0.13.3/lib/hyphenate", [], true, function(requ
   return module.exports;
 });
 
-System.registerDynamic("npm:react@0.13.3/lib/flattenChildren", ["npm:react@0.13.3/lib/traverseAllChildren", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+System.registerDynamic("npm:react@0.13.3/lib/camelize", [], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  (function(process) {
-    'use strict';
-    var traverseAllChildren = require("npm:react@0.13.3/lib/traverseAllChildren");
-    var warning = require("npm:react@0.13.3/lib/warning");
-    function flattenSingleChildIntoContext(traverseContext, child, name) {
-      var result = traverseContext;
-      var keyUnique = !result.hasOwnProperty(name);
-      if ("production" !== process.env.NODE_ENV) {
-        ("production" !== process.env.NODE_ENV ? warning(keyUnique, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.', name) : null);
-      }
-      if (keyUnique && child != null) {
-        result[name] = child;
-      }
-    }
-    function flattenChildren(children) {
-      if (children == null) {
-        return children;
-      }
-      var result = {};
-      traverseAllChildren(children, flattenSingleChildIntoContext, result);
-      return result;
-    }
-    module.exports = flattenChildren;
-  })(require("github:jspm/nodelibs-process@0.1.2"));
+  var _hyphenPattern = /-(.)/g;
+  function camelize(string) {
+    return string.replace(_hyphenPattern, function(_, character) {
+      return character.toUpperCase();
+    });
+  }
+  module.exports = camelize;
   global.define = __define;
   return module.exports;
 });
@@ -14455,6 +14422,39 @@ System.registerDynamic("npm:react@0.13.3/lib/getMarkupWrap", ["npm:react@0.13.3/
       return shouldWrap[nodeName] ? markupWrap[nodeName] : null;
     }
     module.exports = getMarkupWrap;
+  })(require("github:jspm/nodelibs-process@0.1.2"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:react@0.13.3/lib/flattenChildren", ["npm:react@0.13.3/lib/traverseAllChildren", "npm:react@0.13.3/lib/warning", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var traverseAllChildren = require("npm:react@0.13.3/lib/traverseAllChildren");
+    var warning = require("npm:react@0.13.3/lib/warning");
+    function flattenSingleChildIntoContext(traverseContext, child, name) {
+      var result = traverseContext;
+      var keyUnique = !result.hasOwnProperty(name);
+      if ("production" !== process.env.NODE_ENV) {
+        ("production" !== process.env.NODE_ENV ? warning(keyUnique, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.', name) : null);
+      }
+      if (keyUnique && child != null) {
+        result[name] = child;
+      }
+    }
+    function flattenChildren(children) {
+      if (children == null) {
+        return children;
+      }
+      var result = {};
+      traverseAllChildren(children, flattenSingleChildIntoContext, result);
+      return result;
+    }
+    module.exports = flattenChildren;
   })(require("github:jspm/nodelibs-process@0.1.2"));
   global.define = __define;
   return module.exports;
@@ -14924,15 +14924,12 @@ System.registerDynamic("npm:masonry-layout@3.3.2/masonry", ["npm:outlayer@1.4.2"
   return module.exports;
 });
 
-System.registerDynamic("npm:babel-runtime@5.8.20/core-js/object/assign", ["npm:core-js@1.1.4/library/fn/object/assign"], true, function(require, exports, module) {
+System.registerDynamic("npm:lazyloadjs@3.2.1", ["npm:lazyloadjs@3.2.1/lazyload"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = {
-    "default": require("npm:core-js@1.1.4/library/fn/object/assign"),
-    __esModule: true
-  };
+  module.exports = require("npm:lazyloadjs@3.2.1/lazyload");
   global.define = __define;
   return module.exports;
 });
@@ -14947,12 +14944,15 @@ System.registerDynamic("npm:picturefill@2.3.1", ["npm:picturefill@2.3.1/dist/pic
   return module.exports;
 });
 
-System.registerDynamic("npm:lazyloadjs@3.2.1", ["npm:lazyloadjs@3.2.1/lazyload"], true, function(require, exports, module) {
+System.registerDynamic("npm:babel-runtime@5.8.20/core-js/object/assign", ["npm:core-js@1.1.4/library/fn/object/assign"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = require("npm:lazyloadjs@3.2.1/lazyload");
+  module.exports = {
+    "default": require("npm:core-js@1.1.4/library/fn/object/assign"),
+    __esModule: true
+  };
   global.define = __define;
   return module.exports;
 });
@@ -14987,13 +14987,90 @@ System.registerDynamic("npm:fizzy-ui-utils@1.0.1", ["npm:fizzy-ui-utils@1.0.1/ut
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.1.4/library/fn/object/assign", ["npm:core-js@1.1.4/library/modules/es6.object.assign", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+System.registerDynamic("npm:lazyloadjs@3.2.1/lazyload", ["npm:in-viewport@3.4.0"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  require("npm:core-js@1.1.4/library/modules/es6.object.assign");
-  module.exports = require("npm:core-js@1.1.4/library/modules/$.core").Object.assign;
+  module.exports = lazyload;
+  var inViewport = require("npm:in-viewport@3.4.0");
+  var lazyAttrs = ['data-src'];
+  global.lzld = lazyload();
+  replaceGetAttribute('Image');
+  replaceGetAttribute('IFrame');
+  function registerLazyAttr(attr) {
+    if (indexOf.call(lazyAttrs, attr) === -1) {
+      lazyAttrs.push(attr);
+    }
+  }
+  function lazyload(opts) {
+    opts = merge({
+      'offset': 333,
+      'src': 'data-src',
+      'container': false
+    }, opts || {});
+    if (typeof opts.src === 'string') {
+      registerLazyAttr(opts.src);
+    }
+    var elts = [];
+    function show(elt) {
+      var src = findRealSrc(elt);
+      if (src) {
+        elt.src = src;
+      }
+      elt.setAttribute('data-lzled', true);
+      elts[indexOf.call(elts, elt)] = null;
+    }
+    function findRealSrc(elt) {
+      if (typeof opts.src === 'function') {
+        return opts.src(elt);
+      }
+      return elt.getAttribute(opts.src);
+    }
+    function register(elt) {
+      elt.onload = null;
+      elt.removeAttribute('onload');
+      elt.onerror = null;
+      elt.removeAttribute('onerror');
+      if (indexOf.call(elts, elt) === -1) {
+        inViewport(elt, opts, show);
+      }
+    }
+    return register;
+  }
+  function replaceGetAttribute(elementName) {
+    var fullname = 'HTML' + elementName + 'Element';
+    if (fullname in global === false) {
+      return;
+    }
+    var original = global[fullname].prototype.getAttribute;
+    global[fullname].prototype.getAttribute = function(name) {
+      if (name === 'src') {
+        var realSrc;
+        for (var i = 0,
+            max = lazyAttrs.length; i < max; i++) {
+          realSrc = original.call(this, lazyAttrs[i]);
+          if (realSrc) {
+            break;
+          }
+        }
+        return realSrc || original.call(this, name);
+      }
+      return original.call(this, name);
+    };
+  }
+  function merge(defaults, opts) {
+    for (var name in defaults) {
+      if (opts[name] === undefined) {
+        opts[name] = defaults[name];
+      }
+    }
+    return opts;
+  }
+  function indexOf(value) {
+    for (var i = this.length; i-- && this[i] !== value; ) {}
+    return i;
+  }
   global.define = __define;
   return module.exports;
 });
@@ -15479,90 +15556,13 @@ System.registerDynamic("npm:picturefill@2.3.1/dist/picturefill", ["github:jspm/n
   return module.exports;
 });
 
-System.registerDynamic("npm:lazyloadjs@3.2.1/lazyload", ["npm:in-viewport@3.4.0"], true, function(require, exports, module) {
+System.registerDynamic("npm:core-js@1.1.4/library/fn/object/assign", ["npm:core-js@1.1.4/library/modules/es6.object.assign", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = lazyload;
-  var inViewport = require("npm:in-viewport@3.4.0");
-  var lazyAttrs = ['data-src'];
-  global.lzld = lazyload();
-  replaceGetAttribute('Image');
-  replaceGetAttribute('IFrame');
-  function registerLazyAttr(attr) {
-    if (indexOf.call(lazyAttrs, attr) === -1) {
-      lazyAttrs.push(attr);
-    }
-  }
-  function lazyload(opts) {
-    opts = merge({
-      'offset': 333,
-      'src': 'data-src',
-      'container': false
-    }, opts || {});
-    if (typeof opts.src === 'string') {
-      registerLazyAttr(opts.src);
-    }
-    var elts = [];
-    function show(elt) {
-      var src = findRealSrc(elt);
-      if (src) {
-        elt.src = src;
-      }
-      elt.setAttribute('data-lzled', true);
-      elts[indexOf.call(elts, elt)] = null;
-    }
-    function findRealSrc(elt) {
-      if (typeof opts.src === 'function') {
-        return opts.src(elt);
-      }
-      return elt.getAttribute(opts.src);
-    }
-    function register(elt) {
-      elt.onload = null;
-      elt.removeAttribute('onload');
-      elt.onerror = null;
-      elt.removeAttribute('onerror');
-      if (indexOf.call(elts, elt) === -1) {
-        inViewport(elt, opts, show);
-      }
-    }
-    return register;
-  }
-  function replaceGetAttribute(elementName) {
-    var fullname = 'HTML' + elementName + 'Element';
-    if (fullname in global === false) {
-      return;
-    }
-    var original = global[fullname].prototype.getAttribute;
-    global[fullname].prototype.getAttribute = function(name) {
-      if (name === 'src') {
-        var realSrc;
-        for (var i = 0,
-            max = lazyAttrs.length; i < max; i++) {
-          realSrc = original.call(this, lazyAttrs[i]);
-          if (realSrc) {
-            break;
-          }
-        }
-        return realSrc || original.call(this, name);
-      }
-      return original.call(this, name);
-    };
-  }
-  function merge(defaults, opts) {
-    for (var name in defaults) {
-      if (opts[name] === undefined) {
-        opts[name] = defaults[name];
-      }
-    }
-    return opts;
-  }
-  function indexOf(value) {
-    for (var i = this.length; i-- && this[i] !== value; ) {}
-    return i;
-  }
+  require("npm:core-js@1.1.4/library/modules/es6.object.assign");
+  module.exports = require("npm:core-js@1.1.4/library/modules/$.core").Object.assign;
   global.define = __define;
   return module.exports;
 });
@@ -16403,6 +16403,16 @@ System.registerDynamic("npm:fizzy-ui-utils@1.0.1/utils", ["npm:doc-ready@1.0.3",
   return module.exports;
 });
 
+System.registerDynamic("npm:in-viewport@3.4.0", ["npm:in-viewport@3.4.0/in-viewport"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:in-viewport@3.4.0/in-viewport");
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:core-js@1.1.4/library/modules/es6.object.assign", ["npm:core-js@1.1.4/library/modules/$.def", "npm:core-js@1.1.4/library/modules/$.assign"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16426,32 +16436,12 @@ System.registerDynamic("npm:core-js@1.1.4/library/modules/$.core", [], true, fun
   return module.exports;
 });
 
-System.registerDynamic("npm:in-viewport@3.4.0", ["npm:in-viewport@3.4.0/in-viewport"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:in-viewport@3.4.0/in-viewport");
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:eventie@1.0.6", ["npm:eventie@1.0.6/eventie"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:eventie@1.0.6/eventie");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:wolfy87-eventemitter@4.2.11", ["npm:wolfy87-eventemitter@4.2.11/EventEmitter"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:wolfy87-eventemitter@4.2.11/EventEmitter");
   global.define = __define;
   return module.exports;
 });
@@ -16815,6 +16805,16 @@ System.registerDynamic("npm:outlayer@1.4.2/item", ["npm:wolfy87-eventemitter@4.2
   return module.exports;
 });
 
+System.registerDynamic("npm:wolfy87-eventemitter@4.2.11", ["npm:wolfy87-eventemitter@4.2.11/EventEmitter"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:wolfy87-eventemitter@4.2.11/EventEmitter");
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:desandro-get-style-property@1.0.4", ["npm:desandro-get-style-property@1.0.4/get-style-property"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16841,93 +16841,6 @@ System.registerDynamic("npm:desandro-matches-selector@1.0.3", ["npm:desandro-mat
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:desandro-matches-selector@1.0.3/matches-selector");
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.def", ["npm:core-js@1.1.4/library/modules/$.global", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var global = require("npm:core-js@1.1.4/library/modules/$.global"),
-      core = require("npm:core-js@1.1.4/library/modules/$.core"),
-      PROTOTYPE = 'prototype';
-  var ctx = function(fn, that) {
-    return function() {
-      return fn.apply(that, arguments);
-    };
-  };
-  var $def = function(type, name, source) {
-    var key,
-        own,
-        out,
-        exp,
-        isGlobal = type & $def.G,
-        isProto = type & $def.P,
-        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {})[PROTOTYPE],
-        exports = isGlobal ? core : core[name] || (core[name] = {});
-    if (isGlobal)
-      source = name;
-    for (key in source) {
-      own = !(type & $def.F) && target && key in target;
-      if (own && key in exports)
-        continue;
-      out = own ? target[key] : source[key];
-      if (isGlobal && typeof target[key] != 'function')
-        exp = source[key];
-      else if (type & $def.B && own)
-        exp = ctx(out, global);
-      else if (type & $def.W && target[key] == out)
-        !function(C) {
-          exp = function(param) {
-            return this instanceof C ? new C(param) : C(param);
-          };
-          exp[PROTOTYPE] = C[PROTOTYPE];
-        }(out);
-      else
-        exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
-      exports[key] = exp;
-      if (isProto)
-        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-    }
-  };
-  $def.F = 1;
-  $def.G = 2;
-  $def.S = 4;
-  $def.P = 8;
-  $def.B = 16;
-  $def.W = 32;
-  module.exports = $def;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.1.4/library/modules/$.assign", ["npm:core-js@1.1.4/library/modules/$.to-object", "npm:core-js@1.1.4/library/modules/$.iobject", "npm:core-js@1.1.4/library/modules/$.enum-keys", "npm:core-js@1.1.4/library/modules/$.fails"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var toObject = require("npm:core-js@1.1.4/library/modules/$.to-object"),
-      IObject = require("npm:core-js@1.1.4/library/modules/$.iobject"),
-      enumKeys = require("npm:core-js@1.1.4/library/modules/$.enum-keys");
-  module.exports = require("npm:core-js@1.1.4/library/modules/$.fails")(function() {
-    return Symbol() in Object.assign({});
-  }) ? function assign(target, source) {
-    var T = toObject(target),
-        l = arguments.length,
-        i = 1;
-    while (l > i) {
-      var S = IObject(arguments[i++]),
-          keys = enumKeys(S),
-          length = keys.length,
-          j = 0,
-          key;
-      while (length > j)
-        T[key = keys[j++]] = S[key];
-    }
-    return T;
-  } : Object.assign;
   global.define = __define;
   return module.exports;
 });
@@ -17131,6 +17044,93 @@ System.registerDynamic("npm:in-viewport@3.4.0/in-viewport", [], true, function(r
       return filter.call(nodes, watches.isWatched).length > 0;
     }
   }
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.def", ["npm:core-js@1.1.4/library/modules/$.global", "npm:core-js@1.1.4/library/modules/$.core"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var global = require("npm:core-js@1.1.4/library/modules/$.global"),
+      core = require("npm:core-js@1.1.4/library/modules/$.core"),
+      PROTOTYPE = 'prototype';
+  var ctx = function(fn, that) {
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  };
+  var $def = function(type, name, source) {
+    var key,
+        own,
+        out,
+        exp,
+        isGlobal = type & $def.G,
+        isProto = type & $def.P,
+        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {})[PROTOTYPE],
+        exports = isGlobal ? core : core[name] || (core[name] = {});
+    if (isGlobal)
+      source = name;
+    for (key in source) {
+      own = !(type & $def.F) && target && key in target;
+      if (own && key in exports)
+        continue;
+      out = own ? target[key] : source[key];
+      if (isGlobal && typeof target[key] != 'function')
+        exp = source[key];
+      else if (type & $def.B && own)
+        exp = ctx(out, global);
+      else if (type & $def.W && target[key] == out)
+        !function(C) {
+          exp = function(param) {
+            return this instanceof C ? new C(param) : C(param);
+          };
+          exp[PROTOTYPE] = C[PROTOTYPE];
+        }(out);
+      else
+        exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
+      exports[key] = exp;
+      if (isProto)
+        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+    }
+  };
+  $def.F = 1;
+  $def.G = 2;
+  $def.S = 4;
+  $def.P = 8;
+  $def.B = 16;
+  $def.W = 32;
+  module.exports = $def;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.1.4/library/modules/$.assign", ["npm:core-js@1.1.4/library/modules/$.to-object", "npm:core-js@1.1.4/library/modules/$.iobject", "npm:core-js@1.1.4/library/modules/$.enum-keys", "npm:core-js@1.1.4/library/modules/$.fails"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var toObject = require("npm:core-js@1.1.4/library/modules/$.to-object"),
+      IObject = require("npm:core-js@1.1.4/library/modules/$.iobject"),
+      enumKeys = require("npm:core-js@1.1.4/library/modules/$.enum-keys");
+  module.exports = require("npm:core-js@1.1.4/library/modules/$.fails")(function() {
+    return Symbol() in Object.assign({});
+  }) ? function assign(target, source) {
+    var T = toObject(target),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = IObject(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  } : Object.assign;
   global.define = __define;
   return module.exports;
 });
@@ -18000,10 +18000,10 @@ System.register('lib/collage.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1
     }
   };
 });
-System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3', 'npm:masonry-layout@3.3.2', 'lib/image.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/events.js'], function (_export) {
+System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3', 'npm:masonry-layout@3.3.2', 'lib/image.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/events.js', 'lib/fontAwesome.jsx!npm:jspm-loader-jsx@0.0.7', 'lib/fixedButton.jsx!npm:jspm-loader-jsx@0.0.7'], function (_export) {
   'use strict';
 
-  var _, React, Masonry, Image, emitter, LightBox;
+  var _, React, Masonry, Image, emitter, FontAwesome, FixedButton, LightBox;
 
   return {
     setters: [function (_npmLodash3101) {
@@ -18016,13 +18016,15 @@ System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.
       Image = _libImageJsxNpmJspmLoaderJsx007.Image;
     }, function (_libEventsJs) {
       emitter = _libEventsJs.emitter;
+    }, function (_libFontAwesomeJsxNpmJspmLoaderJsx007) {
+      FontAwesome = _libFontAwesomeJsxNpmJspmLoaderJsx007.FontAwesome;
+    }, function (_libFixedButtonJsxNpmJspmLoaderJsx007) {
+      FixedButton = _libFixedButtonJsxNpmJspmLoaderJsx007.FixedButton;
     }],
     execute: function () {
       LightBox = React.createClass({
         displayName: 'LightBox',
         componentWillReceiveProps: function componentWillReceiveProps() {
-          // DEBUG
-          console.log("arguments:", arguments);
           this.setState(this.getInitialState());
         },
         getInitialState: function getInitialState() {
@@ -18049,16 +18051,35 @@ System.register('lib/lightBox.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.
         onClick: function onClick() {
           this.props.closeLightBox();
         },
+        onResize: function onResize() {
+          this.setState(this.getInitialState());
+          this.onImageLoad();
+        },
         componentWillUnmount: function componentWillUnmount() {
-          window.removeEventListener('resize', this.onImageLoad);
+          window.removeEventListener('resize', this.onResize);
         },
         componentWillMount: function componentWillMount() {
-          window.addEventListener('resize', this.onImageLoad);
+          window.addEventListener('resize', this.onResize);
         },
         render: function render() {
           return React.createElement(
             'div',
             { ref: 'lightBoxContainer', className: 'light-box', onClick: this.onClick },
+            React.createElement(
+              FixedButton,
+              { bottomSpacing: 140, topSpacing: 140, classes: 'full-height-button full-height-button-left', position: 'topBottomLeft' },
+              React.createElement(FontAwesome, { classes: 'fa-chevron-left' })
+            ),
+            React.createElement(
+              FixedButton,
+              { classes: 'close-button', position: 'topLeft' },
+              React.createElement(FontAwesome, { classes: 'fa-times' })
+            ),
+            React.createElement(
+              FixedButton,
+              { bottomSpacing: 140, topSpacing: 140, classes: 'full-height-button full-height-button-right', position: 'topBottomRight' },
+              React.createElement(FontAwesome, { classes: 'fa-chevron-right' })
+            ),
             React.createElement(Image, { ref: 'image', onLoad: this.onImageLoad, src: this.props.img.link, alt: this.props.img.alt, styles: this.state.imageStyles, widths: this.props.img.widths }),
             this.state.loading ? React.createElement('div', { ref: 'spinner', className: 'spinner' }) : null
           );
@@ -18189,6 +18210,66 @@ System.register('lib/image.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:babel-runtime@5
       });
 
       _export('Image', Image);
+    }
+  };
+});
+System.register('lib/fontAwesome.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:react@0.13.3'], function (_export) {
+  'use strict';
+
+  var React, FontAwesome;
+  return {
+    setters: [function (_npmReact0133) {
+      React = _npmReact0133['default'];
+    }],
+    execute: function () {
+      FontAwesome = React.createClass({
+        displayName: 'FontAwesome',
+
+        render: function render() {
+          return React.createElement('span', { className: 'fa ' + this.props.classes });
+        }
+      });
+
+      _export('FontAwesome', FontAwesome);
+    }
+  };
+});
+System.register('lib/fixedButton.jsx!npm:jspm-loader-jsx@0.0.7', ['npm:lodash@3.10.1', 'npm:react@0.13.3'], function (_export) {
+  'use strict';
+
+  var _, React, FixedButton;
+
+  return {
+    setters: [function (_npmLodash3101) {
+      _ = _npmLodash3101['default'];
+    }, function (_npmReact0133) {
+      React = _npmReact0133['default'];
+    }],
+    execute: function () {
+      FixedButton = React.createClass({
+        displayName: 'FixedButton',
+
+        containsPosition: function containsPosition(position) {
+          return this.props.position && this.props.position.toLowerCase().indexOf(position) !== -1;
+        },
+        render: function render() {
+          var _this = this;
+
+          var fixedButtonClass = { position: 'absolute' };
+          _.each(['top', 'bottom', 'left', 'right'], function (position) {
+            if (_this.containsPosition(position)) {
+              fixedButtonClass[position] = (_.isUndefined(_this.props[position + 'Spacing']) ? 0 : _this.props[position + 'Spacing']) + 'px';
+            }
+          });
+          return React.createElement(
+            'div',
+            { className: this.props.classes, style: fixedButtonClass },
+            this.props.children
+          );
+        }
+      });
+
+      _export('FixedButton', FixedButton);
     }
   };
 });

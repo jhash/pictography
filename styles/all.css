@@ -39,6 +39,35 @@ html, body, .scroll-container, .no-scrolling {
   display: inline-block;
 }
 
+.light-box .full-height-button,
+.light-box .close-button {
+  color: white;
+  font-size: 30px;
+  padding: 50px;
+}
+
+.light-box .close-button {
+  /*padding: 20px;*/
+}
+
+.light-box .full-height-button {
+  display: table;
+  height: calc(100% - 280px);
+}
+
+.light-box .full-height-button span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.light-box .full-height-button.full-height-button-right {
+  padding-left: calc(50% - 70px);
+}
+
+.light-box .full-height-button.full-height-button-left {
+  padding-right: calc(50% - 70px);
+}
+
 .spinner {
   font-size: 90px;
   text-indent: -9999em;
