@@ -9,8 +9,6 @@ import {FixedButton} from './fixedButton.jsx!';
 export var LightBox = React.createClass({
   displayName: 'LightBox',
   componentWillReceiveProps: function(newProps) {
-    // DEBUG
-    console.log("arguments:", arguments);
     if (newProps.img !== this.props.img) this.setState({ loading: true });
   },
   adjustImageStyle: function() {
@@ -40,6 +38,7 @@ export var LightBox = React.createClass({
   },
   componentWillMount: function() {
     window.addEventListener('resize', this.onResize);
+    document.ontouchstart = function(e) { console.log(e); return true; };
   },
   getInitialState: function() {
     return {

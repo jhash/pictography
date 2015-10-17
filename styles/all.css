@@ -73,7 +73,7 @@ html, body, .scroll-container, .no-scrolling {
   padding-right: calc(50% - 70px);
 }
 
-a:hover {
+a, a:hover {
   cursor: pointer;
 }
 

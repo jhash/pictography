@@ -12,6 +12,6 @@ export var FixedButton = React.createClass({
         fixedButtonClass[position] = (_.isUndefined(this.props[position + 'Spacing']) ? 0 : this.props[position + 'Spacing']) + 'px';
       }
     });
-    return <a onClick={this.props.onClick} className={this.props.classes} style={fixedButtonClass}>{ this.props.children }</a>;
+    return <a onTouchEnd={this.props.onClick} onClick={this.props.onClick} className={this.props.classes} style={fixedButtonClass}>{ this.props.children }</a>;
   }
 });
