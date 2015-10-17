@@ -9,62 +9,74 @@ import 'font-awesome/css/font-awesome.css!';
 var imgs = [
   {
     link: 'images/bencolortunnel.jpg',
-    alt: 'Sexiness',
+    alt: 'bencolortunnel',
+    id: 'bencolortunnel',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/fishyspring2.jpg',
-    alt: 'Sexiness',
+    alt: 'fishyspring2',
+    id: 'fishyspring2',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/mrlizardcamo.jpg',
-    alt: 'Sexiness',
+    alt: 'mrlizardcamo',
+    id: 'mrlizardcamo',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/nylove.jpg',
-    alt: 'Sexiness',
+    alt: 'nylove',
+    id: 'nylove',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/picturedrock.jpg',
-    alt: 'Sexiness',
+    alt: 'picturedrock',
+    id: 'picturedrock',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/mackinac.jpg',
-    alt: 'Sexiness',
+    alt: 'mackinac',
+    id: 'mackinac',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/tahquanoneemee.jpg',
-    alt: 'Sexiness',
+    alt: 'tahquanoneemee',
+    id: 'tahquanoneemee',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/faveladrummerboys.jpg',
-    alt: 'Sexiness',
+    alt: 'faveladrummerboys',
+    id: 'faveladrummerboys',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/live.jpg',
-    alt: 'Sexiness',
+    alt: 'live',
+    id: 'live',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/oRio.jpg',
-    alt: 'Sexiness',
+    alt: 'oRio',
+    id: 'oRio',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/sunshine.jpg',
-    alt: 'Sexiness',
+    alt: 'sunshine',
+    id: 'sunshine',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
   {
     link: 'images/iguacu.jpg',
-    alt: 'Sexiness',
+    alt: 'iguacu',
+    id: 'iguacu',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
 ];
@@ -84,6 +96,12 @@ export var HomePage = React.createClass({
   },
   openLightBox: function(img) {
     this.setState({ lightBoxImage: img, infiniteScrollStyle: { display: 'none' } });
+  },
+  findAndOpenImage: function(imageId) {
+    var image = _.findWhere(this.state.images, { id: imageId });
+    if (image) {
+      this.openLightBox(image);
+    }
   },
   getInitialState: function() {
     return { images: imgs.slice() };
@@ -117,6 +135,10 @@ export var HomePage = React.createClass({
   }, 200),
   componentWillMount: function() {
     document.onkeyup = this.onKeyUp;
+    emitter.on('lightBox:openImage', this.findAndOpenImage);
+  },
+  componentWillUnMount: function() {
+    emitter.removeListener('lightBox:openImage', this.findAndOpenImage);
   },
   render: function() {
     return <div className='no-scrolling'>
