@@ -66,14 +66,6 @@ var imgs = [
     alt: 'Sexiness',
     widths: [1024, 800, 520, 460, 320, 240, 100]
   },
-  {
-    link: 'images/angel.jpg',
-    alt: 'Sexiness',
-  },
-  {
-    link: 'images/pickup.png',
-    alt: 'Sexiness',
-  },
 ];
 
 export var HomePage = React.createClass({
@@ -116,6 +108,11 @@ export var HomePage = React.createClass({
     } else if (charCode === 39) {
       this.nextImage();
       return false;
+
+    // Escape key
+    } else if (charCode === 27) {
+      this.closeLightBox();
+      return false;
     }
 
     return true;
@@ -125,11 +122,10 @@ export var HomePage = React.createClass({
   },
   render: function() {
     return <div className='no-scrolling'>
-      { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} img={this.state.lightBoxImage} /> :
-        <InfiniteScroll loadMore={this.loadMore}>
-          <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
-        </InfiniteScroll>
-      }
+      { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} img={this.state.lightBoxImage} /> : '' }
+      <InfiniteScroll loadMore={this.loadMore}>
+        <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
+      </InfiniteScroll>
     </div>;
   }
 });
