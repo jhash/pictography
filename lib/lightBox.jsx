@@ -8,8 +8,10 @@ import {FixedButton} from './fixedButton.jsx!';
 
 export var LightBox = React.createClass({
   displayName: 'LightBox',
-  componentWillReceiveProps: function() {
-    this.adjustImageStyle();
+  componentWillReceiveProps: function(newProps) {
+    // DEBUG
+    console.log("arguments:", arguments);
+    if (newProps.img !== this.props.img) this.setState({ loading: true });
   },
   adjustImageStyle: function() {
     var imageDOMNode = this.refs.image.getDOMNode().lastChild;
@@ -27,10 +29,7 @@ export var LightBox = React.createClass({
     });
   },
   onImageLoad: function() {
-    this.setState({
-      loading: false
-    });
-
+    this.setState({ loading: false });
     this.adjustImageStyle();
   },
   onResize: _.throttle(function() {
@@ -55,9 +54,9 @@ export var LightBox = React.createClass({
   },
   render: function() {
     return (<div ref='lightBoxContainer' className='light-box'>
-      <FixedButton onClick={this.props.previousImage} bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-left'} position={'topBottomLeft'}><FontAwesome classes={'fa-chevron-left'} /></FixedButton>
-      <FixedButton onClick={this.props.closeLightBox} classes={'close-button'} position={'topLeft'}><FontAwesome classes={'fa-times'} /></FixedButton>
-      <FixedButton onClick={this.props.nextImage} bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-right'} position={'topBottomRight'}><FontAwesome classes={'fa-chevron-right'} /></FixedButton>
+      <FixedButton onClick={this.props.previousImage} bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-left no-select'} position={'topBottomLeft'}><FontAwesome classes={'fa-chevron-left'} /></FixedButton>
+      <FixedButton onClick={this.props.closeLightBox} classes={'close-button'} position={'topLeft'}><FontAwesome classes={'fa-times no-select'} /></FixedButton>
+      <FixedButton onClick={this.props.nextImage} bottomSpacing={140} topSpacing={140} classes={'full-height-button full-height-button-right no-select'} position={'topBottomRight'}><FontAwesome classes={'fa-chevron-right'} /></FixedButton>
       <Image ref='image' onLoad={this.onImageLoad} src={this.props.img.link} alt={this.props.img.alt} styles={this.state.imageStyles} widths={this.props.img.widths} />
       { this.state.loading ? <div ref='spinner' className='spinner'></div> : null }
     </div>);

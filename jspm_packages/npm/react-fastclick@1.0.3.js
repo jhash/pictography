@@ -1,0 +1,1 @@
+module.exports = require("npm:react-fastclick@1.0.3/index");

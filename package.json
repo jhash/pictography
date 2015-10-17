@@ -12,6 +12,7 @@
       "masonry-layout": "npm:masonry-layout@^3.3.2",
       "picturefill": "npm:picturefill@^2.3.1",
       "react": "npm:react@^0.13.3",
+      "react-fastclick": "npm:react-fastclick@^1.0.3",
       "react-image": "npm:react-image@^0.1.0"
     },
     "devDependencies": {

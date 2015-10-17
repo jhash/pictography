@@ -236,6 +236,7 @@ System.config({
     "masonry-layout": "npm:masonry-layout@3.3.2",
     "picturefill": "npm:picturefill@2.3.1",
     "react": "npm:react@0.13.3",
+    "react-fastclick": "npm:react-fastclick@1.0.3",
     "react-image": "npm:react-image@0.1.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -659,6 +660,9 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:react-fastclick@1.0.3": {
+      "react": "npm:react@0.13.3"
     },
     "npm:react-image@0.1.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",

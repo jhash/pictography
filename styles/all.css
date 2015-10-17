@@ -6,6 +6,7 @@ html, body, .no-scrolling {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body, .scroll-container, .no-scrolling {
@@ -76,6 +77,15 @@ a:hover {
   cursor: pointer;
 }
 
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .spinner {
   font-size: 90px;
   text-indent: -9999em;
@@ -87,8 +97,8 @@ a:hover {
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
-  -webkit-animation: spinner 1.7s infinite ease;
-  animation: spinner 1.7s infinite ease;
+  -webkit-animation: spinner 1s infinite ease;
+  animation: spinner 1s infinite ease;
   position: absolute;
   top: calc(50% - 117px);
   left: 0;
