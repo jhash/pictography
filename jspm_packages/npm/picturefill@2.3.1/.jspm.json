@@ -1,0 +1,75 @@
+{
+  "name": "picturefill",
+  "description": "A responsive image polyfill.",
+  "version": "2.3.1",
+  "homepage": "https://scottjehl.github.io/picturefill/",
+  "bugs": {
+    "url": "https://github.com/scottjehl/picturefill/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Scott Jehl",
+    "email": "scottjehl@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:scottjehl/picturefill.git"
+  },
+  "keywords": [
+    "picturefill",
+    "srcset",
+    "picture",
+    "responsive",
+    "responsive images"
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "main": "./dist/picturefill",
+  "scripts": {
+    "test": "grunt test --verbose"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-qunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt-jscs-checker": "~0.4.3",
+    "grunt-insert": "~0.1.0"
+  },
+  "_id": "picturefill@2.3.1",
+  "_shasum": "cb72c71e82afcba5cfadc0ad04dc715bf699f363",
+  "_from": ".",
+  "_npmVersion": "1.4.9",
+  "_npmUser": {
+    "name": "wilto",
+    "email": "mat@matmarquis.com"
+  },
+  "maintainers": [
+    {
+      "name": "wilto",
+      "email": "mat@matmarquis.com"
+    },
+    {
+      "name": "scottjehl",
+      "email": "scott@filamentgroup.com"
+    }
+  ],
+  "dist": {
+    "shasum": "cb72c71e82afcba5cfadc0ad04dc715bf699f363",
+    "tarball": "http://registry.npmjs.org/picturefill/-/picturefill-2.3.1.tgz"
+  },
+  "format": "cjs",
+  "ignore": [
+    "node_modules"
+  ],
+  "registry": "npm",
+  "dependencies": {
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "child_process": "github:jspm/nodelibs-child_process@^0.1.0"
+  }
+}

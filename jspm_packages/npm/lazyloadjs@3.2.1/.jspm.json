@@ -1,0 +1,66 @@
+{
+  "name": "lazyloadjs",
+  "version": "3.2.1",
+  "description": "Image lazy loading",
+  "main": "./lazyload.js",
+  "scripts": {
+    "build": "browserify ./lazyload.js -s lazyload -p deumdify > build/lazyload.js && ccjs build/lazyload.js > build/lazyload.min.js",
+    "watch": "watchify ./lazyload.js -d -s lazyload -p deumdify -o build/lazyload.min.js -v",
+    "dev": "npm run watch & DEBUG=zuul* zuul --local 8080 -- test/*.js",
+    "test": "npm run build && DEBUG=zuul* zuul --tunnel ngrok -- test/*.js",
+    "examples": "http-server ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvo/lazyload.git"
+  },
+  "author": {
+    "name": "Vincent Voyer",
+    "email": "vincent.voyer@gmail.com",
+    "url": "http://github.com/vvo"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "9.0.3",
+    "closurecompiler": "1.5.1",
+    "deumdify": "1.1.0",
+    "express": "4.12.2",
+    "http-server": "0.7.5",
+    "merge": "1.2.0",
+    "watchify": "2.4.0",
+    "zuul": "2.1.1",
+    "zuul-ngrok": "3.0.0"
+  },
+  "gitHead": "a0889aa443eac6001a1bea5c4c6652b214814fbd",
+  "bugs": {
+    "url": "https://github.com/vvo/lazyload/issues"
+  },
+  "homepage": "https://github.com/vvo/lazyload#readme",
+  "_id": "lazyloadjs@3.2.1",
+  "_shasum": "f35c21ec18281252db8ea386149646b9251bbada",
+  "_from": ".",
+  "_npmVersion": "2.10.1",
+  "_nodeVersion": "0.12.4",
+  "_npmUser": {
+    "name": "vvo",
+    "email": "vincent.voyer@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "vvo",
+      "email": "vincent.voyer@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "f35c21ec18281252db8ea386149646b9251bbada",
+    "tarball": "http://registry.npmjs.org/lazyloadjs/-/lazyloadjs-3.2.1.tgz"
+  },
+  "format": "cjs",
+  "ignore": [
+    "node_modules"
+  ],
+  "registry": "npm",
+  "dependencies": {
+    "in-viewport": "in-viewport@3.4.0"
+  }
+}

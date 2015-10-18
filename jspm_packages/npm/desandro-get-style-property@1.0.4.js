@@ -1,0 +1,1 @@
+module.exports = require("npm:desandro-get-style-property@1.0.4/get-style-property");

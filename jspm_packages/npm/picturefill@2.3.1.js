@@ -1,0 +1,1 @@
+module.exports = require("npm:picturefill@2.3.1/dist/picturefill");
