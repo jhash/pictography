@@ -4,6 +4,7 @@ import {Collage} from './collage.jsx!';
 import {LightBox} from './lightBox.jsx!';
 import {InfiniteScroll} from './infiniteScroll.jsx!';
 import {emitter} from './events';
+import {router} from './main';
 import 'font-awesome/css/font-awesome.css!';
 
 var imgs = [
@@ -92,9 +93,11 @@ export var HomePage = React.createClass({
     this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
   },
   closeLightBox: function() {
+    router.setRoute('/');
     this.setState({ lightBoxImage: null, infiniteScrollStyle: null });
   },
   openLightBox: function(img) {
+    router.setRoute('/' + img.id);
     this.setState({ lightBoxImage: img, infiniteScrollStyle: { display: 'none' } });
   },
   findAndOpenImage: function(imageId) {

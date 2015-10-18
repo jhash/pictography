@@ -69,7 +69,6 @@ export var Collage = React.createClass({
 
     this.msnry = new Masonry(masonryContainer, {
       // Masonry options
-      isInitLayout: false,
       transitionDuration: '0.1s',
       percentPosition: true
     });
