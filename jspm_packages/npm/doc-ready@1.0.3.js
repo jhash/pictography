@@ -1,1 +1,0 @@
-module.exports = require("npm:doc-ready@1.0.3/doc-ready");

@@ -1,1 +1,0 @@
-module.exports = require("npm:lazyloadjs@3.2.1/lazyload");

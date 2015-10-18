@@ -1,1 +1,0 @@
-module.exports = require("npm:director@1.2.8/build/director");

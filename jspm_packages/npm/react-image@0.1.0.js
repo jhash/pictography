@@ -1,1 +1,0 @@
-module.exports = require("npm:react-image@0.1.0/src/Image");

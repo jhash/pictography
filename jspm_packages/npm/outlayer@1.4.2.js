@@ -1,1 +1,0 @@
-module.exports = require("npm:outlayer@1.4.2/outlayer");
