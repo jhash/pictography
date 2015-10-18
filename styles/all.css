@@ -1,5 +1,10 @@
 html {
   background: black;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 html, body, .no-scrolling {
@@ -12,6 +17,11 @@ html, body, .no-scrolling {
 html, body, .scroll-container, .no-scrolling {
   margin: 0;
   padding: 0;
+}
+
+.home-wrapper {
+  padding-top: 5px;
+  padding-right: 5px;
 }
 
 .scroll-container {

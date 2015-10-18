@@ -681,7 +681,7 @@ export var HomePage = React.createClass({
     emitter.removeListener('lightBox:openImage', this.findAndOpenImage);
   },
   render: function() {
-    return <div className='no-scrolling'>
+    return <div className='no-scrolling home-wrapper'>
       { this.state.lightBoxImage ? <LightBox closeLightBox={this.closeLightBox} previousImage={this.previousImage} nextImage={this.nextImage} img={this.state.lightBoxImage} /> : '' }
       <InfiniteScroll loadMore={this.loadMore} styles={ this.state.infiniteScrollStyle }>
         <Collage imgs={this.state.images} openLightBox={this.openLightBox} />
