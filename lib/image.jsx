@@ -27,14 +27,15 @@ export var Image = React.createClass({
   render: function() {
     var theWidths = (this.props.widths || []).sort(function(a, b) { return a > b; });
     return <picture>
-      { !this.state.sourceReset ? theWidths.map((width) => {
+      { !this.state.sourceReset ? theWidths.map((width, index) => {
         var dotIndex = this.props.src.lastIndexOf('.');
         var fileName = this.props.src.slice(0, dotIndex) + '-';
         var fileType = this.props.src.slice(dotIndex);
 
-        return <source srcSet={fileName + width + fileType} media={ '(max-width: ' + (width * (this.props.widthMultiplier || 1)) + 'px)'} />
+        // TODO - remove max width on last one
+        return <source srcSet={fileName + width + fileType} media={ index !== (theWidths.length - 1) ? '(max-width: ' + (width * (this.props.widthMultiplier || 1)) + 'px)' : null } />;
       }) : null}
-      <img ref='lazyLoadingImage' onError={this.imageError} onLoad={this.imageLoader} style={Object.assign({}, this.props.styles)} alt={this.props.alt} width={this.props.width} height={this.props.height} srcSet={this.props.src} />
+      <img ref='lazyLoadingImage' onError={this.imageError} onLoad={this.imageLoader} style={Object.assign({}, this.props.styles)} alt={this.props.alt} width={this.props.width} height={this.props.height} />
     </picture>;
   }
 });
