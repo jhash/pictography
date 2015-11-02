@@ -621,17 +621,21 @@ export var HomePage = React.createClass({
     return _.indexOf(this.state.images, this.state.lightBoxImage);
   },
   nextImage: function() {
-    this.openLightBox(this.state.images[this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1]);
+    var img = this.state.images[this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1];
+    router.setRoute('/' + img.id);
+    // this.openLightBox(this.selectedImageIndex() === this.state.images.length - 1 ? 0 : this.selectedImageIndex() + 1]);
   },
   previousImage: function() {
-    this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
+    var img = this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1];
+    router.setRoute('/' + img.id);
+    // this.openLightBox(this.state.images[this.selectedImageIndex() === 0 ? this.state.images.length - 1 : this.selectedImageIndex() - 1]);
   },
   closeLightBox: function() {
     router.setRoute('/');
     this.setState({ lightBoxImage: null, infiniteScrollStyle: null });
   },
   openLightBox: function(img) {
-    router.setRoute('/' + img.id);
+    // router.setRoute('/' + img.id);
     this.setState({ lightBoxImage: img, infiniteScrollStyle: { display: 'none' } });
   },
   findAndOpenImage: function(imageId) {
